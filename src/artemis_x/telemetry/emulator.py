@@ -12,6 +12,10 @@ Pipeline for every datagram from the rover, in arrival order:
 Bytes are forwarded unchanged (payload and CRC16 untouched). Scheduling uses ``time.perf_counter`` (monotonic,
 high-resolution); simulated rover time is only read from packet headers for the log, never used for scheduling.
 Entering a blackout discards packets already queued or in flight (counted "blackout"): no hidden buffering.
+
+R5.4 reverse link (optional, ``reverse_listen`` + ``rover_ack``): datagrams from the ground (ACKs) go through the SAME
+blackout and the same loss / latency / jitter settings, with an independent random stream (so the forward pattern of a
+given seed is unchanged), and no bandwidth limit (the uplink is not the bottleneck). Counted separately as ``rev_*``.
 """
 
 from __future__ import annotations
@@ -29,6 +33,7 @@ from pathlib import Path
 from . import protocol as P
 
 ROVER_PORT, GROUND_PORT, CONTROL_PORT = 5791, 5790, 5792
+ROVER_ACK_PORT, REVERSE_PORT = 5793, 5794      # R5.4 reverse link: ground ACKs -> udp 5794 -> emulator -> rover udp 5793
 
 
 @dataclass(frozen=True)
@@ -64,7 +69,8 @@ def _q(xs, p):
 
 class LunarLinkEmulator:
     def __init__(self, listen=("127.0.0.1", ROVER_PORT), ground=("127.0.0.1", GROUND_PORT), control=("127.0.0.1", CONTROL_PORT),
-                 config: LinkConfig | None = None, preset: str = "NORMAL", seed: int = 0, log_path: Path | None = None):
+                 config: LinkConfig | None = None, preset: str = "NORMAL", seed: int = 0, log_path: Path | None = None,
+                 reverse_listen: tuple | None = None, rover_ack: tuple | None = None):
         self.rx = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.rx.bind(listen)
         self.rx.setblocking(False)
@@ -76,6 +82,13 @@ class LunarLinkEmulator:
         self.tx = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.ground = ground
         self.rng = random.Random(seed)
+        self.rev = None
+        self.rover_ack = rover_ack
+        if reverse_listen is not None and rover_ack is not None:
+            self.rev = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            self.rev.bind(reverse_listen)
+            self.rev.setblocking(False)
+        self.rng_rev = random.Random(seed ^ 0x5EED)
         self.lock = threading.Lock()
         self.cfg = (config or PRESETS[preset]).check()
         self.preset = preset if config is None else "CUSTOM"
@@ -91,7 +104,8 @@ class LunarLinkEmulator:
         self.delays_ms: list = []
         self.st = {"received": 0, "bytes_received": 0, "forwarded": 0, "bytes_forwarded": 0, "dropped_loss": 0,
                    "dropped_blackout": 0, "dropped_queue": 0, "dropped_shutdown": 0, "invalid_crc_seen": 0,
-                   "send_errors": 0, "config_changes": 0, "blackouts": 0, "by_preset": {}}
+                   "send_errors": 0, "config_changes": 0, "blackouts": 0, "by_preset": {},
+                   "rev_received": 0, "rev_forwarded": 0, "rev_dropped_loss": 0, "rev_dropped_blackout": 0, "rev_dropped_shutdown": 0}
         self._event("start", preset=self.preset, config=asdict(self.cfg), seed=seed)
 
     # ---- control ---------------------------------------------------------------------------------------------------------
@@ -174,9 +188,20 @@ class LunarLinkEmulator:
         else:
             self.waiting.append((now, data, meta))
 
+    def _ingest_rev(self, data: bytes, now: float) -> None:
+        meta = {**self._meta(data), "dir": "rev", "preset": self.preset}
+        self.st["rev_received"] += 1
+        cfg = self.cfg
+        if cfg.blackout:
+            return self._drop("blackout", data, meta, now)
+        if cfg.loss > 0 and self.rng_rev.random() < cfg.loss:
+            return self._drop("loss", data, meta, now)
+        self._launch(now, now, data, meta)
+
     def _launch(self, t_leave: float, t_arrival: float, data: bytes, meta: dict) -> None:
         cfg = self.cfg
-        delay = cfg.latency_ms + (self.rng.uniform(-cfg.jitter_ms, cfg.jitter_ms) if cfg.jitter_ms else 0.0)
+        rng = self.rng_rev if meta.get("dir") == "rev" else self.rng
+        delay = cfg.latency_ms + (rng.uniform(-cfg.jitter_ms, cfg.jitter_ms) if cfg.jitter_ms else 0.0)
         self.n += 1
         heapq.heappush(self.flight, (t_leave + max(0.0, delay) / 1000.0, self.n, t_arrival, data, meta))
 
@@ -197,10 +222,15 @@ class LunarLinkEmulator:
     def _deliver(self, now: float) -> None:
         while self.flight and self.flight[0][0] <= now:
             _, _, t_a, data, meta = heapq.heappop(self.flight)
+            rev = meta.get("dir") == "rev"
             try:
-                self.tx.sendto(data, self.ground)          # bytes unchanged
+                self.tx.sendto(data, self.rover_ack if rev else self.ground)   # bytes unchanged
             except OSError:
                 self.st["send_errors"] += 1
+            if rev:
+                self.st["rev_forwarded"] += 1
+                self._log("rev_forwarded", meta, len(data), now, delay_ms=round((now - t_a) * 1000.0, 3))
+                continue
             d_ms = (now - t_a) * 1000.0
             self.delays_ms.append(d_ms)
             self.st["forwarded"] += 1
@@ -209,6 +239,10 @@ class LunarLinkEmulator:
             self._log("forwarded", meta, len(data), now, delay_ms=round(d_ms, 3))
 
     def _drop(self, reason: str, data: bytes, meta: dict, now: float) -> None:
+        if meta.get("dir") == "rev":
+            self.st[f"rev_dropped_{reason}"] += 1
+            self._log(f"rev_dropped_{reason}", meta, len(data), now)
+            return
         self.st[f"dropped_{reason}"] += 1
         self.st["by_preset"].setdefault(meta.get("preset", self.preset), {"received": 0, "forwarded": 0, "dropped": 0})["dropped"] += 1
         self._log(f"dropped_{reason}", meta, len(data), now)
@@ -233,7 +267,7 @@ class LunarLinkEmulator:
             wait = min(wait, max(0.0, self.flight[0][0] - now))
         if self.waiting and self.cfg.bandwidth_Bps:
             wait = min(wait, max(0.0, (len(self.waiting[0][1]) - self.tokens) / self.cfg.bandwidth_Bps))
-        socks = [self.rx] + ([self.ctl] if self.ctl else [])
+        socks = [self.rx] + ([self.ctl] if self.ctl else []) + ([self.rev] if self.rev else [])
         ready, _, _ = select.select(socks, [], [], wait)
         with self.lock:
             if self.rx in ready:
@@ -245,6 +279,15 @@ class LunarLinkEmulator:
                     except OSError:
                         break
                     self._ingest(data, time.perf_counter())
+            if self.rev is not None and self.rev in ready:
+                for _ in range(256):
+                    try:
+                        data, _ = self.rev.recvfrom(65535)
+                    except (BlockingIOError, ConnectionResetError):
+                        break
+                    except OSError:
+                        break
+                    self._ingest_rev(data, time.perf_counter())
             now = time.perf_counter()
             self._bandwidth(now)
             self._deliver(now)
@@ -280,7 +323,7 @@ class LunarLinkEmulator:
             self.waiting, self.flight = [], []
             s = self.stats()
             self._event("stop", stats=s)
-            for sk in (self.rx, self.tx, self.ctl):
+            for sk in (self.rx, self.tx, self.ctl, self.rev):
                 if sk is not None:
                     try:
                         sk.close()

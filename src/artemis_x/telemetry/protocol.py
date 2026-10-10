@@ -3,7 +3,7 @@
 Every packet: big-endian (network order) header, a typed payload, CRC-16/CCITT-FALSE over header + payload.
 
     header (18 bytes)  magic "AX" | version u8 | type u8 | session u32 | seq u32 | t_obs_ms u32 | payload_len u16
-    payload            POSE (13 B) | OBSTACLES (6 + 26 x n B, n <= MAX_RECORDS) | EVENT (8 B)
+    payload            POSE (13 B) | OBSTACLES (6 + 26 x n B, n <= MAX_RECORDS) | EVENT (8 B) | ACK (1 + 4 x n B, n <= MAX_ACK)
     trailer (2 bytes)  crc16 u16
 
 Times: ``t_obs`` is the OBSERVATION time (simulation clock, ms) set by the rover. The reception time is never in the
@@ -24,13 +24,15 @@ MAGIC = b"AX"
 VERSION = 1
 HEADER = struct.Struct(">2sBBIIIH")            # 18 bytes
 CRC = struct.Struct(">H")
-T_POSE, T_OBSTACLES, T_EVENT = 1, 2, 3
+T_POSE, T_OBSTACLES, T_EVENT, T_ACK = 1, 2, 3, 4      # ACK: R5.4, ground -> rover over the (simulated) reverse link
 FRAME_ODOM = 0
 
 POSE = struct.Struct(">BiihH")                 # frame, x_mm, y_mm, yaw_1e-4rad, sigma_xy_cm            = 13 B
 OBS_HEAD = struct.Struct(">BBBBH")             # frame, part, parts, count, map_resets                  =  6 B
 RECORD = struct.Struct(">BIiiHBHII")           # flags, id, x_mm, y_mm, radius_mm, conf/255, unc_mm, t_obs_ms, link = 26 B
 EVENT = struct.Struct(">BBIH")                 # code, health state, reason bitmask, value              =  8 B
+MAX_ACK = 64                                   # sequence numbers per ACK packet (selective, batched)
+FULL_FLAG = 0x80                               # R5.4: bit 7 of the OBSTACLES frame byte = this snapshot is FULL
 
 MAX_RECORDS = 40                               # obstacles per packet
 MAX_PACKET = HEADER.size + OBS_HEAD.size + MAX_RECORDS * RECORD.size + CRC.size   # 1,066 bytes (largest packet)
@@ -179,7 +181,7 @@ def _record(o: dict, link: int) -> bytes:
                        _t_ms("timestamp_s", o["timestamp_s"]), link)
 
 
-def encode_obstacles(session: int, seq0: int, doc: dict, obstacles: list | None = None) -> list:
+def encode_obstacles(session: int, seq0: int, doc: dict, obstacles: list | None = None, full: bool = False) -> list:
     """An artemis.obstacles.v1 document (or a filtered ``obstacles`` list from it) -> packets of <= MAX_RECORDS records,
     with consecutive sequence numbers from ``seq0``. A depth cluster linked to tracks carries the first linked track id
     (``link``), so receivers can tell it is the same physical object; 0 = no link."""
@@ -198,7 +200,19 @@ def encode_obstacles(session: int, seq0: int, doc: dict, obstacles: list | None 
     if len(chunks) > 255:
         raise ProtocolError(f"{len(recs)} obstacles exceed 255 packets per snapshot")
     return [_frame(T_OBSTACLES, session, (seq0 + k) & 0xFFFFFFFF, doc["stamp_s"],
-                   OBS_HEAD.pack(FRAME_ODOM, k, len(chunks), len(c), resets) + b"".join(c)) for k, c in enumerate(chunks)]
+                   OBS_HEAD.pack(FRAME_ODOM | (FULL_FLAG if full else 0), k, len(chunks), len(c), resets) + b"".join(c))
+            for k, c in enumerate(chunks)]
+
+
+def encode_ack(seq: int, acked_session: int, seqs: list, t_obs_s: float = 0.0) -> bytes:
+    """Selective, batched acknowledgement from the ground: the header ``session`` is the ACKED session (the rover's), so
+    the rover can ignore ACKs for another mission; ``seq`` is the ground's own ACK counter (informative)."""
+    seqs = list(seqs)
+    if not 1 <= len(seqs) <= MAX_ACK:
+        raise ProtocolError(f"ACK must carry 1..{MAX_ACK} sequence numbers, got {len(seqs)}")
+    payload = bytes([len(seqs)]) + b"".join(struct.pack(">I", _u32("acked seq", q)) for q in seqs)
+    head = HEADER.pack(MAGIC, VERSION, T_ACK, _u32("session", acked_session), _u32("seq", seq), _t_ms("t_obs", t_obs_s), len(payload))
+    return head + payload + CRC.pack(crc16(head + payload))
 
 
 def encode_event(session: int, seq: int, t_obs_s: float, code: str, state: str = "OK", reasons=(), value: int = 0) -> bytes:
@@ -245,7 +259,8 @@ def decode(data: bytes, rx_time_s: float | None = None) -> Packet:
         if plen < OBS_HEAD.size:
             raise ProtocolError("OBSTACLES payload shorter than its header")
         frame, part, parts, n, resets = OBS_HEAD.unpack_from(p)
-        _check_frame(frame)
+        full = bool(frame & FULL_FLAG)
+        _check_frame(frame & ~FULL_FLAG)
         if n > MAX_RECORDS or plen != OBS_HEAD.size + n * RECORD.size or not (parts >= 1 and part < parts):
             raise ProtocolError(f"OBSTACLES: count {n}, part {part}/{parts}, payload {plen} B inconsistent")
         obs = []
@@ -260,7 +275,7 @@ def decode(data: bytes, rx_time_s: float | None = None) -> Packet:
             if link:
                 o["linked_track"] = decode_id(0, link)
             obs.append(o)
-        pk.body = {"frame": "odom", "part": part, "parts": parts, "map_resets": resets, "obstacles": obs}
+        pk.body = {"frame": "odom", "full": full, "part": part, "parts": parts, "map_resets": resets, "obstacles": obs}
     elif ptype == T_EVENT:
         if plen != EVENT.size:
             raise ProtocolError(f"EVENT payload {plen} B != {EVENT.size} B")
@@ -269,6 +284,11 @@ def decode(data: bytes, rx_time_s: float | None = None) -> Packet:
             raise ProtocolError(f"EVENT: invalid code {code} / state {state} / reasons 0x{mask:x}")
         pk.body = {"event": EVENTS[code - 1], "state": HEALTH[state],
                    "reasons": [r for i, r in enumerate(REASONS) if mask >> i & 1], "value": value}
+    elif ptype == T_ACK:
+        n = p[0] if plen else 0
+        if not 1 <= n <= MAX_ACK or plen != 1 + 4 * n:
+            raise ProtocolError(f"ACK: count {n}, payload {plen} B inconsistent")
+        pk.body = {"acked_session": session, "seqs": list(struct.unpack(f">{n}I", p[1:]))}
     else:
         raise ProtocolError(f"unknown packet type {ptype}")
     return pk

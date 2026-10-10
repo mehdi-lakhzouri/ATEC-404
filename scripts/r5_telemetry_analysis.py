@@ -107,8 +107,12 @@ def link_report(d: Path) -> dict:
     lines = [json.loads(x) for x in (d / "link.jsonl").read_text(encoding="utf-8").splitlines()]
     from artemis_x.telemetry.emulator import PRESETS
     phases = {}
+    rev = {}
     for r in lines:
         if "action" not in r:
+            continue
+        if r["action"].startswith("rev_"):              # R5.4 reverse link (ACKs): counted separately
+            rev[r["action"]] = rev.get(r["action"], 0) + 1
             continue
         ph = phases.setdefault(r["preset"], {"received": 0, "forwarded": 0, "dropped_loss": 0, "dropped_blackout": 0,
                                              "dropped_queue": 0, "dropped_shutdown": 0, "delay_ms": []})
@@ -137,7 +141,7 @@ def link_report(d: Path) -> dict:
     return {"totals": {k: st[k] for k in ("received", "forwarded", "dropped_loss", "dropped_blackout", "dropped_queue",
                                           "dropped_shutdown", "invalid_crc_seen", "delivery_ratio", "blackout_total_s",
                                           "throughput_Bps", "delay_ms", "elapsed_s")},
-            "phases": phases, "switches": gs.get("switches", []), "resumed_after_restore_s": resumed}
+            "phases": phases, "reverse_link": rev, "switches": gs.get("switches", []), "resumed_after_restore_s": resumed}
 
 
 def analyse_telemetry(root: Path) -> dict:

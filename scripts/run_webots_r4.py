@@ -418,23 +418,62 @@ SCENARIOS.update({
     "link_live":     ("on", None, {"telemetry": "link", "link_preset": "NORMAL", "link_schedule": LINK_LIVE_SCHEDULE}),
 })
 LINK_SCENARIOS = ["link_normal", "link_degraded", "link_severe", "link_live"]
+# R5.4 store-and-forward over the emulated link (ACKs on the reverse path). Wall-clock seconds after the scenario start.
+BLACKOUT_ONCE = ((15.0, "BLACKOUT"), (27.0, "RESTORE"))
+BLACKOUT_REPEATED = ((10.0, "BLACKOUT"), (16.0, "RESTORE"), (24.0, "BLACKOUT"), (30.0, "RESTORE"), (38.0, "BLACKOUT"), (44.0, "RESTORE"))
+SCENARIOS.update({
+    "nodtn_blackout": ("on", None, {"telemetry": "link", "link_preset": "NORMAL", "link_schedule": BLACKOUT_ONCE}),   # R5.3 reference
+    "dtn_blackout":   ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "NORMAL", "link_schedule": BLACKOUT_ONCE}),
+    "dtn_loss30":     ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "DEGRADED"}),
+    "dtn_loss50":     ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "NORMAL",
+                                    "link_set": {"loss": 0.5, "latency_ms": 200.0, "jitter_ms": 50.0}}),
+    "dtn_severe":     ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "SEVERE"}),   # stress: 50 %, 1.3 s, 1 kB/s
+    "dtn_restart":    ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "NORMAL", "ground_down_wall_s": (15.0, 25.0)}),
+    "dtn_repeated":   ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "NORMAL", "link_schedule": BLACKOUT_REPEATED}),
+    "dtn_overflow":   ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "NORMAL", "dtn_max_entries": 40,
+                                    "link_schedule": ((12.0, "BLACKOUT"), (40.0, "RESTORE"))}),
+})
+DTN_SCENARIOS = ["fusion", "nodtn_blackout", "dtn_blackout", "dtn_loss30", "dtn_loss50", "dtn_severe", "dtn_restart", "dtn_repeated",
+                 "dtn_overflow"]
 
 
 def start_link(out: Path, extra: dict, env: dict) -> dict:
     """Ground receiver (udp 5790) + lunar link emulator (5791 -> 5790, control 5792) in this process; the controller
-    sends to 5791. A schedule switches presets live through the emulator's UDP control port (the operator's path)."""
+    sends to 5791. A schedule switches presets live through the emulator's UDP control port (the operator's path).
+    R5.4 (``dtn``): the rover runs store-and-forward, the ground ACKs to the emulator's reverse port (5794 -> rover 5793,
+    same impairments) and reconciles its map; ``ground_down_wall_s`` stops and restarts the receiver mid-mission."""
     import threading
-    from artemis_x.telemetry.emulator import CONTROL_PORT, GROUND_PORT, ROVER_PORT, LunarLinkEmulator, send_control
+    from artemis_x.telemetry.emulator import (CONTROL_PORT, GROUND_PORT, REVERSE_PORT, ROVER_ACK_PORT, ROVER_PORT,
+                                              LunarLinkEmulator, send_control)
     from artemis_x.telemetry.transport import GroundReceiver
+    dtn = bool(extra.get("dtn"))
     env.update({"ARTEMIS_TELEMETRY": "1", "ARTEMIS_TELEMETRY_PORT": ROVER_PORT})
+    if dtn:
+        env.update({"ARTEMIS_TELEMETRY_DTN": "1", "ARTEMIS_TELEMETRY_ACK_PORT": ROVER_ACK_PORT})
+        if extra.get("dtn_max_entries"):
+            env["ARTEMIS_DTN_MAX_ENTRIES"] = extra["dtn_max_entries"]
     stop = threading.Event()
-    rx = GroundReceiver("127.0.0.1", GROUND_PORT, out / "ground.jsonl", timeout_s=0.2)
     em = LunarLinkEmulator(("127.0.0.1", ROVER_PORT), ("127.0.0.1", GROUND_PORT), ("127.0.0.1", CONTROL_PORT),
-                           preset=extra["link_preset"], seed=2026, log_path=out / "link.jsonl")
-    res = {}
-    t_rx = threading.Thread(target=lambda: res.__setitem__("ground", rx.run(stop=stop)), daemon=True)
+                           preset=extra["link_preset"], seed=2026, log_path=out / "link.jsonl",
+                           reverse_listen=("127.0.0.1", REVERSE_PORT) if dtn else None,
+                           rover_ack=("127.0.0.1", ROVER_ACK_PORT) if dtn else None)
+    if extra.get("link_set"):                            # a custom link (e.g. 50 % loss without the SEVERE bandwidth cap)
+        em.apply(None, **extra["link_set"])
+    res = {"ground": []}
+    receivers = []
+
+    def serve(down: threading.Event):
+        rx = GroundReceiver("127.0.0.1", GROUND_PORT, out / "ground.jsonl", timeout_s=0.2,
+                            ack_to=("127.0.0.1", REVERSE_PORT) if dtn else None, reconcile=dtn)
+        receivers.append(rx)
+        while not stop.is_set() and not down.is_set():
+            rx.receive_once()
+        res["ground"].append(rx.close())
+
+    first_down = threading.Event()
+    rx_threads = [threading.Thread(target=serve, args=(first_down,), daemon=True)]
     t_em = threading.Thread(target=lambda: res.__setitem__("link", em.run(stop)), daemon=True)
-    t_rx.start()
+    rx_threads[0].start()
     t_em.start()
     switches = []
 
@@ -442,6 +481,15 @@ def start_link(out: Path, extra: dict, env: dict) -> dict:
         rep = send_control(name)
         switches.append({"wall_s": round(time.time(), 3), "preset": name, "ok": rep.get("preset") == name and "error" not in rep})
     timers = [threading.Timer(w, switch, (n,)) for w, n in extra.get("link_schedule", ())]
+    if extra.get("ground_down_wall_s"):
+        a, b = extra["ground_down_wall_s"]
+
+        def restart():
+            rx_threads[0].join()
+            th = threading.Thread(target=serve, args=(threading.Event(),), daemon=True)
+            rx_threads.append(th)
+            th.start()
+        timers += [threading.Timer(a, first_down.set), threading.Timer(b, restart)]
     for tm in timers:
         tm.start()
 
@@ -451,9 +499,13 @@ def start_link(out: Path, extra: dict, env: dict) -> dict:
         time.sleep(1.0 + (2.0 if extra["link_preset"] == "SEVERE" else 0.0))   # let in-flight datagrams land
         stop.set()
         t_em.join()
-        t_rx.join()
+        for th in list(rx_threads):
+            th.join()
         (out / "link_stats.json").write_text(json.dumps(res.get("link"), indent=1), encoding="utf-8")
-        (out / "ground_stats.json").write_text(json.dumps({"mode": "link", "receivers": [res.get("ground")],
+        maps = [g.pop("ground_map") for g in res["ground"] if "ground_map" in g]
+        if maps:
+            (out / "ground_map.json").write_text(json.dumps(maps[-1], indent=1), encoding="utf-8")
+        (out / "ground_stats.json").write_text(json.dumps({"mode": "link", "dtn": dtn, "receivers": res["ground"],
                                                            "switches": switches}, indent=1), encoding="utf-8")
     return {"stop": _stop}
 
@@ -639,7 +691,7 @@ def analyse_safety(root: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=("measure", "analyse", "map", "analyse-map", "safety-run", "safety", "analyse-safety", "fusion",
-                                    "analyse-fusion", "monitor", "validate", "telemetry", "link"))
+                                    "analyse-fusion", "monitor", "validate", "telemetry", "link", "dtn"))
     ap.add_argument("--only", nargs="*", help="safety-run / safety: subset of scenarios")
     ap.add_argument("path", nargs="?")
     ap.add_argument("--no-inference", action="store_true")
@@ -672,6 +724,12 @@ def main() -> int:
             run_scenario(root, name)
         from r5_telemetry_analysis import analyse_telemetry
         res = analyse_telemetry(root)
+    elif a.cmd == "dtn":                                   # R5.4: store-and-forward + ACKs over the emulated lunar link
+        root = WB / "output" / f"r5-dtn-{time.strftime('%Y%m%d-%H%M%S')}"
+        for name in (a.only or DTN_SCENARIOS):
+            run_scenario(root, name)
+        from r5_dtn_analysis import analyse_dtn
+        res = analyse_dtn(root)
     elif a.cmd == "link":                                  # R5.3: Webots -> UDP -> lunar link emulator -> ground, live
         root = WB / "output" / f"r5-link-{time.strftime('%Y%m%d-%H%M%S')}"
         for name in (a.only or LINK_SCENARIOS):

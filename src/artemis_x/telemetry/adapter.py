@@ -18,6 +18,7 @@ import collections
 from . import protocol as P
 
 DEDUP_MARGIN_M = 0.2                    # 2 cells of the 0.10 m grid
+CRITICAL, NORMAL, LOW = 0, 1, 2         # R5.4 store-and-forward priorities (lower = more important)
 
 
 def signature(o: dict) -> tuple:
@@ -65,19 +66,22 @@ class TelemetryAdapter:
         m = self.mapper
         if m.grid.resets != self._resets:
             self._resets = m.grid.resets
-            self._push([P.encode_event(self.session, self._next(), t, "map_reset", self._state(), value=min(0xFFFF, m.grid.resets))], "event")
+            self._push([P.encode_event(self.session, self._next(), t, "map_reset", self._state(), value=min(0xFFFF, m.grid.resets))], "event",
+                       CRITICAL, {"event": "map_reset"})
             self.next_obs = t                   # the map is empty now: tell the receiver at once
             self._sent, self._next_full = {}, t                       # ... with a full (empty) snapshot
             return
         h = m.health_monitor.latest
         if h is not None and (h.state, tuple(h.reasons)) != self._health:
+            state_changed = self._health is None or self._health[0] != h.state
             self._health = (h.state, tuple(h.reasons))
             self._push([P.encode_event(self.session, self._next(), h.stamp_s, "health",
-                                       h.state, [r for r in h.reasons if r in P.REASONS])], "event")
+                                       h.state, [r for r in h.reasons if r in P.REASONS])], "event",
+                       CRITICAL if state_changed else NORMAL, {"event": "health", "state": h.state})
             return
         if t >= self.next_pose:
             self.next_pose = t + self.pose_period
-            self._push([P.encode_pose(self.session, self._next(), m.estimator.pose().to_dict())], "pose")
+            self._push([P.encode_pose(self.session, self._next(), m.estimator.pose().to_dict())], "pose", LOW, {})
             return
         if t >= self.next_obs:
             self.next_obs = t + self.obs_period
@@ -100,15 +104,27 @@ class TelemetryAdapter:
             obs = changed
         else:
             self.stats["full_snapshots"] += 1
+        # R5.4 priority, per packet: a part that carries a hazard never sent before in this map epoch (a newly confirmed
+        # track, or a new depth obstacle / negative hazard) is CRITICAL; anything else is a NORMAL refresh
+        new = {o["id"] for o in obs if o["id"] not in self._sent and (o["source"] == "depth" or o["status"] == "confirmed")}
         for o in obs:
             self._sent[o["id"]] = signature(o)
         self.stats["snapshots"] += 1
-        pkts = P.encode_obstacles(self.session, self.seq, doc, obs)
+        pkts = P.encode_obstacles(self.session, self.seq, doc, obs, full=full)
         self.seq = (self.seq + len(pkts)) & 0xFFFFFFFF
-        self._push(pkts, "obstacles")
+        for k, pkt in enumerate(pkts):
+            part_new = [o["id"] for o in obs[k * P.MAX_RECORDS:(k + 1) * P.MAX_RECORDS] if o["id"] in new]
+            part_ids = [o["id"] for o in obs[k * P.MAX_RECORDS:(k + 1) * P.MAX_RECORDS]]
+            self._push([pkt], "obstacles", CRITICAL if part_new else NORMAL,
+                       {"full": full, "new_hazards": part_new, "ids": part_ids, "snapshot_t_obs": doc["stamp_s"]})
 
     # ---- consumer side (R5.2 transport) ---------------------------------------------------------------------------------
     def drain(self, max_packets: int | None = None) -> list:
+        """Packets only (R5.2 direct transport)."""
+        return [pkt for pkt, _ in self.drain_meta(max_packets)]
+
+    def drain_meta(self, max_packets: int | None = None) -> list:
+        """(packet, meta) pairs; meta: kind, prio (CRITICAL / NORMAL / LOW), seq, t_obs_s and kind-specific fields (R5.4)."""
         n = len(self.queue) if max_packets is None else min(max_packets, len(self.queue))
         return [self.queue.popleft() for _ in range(n)]
 
@@ -126,12 +142,13 @@ class TelemetryAdapter:
         self.seq = (self.seq + 1) & 0xFFFFFFFF
         return s
 
-    def _push(self, pkts: list, kind: str) -> None:
+    def _push(self, pkts: list, kind: str, prio: int = NORMAL, extra: dict | None = None) -> None:
         for p in pkts:
             if len(self.queue) >= self.max_queue:
                 self.queue.popleft()
                 self.stats["dropped_queue_full"] += 1
-            self.queue.append(p)
+            _, _, _, _, seq, t_ms, _ = P.HEADER.unpack_from(p)
+            self.queue.append((p, {"kind": kind, "prio": prio, "seq": seq, "t_obs_s": t_ms / 1000.0, **(extra or {})}))
             self.stats["packets"] += 1
             self.stats["bytes"] += len(p)
         self.stats["by_type"][kind] += len(pkts)

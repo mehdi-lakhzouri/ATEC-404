@@ -7,6 +7,8 @@
     python scripts/lunar_link.py ctl STATUS
 
 Rover telemetry must target the emulator: $env:ARTEMIS_TELEMETRY_PORT = "5791" (the ground receiver keeps 5790).
+R5.4 store-and-forward: add --reverse here, --ack-to 127.0.0.1:5794 on the receiver, and $env:ARTEMIS_TELEMETRY_DTN = "1"
+on the rover (ACKs come back on udp 5793).
 """
 
 from __future__ import annotations
@@ -19,7 +21,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from artemis_x.telemetry.emulator import CONTROL_PORT, GROUND_PORT, PRESETS, ROVER_PORT, LunarLinkEmulator, send_control  # noqa: E402
+from artemis_x.telemetry.emulator import (CONTROL_PORT, GROUND_PORT, PRESETS, REVERSE_PORT, ROVER_ACK_PORT, ROVER_PORT,  # noqa: E402
+                                          LunarLinkEmulator, send_control)
 
 SHOW = ("preset", "link_state", "received", "forwarded", "dropped_loss", "dropped_blackout", "dropped_queue", "delivery_ratio",
         "blackout_total_s", "throughput_Bps", "delay_ms")
@@ -28,8 +31,9 @@ SHOW = ("preset", "link_state", "received", "forwarded", "dropped_loss", "droppe
 def serve(a) -> int:
     if a.log:
         a.log.parent.mkdir(parents=True, exist_ok=True)
+    rev = (("127.0.0.1", REVERSE_PORT), ("127.0.0.1", ROVER_ACK_PORT)) if a.reverse else (None, None)
     em = LunarLinkEmulator(("127.0.0.1", a.listen), ("127.0.0.1", a.ground), ("127.0.0.1", a.control), preset=a.preset.upper(),
-                           seed=a.seed, log_path=a.log)
+                           seed=a.seed, log_path=a.log, reverse_listen=rev[0], rover_ack=rev[1])
     stop = threading.Event()
     print(f"[link] rover udp:{a.listen} -> ground udp:{a.ground} | control udp:{a.control} | preset {a.preset.upper()} | seed {a.seed}")
     print(f"[link] commands: {' | '.join(PRESETS)} | SET k=v ... | STATUS | QUIT", flush=True)
@@ -74,6 +78,7 @@ def main() -> int:
     s.add_argument("--log", type=Path)
     s.add_argument("--stats", type=Path)
     s.add_argument("--duration", type=float)
+    s.add_argument("--reverse", action="store_true", help="R5.4: also carry ground ACKs udp 5794 -> rover udp 5793 (same impairments)")
     c = sub.add_parser("ctl")
     c.add_argument("command", nargs="+")
     c.add_argument("--control", type=int, default=CONTROL_PORT)

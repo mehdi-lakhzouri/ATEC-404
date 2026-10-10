@@ -17,7 +17,7 @@ All multi-byte integers are **big-endian** (network order). Every packet is self
 |---|---|---|---|
 | 0 | `magic` | 2 bytes | `"AX"` (0x41 0x58) |
 | 2 | `version` | u8 | `1`. A decoder rejects any other version |
-| 3 | `type` | u8 | 1 = POSE, 2 = OBSTACLES, 3 = EVENT. Others are rejected |
+| 3 | `type` | u8 | 1 = POSE, 2 = OBSTACLES, 3 = EVENT, 4 = ACK (R5.4). Others are rejected |
 | 4 | `session` | u32 | Mission or session id, chosen by the rover |
 | 8 | `seq` | u32 | Packet sequence number, +1 per packet, wraps modulo 2³² |
 | 12 | `t_obs_ms` | u32 | **Observation** time, simulation clock, ms (range 0–49.7 days) |
@@ -143,3 +143,12 @@ Several runs export the same final map (identical scenes), so the 16 snapshots a
 - **Wrap-arounds:** `t_obs` wraps after 49.7 days of simulation time and `seq` after 2³² packets. Neither is handled beyond the documented modulo; real missions would need an epoch field (v2).
 - **No reliability layer:** no retransmission, acknowledgement or encryption. Integrity is protected by the CRC only, not authenticated. These are R5.2 transport decisions.
 - **Snapshot assembly:** a snapshot split into several parts is only consistent if all parts arrive; receivers should group by (`session`, `t_obs`, `parts`).
+
+## 8. R5.4 additions (additive within v1)
+
+- **ACK (type 4), ground → rover, over the simulated reverse link.**
+  - Payload: `count` u8 (1–64), then `count` × `seq` u32, the acknowledged sequence numbers. The header `session` is the **acknowledged** (rover) session.
+  - Packet size: 20 + 1 + 4n bytes, so 25–277 B.
+  - See `docs/TELEMETRY_R5_4_STORE_AND_FORWARD.md`.
+- **FULL snapshot flag:** bit 7 of the OBSTACLES `frame` byte is set when the snapshot is complete (all current obstacles). The lower 7 bits must still be 0 (odom). Decoded as `body["full"]`.
+
