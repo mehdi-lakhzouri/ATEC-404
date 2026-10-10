@@ -409,6 +409,53 @@ SCENARIOS.update({
     "telemetry_noreceiver": ("on", None, {"telemetry": "absent"}),
 })
 TELEMETRY_SCENARIOS = ["fusion", "telemetry", "telemetry_restart", "telemetry_noreceiver"]
+# R5.3 lunar network emulator between rover (udp 5791) and ground (udp 5790); presets switched over the control port 5792
+LINK_LIVE_SCHEDULE = ((12.0, "DEGRADED"), (24.0, "SEVERE"), (36.0, "BLACKOUT"), (48.0, "RESTORE"))   # wall s after start
+SCENARIOS.update({
+    "link_normal":   ("on", None, {"telemetry": "link", "link_preset": "NORMAL"}),
+    "link_degraded": ("on", None, {"telemetry": "link", "link_preset": "DEGRADED"}),
+    "link_severe":   ("on", None, {"telemetry": "link", "link_preset": "SEVERE"}),
+    "link_live":     ("on", None, {"telemetry": "link", "link_preset": "NORMAL", "link_schedule": LINK_LIVE_SCHEDULE}),
+})
+LINK_SCENARIOS = ["link_normal", "link_degraded", "link_severe", "link_live"]
+
+
+def start_link(out: Path, extra: dict, env: dict) -> dict:
+    """Ground receiver (udp 5790) + lunar link emulator (5791 -> 5790, control 5792) in this process; the controller
+    sends to 5791. A schedule switches presets live through the emulator's UDP control port (the operator's path)."""
+    import threading
+    from artemis_x.telemetry.emulator import CONTROL_PORT, GROUND_PORT, ROVER_PORT, LunarLinkEmulator, send_control
+    from artemis_x.telemetry.transport import GroundReceiver
+    env.update({"ARTEMIS_TELEMETRY": "1", "ARTEMIS_TELEMETRY_PORT": ROVER_PORT})
+    stop = threading.Event()
+    rx = GroundReceiver("127.0.0.1", GROUND_PORT, out / "ground.jsonl", timeout_s=0.2)
+    em = LunarLinkEmulator(("127.0.0.1", ROVER_PORT), ("127.0.0.1", GROUND_PORT), ("127.0.0.1", CONTROL_PORT),
+                           preset=extra["link_preset"], seed=2026, log_path=out / "link.jsonl")
+    res = {}
+    t_rx = threading.Thread(target=lambda: res.__setitem__("ground", rx.run(stop=stop)), daemon=True)
+    t_em = threading.Thread(target=lambda: res.__setitem__("link", em.run(stop)), daemon=True)
+    t_rx.start()
+    t_em.start()
+    switches = []
+
+    def switch(name):
+        rep = send_control(name)
+        switches.append({"wall_s": round(time.time(), 3), "preset": name, "ok": rep.get("preset") == name and "error" not in rep})
+    timers = [threading.Timer(w, switch, (n,)) for w, n in extra.get("link_schedule", ())]
+    for tm in timers:
+        tm.start()
+
+    def _stop():
+        for tm in timers:
+            tm.cancel()
+        time.sleep(1.0 + (2.0 if extra["link_preset"] == "SEVERE" else 0.0))   # let in-flight datagrams land
+        stop.set()
+        t_em.join()
+        t_rx.join()
+        (out / "link_stats.json").write_text(json.dumps(res.get("link"), indent=1), encoding="utf-8")
+        (out / "ground_stats.json").write_text(json.dumps({"mode": "link", "receivers": [res.get("ground")],
+                                                           "switches": switches}, indent=1), encoding="utf-8")
+    return {"stop": _stop}
 
 
 def start_ground(out: Path, mode: str, env: dict) -> dict:
@@ -547,7 +594,7 @@ def run_scenario(root: Path, name: str) -> dict:
             srv.kill()
         killer = threading.Timer(extra["kill_after_wall_s"], _kill)
     shots = []
-    ground = start_ground(out, extra["telemetry"], env) if extra.get("telemetry") else None
+    ground = (start_link(out, extra, env) if extra.get("telemetry") == "link" else start_ground(out, extra["telemetry"], env))         if extra.get("telemetry") else None
     if "ARTEMIS_MONITOR_SAVE_AT" in env:
         env["ARTEMIS_MONITOR_SAVE"] = out / "panels"
     if extra.get("gui"):
@@ -592,7 +639,7 @@ def analyse_safety(root: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=("measure", "analyse", "map", "analyse-map", "safety-run", "safety", "analyse-safety", "fusion",
-                                    "analyse-fusion", "monitor", "validate", "telemetry"))
+                                    "analyse-fusion", "monitor", "validate", "telemetry", "link"))
     ap.add_argument("--only", nargs="*", help="safety-run / safety: subset of scenarios")
     ap.add_argument("path", nargs="?")
     ap.add_argument("--no-inference", action="store_true")
@@ -622,6 +669,12 @@ def main() -> int:
     elif a.cmd == "telemetry":                             # R5.2: Webots -> UDP -> ground receiver, live
         root = WB / "output" / f"r5-telemetry-{time.strftime('%Y%m%d-%H%M%S')}"
         for name in (a.only or TELEMETRY_SCENARIOS):
+            run_scenario(root, name)
+        from r5_telemetry_analysis import analyse_telemetry
+        res = analyse_telemetry(root)
+    elif a.cmd == "link":                                  # R5.3: Webots -> UDP -> lunar link emulator -> ground, live
+        root = WB / "output" / f"r5-link-{time.strftime('%Y%m%d-%H%M%S')}"
+        for name in (a.only or LINK_SCENARIOS):
             run_scenario(root, name)
         from r5_telemetry_analysis import analyse_telemetry
         res = analyse_telemetry(root)

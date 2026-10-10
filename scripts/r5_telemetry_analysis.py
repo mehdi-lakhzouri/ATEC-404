@@ -96,7 +96,48 @@ def analyse_run(d: Path) -> dict:
                                           "missing_ids": sorted(exp_ids - set(got))[:10],
                                           "max_position_diff_m": round(max(dev), 6) if dev else None,
                                           "frame": final["frame"], "session": tel["session"]}
+    if (d / "link_stats.json").exists():
+        res["link"] = link_report(d)
     return res
+
+
+def link_report(d: Path) -> dict:
+    """Emulator view: totals, per-preset phases (from link.jsonl), configured vs observed loss, blackout and resumption."""
+    st = json.loads((d / "link_stats.json").read_text(encoding="utf-8"))
+    lines = [json.loads(x) for x in (d / "link.jsonl").read_text(encoding="utf-8").splitlines()]
+    from artemis_x.telemetry.emulator import PRESETS
+    phases = {}
+    for r in lines:
+        if "action" not in r:
+            continue
+        ph = phases.setdefault(r["preset"], {"received": 0, "forwarded": 0, "dropped_loss": 0, "dropped_blackout": 0,
+                                             "dropped_queue": 0, "dropped_shutdown": 0, "delay_ms": []})
+        if r["action"] == "forwarded":
+            ph["forwarded"] += 1
+            ph["delay_ms"].append(r["delay_ms"])
+        else:
+            ph[r["action"]] += 1
+    for name, ph in phases.items():
+        n = ph["forwarded"] + ph["dropped_loss"] + ph["dropped_blackout"] + ph["dropped_queue"] + ph["dropped_shutdown"]
+        ph["received"] = n
+        cfg = PRESETS.get(name)
+        ph["configured_loss"] = cfg.loss if cfg else None
+        # loss stage only: of the packets that reached the random-loss stage, the fraction it dropped
+        stage = n - ph["dropped_blackout"]
+        ph["observed_random_loss"] = round(ph["dropped_loss"] / stage, 4) if stage and not (cfg and cfg.blackout) else None
+        ph["delivery_ratio"] = round(ph["forwarded"] / n, 4) if n else None
+        dl = ph.pop("delay_ms")
+        ph["delay_ms"] = {"p50": q(dl, 0.5), "p95": q(dl, 0.95), "max": round(max(dl), 1) if dl else None}
+    restore = next((r for r in lines if r.get("event") == "config" and r.get("preset") == "RESTORE"), None)
+    resumed = None
+    if restore:
+        first = next((r for r in lines if r.get("action") == "forwarded" and r["t_s"] >= restore["t_s"]), None)
+        resumed = round(first["t_s"] - restore["t_s"], 3) if first else None
+    gs = json.loads((d / "ground_stats.json").read_text(encoding="utf-8"))
+    return {"totals": {k: st[k] for k in ("received", "forwarded", "dropped_loss", "dropped_blackout", "dropped_queue",
+                                          "dropped_shutdown", "invalid_crc_seen", "delivery_ratio", "blackout_total_s",
+                                          "throughput_Bps", "delay_ms", "elapsed_s")},
+            "phases": phases, "switches": gs.get("switches", []), "resumed_after_restore_s": resumed}
 
 
 def analyse_telemetry(root: Path) -> dict:
