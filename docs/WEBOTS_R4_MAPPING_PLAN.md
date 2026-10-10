@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | Date | 2026-10-10 |
-| Status | **Approved 2026-10-10** with the recommended decisions. R4.1-R4.4 implemented; R4.5 display part (live 2D map, 2 x 2 monitoring layout) implemented, awaiting review; progress and deviations in [WEBOTS_R4_PROGRESS.md](WEBOTS_R4_PROGRESS.md) |
+| Status | **Approved 2026-10-10** with the recommended decisions. R4.1-R4.4 implemented; R4.5 display part (live 2D map, 2 x 2 monitoring layout) implemented; R4.6 final validation done (12/15 criteria on the batch, failures documented); progress and deviations in [WEBOTS_R4_PROGRESS.md](WEBOTS_R4_PROGRESS.md) |
 | Baseline | R3 + test course v2, committed and pushed as `c425125` (decision D0 done) |
 | Unchanged by R4 | Frozen YOLO11n and its configuration, datasets, historical results, the validated R1/R2 and R3 worlds |
 | Out of scope | Path planning (A*), obstacle avoidance, autonomous motor commands. These belong to R5 |

@@ -8,6 +8,7 @@
     uv run --project backend --no-sync python scripts/run_webots_r4.py safety                # R4.3: 8 safety / fault scenarios
     uv run --project backend --no-sync python scripts/run_webots_r4.py fusion                # R4.4: fusion vs depth-only, 400 ms, disconnect
     uv run --project backend --no-sync python scripts/run_webots_r4.py monitor               # R4.5 display: 2 x 2 panels, timing, screenshots
+    uv run --project backend --no-sync python scripts/run_webots_r4.py validate              # R4.6: all of the above, one verdict (~25 min)
 
 The rover drives the existing scripted course tour (no autonomy). The controller maps with its ESTIMATED pose only; this
 script is the only place where ground truth (course manifest, logged supervisor pose) is used.
@@ -402,6 +403,36 @@ SCENARIOS = {    # name -> (inference mode, ARTEMIS_FAULTS spec or None, extra)
 MONITOR_SCENARIOS = ["monitor", "monitor_off", "monitor_noyolo", "monitor_reset", "monitor_gui"]
 
 
+VALIDATE_MONITOR = ["monitor", "monitor_off", "monitor_noyolo", "monitor_reset"]   # headless (GUI evidence is from R4.5)
+
+
+def validate(root: Path) -> dict:
+    """R4.6: run the 8 safety, 4 fusion and 4 headless monitor scenarios back to back while sampling the Webots
+    simulator's private memory (psutil, every 10 s), then the combined verdict (scripts/r4_validation.py)."""
+    import threading
+    import psutil
+    samples, stop = [], threading.Event()
+
+    def sampler():
+        t0 = time.time()
+        while not stop.wait(10.0):
+            mb = [p.memory_info().private / 2 ** 20 for p in psutil.process_iter(["name"])
+                  if (p.info["name"] or "").lower().startswith("webots-bin")]
+            samples.append({"wall_s": round(time.time() - t0, 1), "webots_mb": round(max(mb), 1) if mb else None})
+    th = threading.Thread(target=sampler, daemon=True)
+    th.start()
+    try:
+        for group, names in (("safety", SAFETY_SCENARIOS), ("fusion", FUSION_SCENARIOS), ("monitor", VALIDATE_MONITOR)):
+            for name in names:
+                run_scenario(root / group, name)
+    finally:
+        stop.set()
+        th.join()
+    (root / "webots_memory.json").write_text(json.dumps(samples), encoding="utf-8")
+    from r4_validation import analyse_validation
+    return analyse_validation(root, samples)
+
+
 def screen_capture(path: Path, attempts: int = 5) -> bool:
     """Maximise and raise the Webots window, then save the primary screen (DPI-aware) as PNG - ONLY if the Webots window
     really is in the foreground at capture time (Windows may refuse to raise it while the user works in another window).
@@ -509,7 +540,7 @@ def analyse_safety(root: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=("measure", "analyse", "map", "analyse-map", "safety-run", "safety", "analyse-safety", "fusion",
-                                    "analyse-fusion", "monitor"))
+                                    "analyse-fusion", "monitor", "validate"))
     ap.add_argument("--only", nargs="*", help="safety-run / safety: subset of scenarios")
     ap.add_argument("path", nargs="?")
     ap.add_argument("--no-inference", action="store_true")
@@ -536,6 +567,8 @@ def main() -> int:
             run_scenario(root, name)
         from r4_fusion_analysis import analyse_fusion
         res = analyse_fusion(root)
+    elif a.cmd == "validate":                              # R4.6: safety + fusion + monitor on the same code, Webots memory sampled
+        res = validate(WB / "output" / f"r4-validate-{time.strftime('%Y%m%d-%H%M%S')}")
     elif a.cmd == "monitor":                               # R4.5 display part: panels on/off timing, no YOLO, GUI screenshots
         root = WB / "output" / f"r4-monitor-{time.strftime('%Y%m%d-%H%M%S')}"
         for name in (a.only or MONITOR_SCENARIOS):

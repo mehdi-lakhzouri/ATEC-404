@@ -425,6 +425,11 @@ class Mapper:
 
     def finish(self) -> dict:
         self.integrate_pending()
+        from .contract import export_obstacles          # R4.6: the stable obstacle contract, once at the end of a run
+        t0 = time.perf_counter()
+        obstacles = export_obstacles(self)
+        self.stats["obstacles_export"] = {"ms": round((time.perf_counter() - t0) * 1000, 2), "count": len(obstacles["obstacles"])}
+        (self.out / "obstacles_final.json").write_text(json.dumps(obstacles, indent=1), encoding="utf-8")
         self.tele.close()
         self.pts_log.close()
         last = self.buffer.latest()

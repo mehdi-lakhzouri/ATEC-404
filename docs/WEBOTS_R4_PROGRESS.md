@@ -617,3 +617,82 @@ Mapping accuracy is identical with panels on and off: recall 33/34, 5/5, 3/4; 70
   - crater-rim tracks;
   - engineered objects labelled "rock";
   - the 70 false-free and 27–38 unsafe residual cells documented above.
+
+---
+
+## R4.6 Final mapping validation: done
+
+**Scope.** One validation of the complete R4 mapping stack (R4.1–R4.5) on the final code, plus the stable obstacle output contract for the upcoming telemetry module. No new mapping features, no retraining, no new dependencies.
+
+**Run:** `artemis-webots/output/r4-validate-20261010-204718`, with the verdict in `r4_6_validation.json`. It contains 16 tours back to back on the same code: 8 safety, 4 fusion and 4 headless monitor scenarios. Webots private memory was sampled every 10 s. Reruns of the scenarios over the timing target: `r4-validate-rerun-211343`.
+
+**Reproduce:**
+
+```powershell
+uv run --project backend --no-sync python scripts/run_webots_r4.py validate     # ~25 min; ground truth used offline only
+```
+
+### Verdict: 12 of 15 criteria pass on the batch (failures listed, not dropped)
+
+| Criterion | Result | Measured |
+|---|---|---|
+| All tours complete | PASS | 16/16 runs, 55/55 moves |
+| Mapping cycle p95 < 15 ms in every run | **FAIL on the batch, PASS on rerun** | Batch: 13 of 16 runs at 10.8–14.9 ms; safety/baseline 15.97, monitor_reset 15.59, depth_faults 15.17 ms. Rerun alone: 11.53, 11.62, 11.09 ms |
+| Track centre error median ≤ 0.10 m | PASS | 0.034 m |
+| Track centre error p95 ≤ 0.25 m | PASS | 0.162 m |
+| Duplicate track rate ≤ 5 % | PASS | 0 % |
+| All obstacles ≥ 10 cm mapped | **FAIL** | 33/34; the white ball (Z5, 0.37 m) is missed: occluded and only seen at grazing angles (known since R4.2) |
+| No unsafe cost cell inside a true hazard | PASS | 0 inside; 27 unsafe cells in the collision zone (R4.4 residual) |
+| Corridor never clear while truly blocked | PASS | 0 cycles in all 8 safety scenarios, including ±3 % odometry faults |
+| Every injected fault detected | PASS | depth degraded 0.12 s, frozen 0.00 s, invalid 0.064 s, overrun 0.24 s; YOLO unavailable 0.42 s |
+| YOLO disconnect detected, mapping continues | PASS | 0.43 s; 1,128 mapping cycles after the kill |
+| Map reset clears the map | PASS | 1 reset, seen by the monitor (panel cleared) |
+| Depth mapping without YOLO | PASS | 193 occupied cells, all depth-only |
+| Webots memory stable | PASS | 0.04–1.65 GB over 146 samples (first third mean 1.24 GB, last third 1.30 GB) |
+| Frozen YOLO model unchanged | PASS | `413d0481…` = FROZEN_MODEL_CONFIG |
+| Every exported track on a true object | **FAIL** | 4 of 35 tracks are not: 3 on the large crater rim, 1 on terrain (frozen-model labels; known since R4.4) |
+
+**The timing failure.** In the batch, every stage of the three slow runs was uniformly 25–60 % slower, including the trivial depth read. Wall times were also longer (depth_faults 59 s against 40 s). In the same batch, `odo_heading` ran at normal speed (10.9 ms). The code paths of `baseline` and `depth_faults` did not change since R4.5, and the R4.6 export runs once, at the end of the run, outside the cycle. Rerun alone, all three meet the target with about 3.5 ms of margin. **Conclusion:** the 15 ms p95 target holds on an unloaded machine, but it is not guaranteed under background load on this laptop. This is recorded as a limitation.
+
+### Stable mapping output contract: `artemis.obstacles.v1`
+
+Defined in `src/artemis_x/sim/mapping/contract.py` (`export_obstacles(mapper)`, standard library only, read-only, no ground truth). Written at the end of every run to `mapping/obstacles_final.json`. Covered by `tests/test_mapping_contract.py` (5 tests).
+
+The document carries `schema`, `frame` (`odom`), `stamp_s`, `pose` (estimated), `grid` (resolution, origin, size), `config_hash`, `map_resets` and `obstacles[]`. Each obstacle has:
+
+| Field | Tracks (`source = "yolo+depth"`) | Depth clusters (`source = "depth"`) |
+|---|---|---|
+| `id` | `trk-<n>`: persistent, never reused within a mission | `dep-<i>_<j>`: global cell of the lowest-left cell; **not persistent** (a cluster that grows or splits changes id) |
+| `type` | `rock` (YOLO class) | `obstacle` or `negative_hazard` |
+| `x_m`, `y_m` | Track centre, odom frame | Cluster centroid, odom frame |
+| `radius_m` | Estimated radius | Max centroid-to-cell distance + half a cell |
+| `confidence` | YOLO confidence (EMA, 0–1) | Occupancy probability from the mean log-odds |
+| `uncertainty_m` | Tracker 1-sigma | Max odometry sigma_rel of its cells (R4.3 model) + half a cell |
+| `timestamp_s` | Last associated detection (sim time) | Latest cell update (sim time) |
+| `status` | `confirmed` or `lost` (lost objects are kept) | `observed` |
+| `protected` | Confirmed small rock withheld from FREE evidence | Any protected cell |
+| `track_ids` | — | Tracks whose centre lies inside the cluster (same object) |
+
+**Rules:**
+- Tentative tracks are never exported.
+- UNKNOWN space is never an obstacle, and **absence from the list does not mean free**: traversability comes from the occupancy and cost layers.
+- Coordinates are in the estimated odometry frame; global accuracy is bounded by odometry.
+
+**Validated against ground truth** (final fusion run, 48 exported obstacles):
+
+| Measure | Result |
+|---|---|
+| Tracks matched to a true rock (31), centre error | median 0.036 m, p95 0.158 m, max 0.217 m |
+| Depth clusters overlapping a true hazard | 13/13 |
+| Objects seen in the exported window, covered by an exported obstacle | 11/11 |
+| Tracks not on a true object | 4 (crater rim and terrain) |
+| Export time | 2.9 ms, at the end of the run, off the mapping cycle |
+
+### Remaining accuracy and safety limitations (R4 as released)
+- **Timing margin.** Mapping p95 is 10.8–14.9 ms nominally, but exceeded 15 ms (up to 16.0 ms) in 3 of 16 runs under machine load. The busiest step stays well below the 32 ms simulation step.
+- **Misses.** The white ball (occluded) is missed. Small-rock recall is bounded by YOLO: rock 03 is never detected, and depth alone cannot resolve rocks under 5 cm.
+- **False tracks.** Crater-rim and terrain tracks, and engineered objects labelled "rock". They are mapped as obstacles anyway, which is safe, but they are wrong semantics in the contract (`type = rock`).
+- **Residual cells.** 70 false-free hazard cells (all under inscribed or lethal cost) and 27–38 unsafe collision-zone cells (0 inside a hazard).
+- **Odometry only.** The absolute uncertainty grows without bound; the contract coordinates are relative to the odometry frame.
+- **Kinematic simulator with ideal depth.** No wheel slip or sensor noise; robustness to odometry error was tested only through injected ±3 % faults.
+- **Depth-cluster ids are not persistent.** Telemetry must not use them for tracking over time.
