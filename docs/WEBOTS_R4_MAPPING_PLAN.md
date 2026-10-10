@@ -3,8 +3,8 @@
 | | |
 |---|---|
 | Date | 2026-10-10 |
-| Status | **Plan only.** Nothing in R4 is implemented. Awaiting approval (section 15) |
-| Baseline | R3 + test course v2, implemented and verified, **not yet committed** (see decision D0) |
+| Status | **Approved 2026-10-10** with the recommended decisions. R4.1-R4.4 implemented, awaiting review; progress and deviations in [WEBOTS_R4_PROGRESS.md](WEBOTS_R4_PROGRESS.md) |
+| Baseline | R3 + test course v2, committed and pushed as `c425125` (decision D0 done) |
 | Unchanged by R4 | Frozen YOLO11n and its configuration, datasets, historical results, the validated R1/R2 and R3 worlds |
 | Out of scope | Path planning (A*), obstacle avoidance, autonomous motor commands. These belong to R5 |
 
