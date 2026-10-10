@@ -80,10 +80,11 @@ def stop_server(p: subprocess.Popen, port: int = protocol.DEFAULT_PORT) -> None:
         p.kill()
 
 
-def run_webots(world: Path, env: dict, timeout: int = 240, mode: str = "fast") -> tuple[int, str]:
-    """Run one headless Webots instance. On timeout (e.g. a crashed controller leaves Webots running in batch mode) the
-    whole Webots process tree is killed and the run is reported as failed instead of hanging the evaluation."""
-    cmd = [str(WEBOTS), "--batch", f"--mode={mode}", "--minimize", "--stdout", "--stderr", "--port=1242", str(world)]
+def run_webots(world: Path, env: dict, timeout: int = 240, mode: str = "fast", gui: bool = False) -> tuple[int, str]:
+    """Run one headless Webots instance (``gui=True``: a visible window, for the R4.5 monitor screenshots). On timeout
+    (e.g. a crashed controller leaves Webots running in batch mode) the whole Webots process tree is killed and the run
+    is reported as failed instead of hanging the evaluation."""
+    cmd = [str(WEBOTS), *([] if gui else ["--batch", "--minimize"]), f"--mode={mode}", "--stdout", "--stderr", "--port=1242", str(world)]
     p = subprocess.Popen(cmd, env=system_env(env), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     try:
         out, _ = p.communicate(timeout=timeout)

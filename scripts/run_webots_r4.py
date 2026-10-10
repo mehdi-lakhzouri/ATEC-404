@@ -7,6 +7,7 @@
     uv run --project backend --no-sync python scripts/run_webots_r4.py analyse-map <run_dir>
     uv run --project backend --no-sync python scripts/run_webots_r4.py safety                # R4.3: 8 safety / fault scenarios
     uv run --project backend --no-sync python scripts/run_webots_r4.py fusion                # R4.4: fusion vs depth-only, 400 ms, disconnect
+    uv run --project backend --no-sync python scripts/run_webots_r4.py monitor               # R4.5 display: 2 x 2 panels, timing, screenshots
 
 The rover drives the existing scripted course tour (no autonomy). The controller maps with its ESTIMATED pose only; this
 script is the only place where ground truth (course manifest, logged supervisor pose) is used.
@@ -388,7 +389,58 @@ SCENARIOS = {    # name -> (inference mode, ARTEMIS_FAULTS spec or None, extra)
     "fusion_delay400":   ("delay", None, {"delay_ms": 400, "realtime": True}),   # real time: 400 ms wall = 400 ms simulated
     "fusion_disconnect": ("kill", None, {"kill_after_wall_s": 30.0}),
     "fusion_profile":    ("on", None, {"env": {"ARTEMIS_PROFILE": "1"}}),   # hotspots only: profiling inflates timings
+    # R4.5 display part: the 2 x 2 monitoring world (same scene, rover and tour as the course)
+    "monitor":           ("on", None, {"world": "artemis_r4_monitor"}),                   # headless: timing with panels on
+    "monitor_off":       ("on", None, {"world": "artemis_r4_monitor", "env": {"ARTEMIS_MONITOR": "0"}}),   # same, panels off
+    "monitor_noyolo":    ("absent", None, {"world": "artemis_r4_monitor"}),               # YOLO missing: depth map goes on
+    "monitor_reset":     ("on", None, {"world": "artemis_r4_monitor",                       # explicit reset mid-tour
+                                       "env": {"ARTEMIS_MAP_RESET_AT": "150", "ARTEMIS_MONITOR_SAVE_AT": "149,152,170,230"}}),
+    "monitor_gui":       ("on", None, {"world": "artemis_r4_monitor", "gui": True, "realtime": True,
+                                       "screenshots_wall_s": (30, 120, 240, 360, 490),
+                                       "env": {"ARTEMIS_MONITOR_SAVE_AT": "28,118,238,358,488"}}),
 }
+MONITOR_SCENARIOS = ["monitor", "monitor_off", "monitor_noyolo", "monitor_reset", "monitor_gui"]
+
+
+def screen_capture(path: Path, attempts: int = 5) -> bool:
+    """Maximise and raise the Webots window, then save the primary screen (DPI-aware) as PNG - ONLY if the Webots window
+    really is in the foreground at capture time (Windows may refuse to raise it while the user works in another window).
+    Otherwise nothing is written: a capture must never contain another application. GUI evidence only."""
+    ps = r"""
+Add-Type -AssemblyName System.Drawing
+Add-Type @'
+using System; using System.Runtime.InteropServices;
+public class U { [DllImport("user32.dll")] public static extern bool SetProcessDPIAware();
+  [DllImport("user32.dll")] public static extern bool ShowWindow(IntPtr h, int c);
+  [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
+  [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+  [DllImport("user32.dll")] public static extern void keybd_event(byte k, byte s, uint f, UIntPtr e);
+  [DllImport("user32.dll")] public static extern int GetSystemMetrics(int i); }
+'@
+[U]::SetProcessDPIAware() | Out-Null
+$w = Get-Process | Where-Object { $_.ProcessName -like 'webots*' -and $_.MainWindowHandle -ne 0 } | Sort-Object StartTime -Descending | Select-Object -First 1   # the run just started, not another open Webots
+if (-not $w) { exit 2 }
+$h = $w.MainWindowHandle
+for ($i = 0; $i -lt __N__; $i++) {
+  [U]::ShowWindow($h, 3) | Out-Null
+  [U]::keybd_event(0x12, 0, 0, [UIntPtr]::Zero); [U]::keybd_event(0x12, 0, 2, [UIntPtr]::Zero)   # Alt: allows the raise
+  [U]::SetForegroundWindow($h) | Out-Null
+  Start-Sleep -Milliseconds 1200
+  if ([U]::GetForegroundWindow() -eq $h) {
+    $sw = [U]::GetSystemMetrics(0); $sh = [U]::GetSystemMetrics(1)
+    $b = New-Object System.Drawing.Bitmap $sw, $sh
+    $g = [System.Drawing.Graphics]::FromImage($b); $g.CopyFromScreen(0, 0, 0, 0, $b.Size)
+    if ([U]::GetForegroundWindow() -eq $h) { $b.Save('__OUT__', [System.Drawing.Imaging.ImageFormat]::Png); $g.Dispose(); $b.Dispose(); exit 0 }
+    $g.Dispose(); $b.Dispose()
+  }
+}
+exit 3
+""".replace("__OUT__", str(path)).replace("__N__", str(attempts))
+    import subprocess
+    r = subprocess.run(["powershell", "-NoProfile", "-Command", ps], capture_output=True, text=True)
+    return r.returncode == 0 and path.exists()
+
+
 FUSION_SCENARIOS = ["fusion", "depth_only", "fusion_delay400", "fusion_disconnect"]
 SAFETY_SCENARIOS = ["baseline", "yolo_off_start", "yolo_disconnect", "yolo_stale", "depth_faults", "odo_scale_p3", "odo_scale_m3", "odo_heading"]
 
@@ -414,20 +466,36 @@ def run_scenario(root: Path, name: str) -> dict:
             killed["wall_s"] = time.time()
             srv.kill()
         killer = threading.Timer(extra["kill_after_wall_s"], _kill)
+    shots = []
+    if "ARTEMIS_MONITOR_SAVE_AT" in env:
+        env["ARTEMIS_MONITOR_SAVE"] = out / "panels"
+    if extra.get("gui"):
+        def _shoot(ws):
+            p = out / f"screen_{int(ws):04d}s.png"
+            if screen_capture(p):
+                shots.append(p.name)
+        shooters = [threading.Timer(ws, _shoot, (ws,)) for ws in extra.get("screenshots_wall_s", ())]
+    else:
+        shooters = []
     t0 = time.time()
     try:
         if killer:
             killer.start()
-        code, log = r3.run_webots(WB / "worlds" / "artemis_test_course.wbt", env, timeout=900 if extra.get("realtime") else 600,
-                                  mode="realtime" if extra.get("realtime") else "fast")
+        for s_ in shooters:
+            s_.start()
+        code, log = r3.run_webots(WB / "worlds" / f"{extra.get('world', 'artemis_test_course')}.wbt", env,
+                                  timeout=900 if extra.get("realtime") else 600, mode="realtime" if extra.get("realtime") else "fast",
+                                  gui=bool(extra.get("gui")))
     finally:
+        for s_ in shooters:
+            s_.cancel()
         if killer:
             killer.cancel()
         if srv is not None and srv.poll() is None:
             r3.stop_server(srv, PORT)
     (out / "webots.log").write_text(log, encoding="utf-8")
     meta = {"scenario": name, "inference_mode": mode, "faults": faults, "extra": extra, "webots_exit": code,
-            "wall_s": round(time.time() - t0, 1), "server_killed_wall_s": killed.get("wall_s")}
+            "wall_s": round(time.time() - t0, 1), "server_killed_wall_s": killed.get("wall_s"), "screenshots": shots}
     (out / "scenario.json").write_text(json.dumps(meta, indent=1), encoding="utf-8")
     print(f"{name}: exit {code} ({meta['wall_s']} s)", flush=True)
     return meta
@@ -440,7 +508,8 @@ def analyse_safety(root: Path) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("cmd", choices=("measure", "analyse", "map", "analyse-map", "safety-run", "safety", "analyse-safety", "fusion", "analyse-fusion"))
+    ap.add_argument("cmd", choices=("measure", "analyse", "map", "analyse-map", "safety-run", "safety", "analyse-safety", "fusion",
+                                    "analyse-fusion", "monitor"))
     ap.add_argument("--only", nargs="*", help="safety-run / safety: subset of scenarios")
     ap.add_argument("path", nargs="?")
     ap.add_argument("--no-inference", action="store_true")
@@ -467,6 +536,12 @@ def main() -> int:
             run_scenario(root, name)
         from r4_fusion_analysis import analyse_fusion
         res = analyse_fusion(root)
+    elif a.cmd == "monitor":                               # R4.5 display part: panels on/off timing, no YOLO, GUI screenshots
+        root = WB / "output" / f"r4-monitor-{time.strftime('%Y%m%d-%H%M%S')}"
+        for name in (a.only or MONITOR_SCENARIOS):
+            run_scenario(root, name)
+        from r4_monitor_analysis import analyse_monitor
+        res = analyse_monitor(root)
     elif a.cmd == "analyse-fusion":
         from r4_fusion_analysis import analyse_fusion
         res = analyse_fusion(Path(a.path).resolve())

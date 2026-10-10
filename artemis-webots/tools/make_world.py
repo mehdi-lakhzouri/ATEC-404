@@ -8,6 +8,8 @@ Worlds:
   worlds/artemis_moon.wbt            R1/R2 baseline (3 sphere test rocks, original lighting) - unchanged by R3
   worlds/artemis_moon_enhanced.wbt   R3 demo variant: seed-0 field of irregular procedural rocks + low-angle sun
   worlds/eval_s<seed>_<variant>.wbt  R3 evaluation worlds (git-ignored), with a JSON scene manifest each
+  worlds/artemis_r4_monitor.wbt      R4.5 display variant of the test course (low sun): same scene, rover and tour, plus
+                                     the rgb_view / depth_view / map_view displays of the 2 x 2 monitoring layout
 
 Baseline vs enhanced evaluation worlds are PAIRED: same seed -> same rock centres, sizes and camera viewpoints; only rock
 geometry/material and lighting differ. Rock meshes are generated here (no external assets); the rock texture is the
@@ -42,8 +44,11 @@ SENSOR = {"translation": " ".join(f"{v:g}" for v in MOUNT_TRANSLATION), "rotatio
           "fov": SENSOR_FOV_RAD, "width": SENSOR_WIDTH, "height": SENSOR_HEIGHT}
 
 
-def rover(recognition: bool = False, pose: tuple = (0, 0, 0), custom_data: str = "", live_view: bool = False) -> str:
-    view = f"\n    Display {{\n      name \"yolo_view\"\n      width {SENSOR['width']}\n      height {SENSOR['height']}\n    }}" if live_view else ""
+def rover(recognition: bool = False, pose: tuple = (0, 0, 0), custom_data: str = "", live_view: bool = False,
+          monitor: bool = False) -> str:
+    names = (["yolo_view"] if live_view else []) + (["rgb_view", "depth_view", "map_view"] if monitor else [])
+    view = "".join(f"\n    Display {{\n      name \"{n}\"\n      width {SENSOR['width']}\n      height {SENSOR['height']}\n    }}"
+                   for n in names)
     cd = f'  customData "{custom_data}"\n' if custom_data else ""
     rec = "\n      recognition Recognition {\n        maxRange 20\n        frameThickness 0\n        segmentation TRUE\n      }" if recognition else ""
     return f"""DEF ARTEMIS_ROVER Koala {{
@@ -614,17 +619,19 @@ def approach_distance(sx: float, look: float, centre: tuple, obstacles: list, st
     return round(d, 2)
 
 
-def course_viewpoint(rover_xyz: tuple, offset=(-2.2, -1.8, 1.4), look_ahead=(1.0, 0.6, 0.0)) -> str:
+def course_viewpoint(rover_xyz: tuple, offset=(-2.2, -1.8, 1.4), look_ahead=(1.0, 0.6, 0.0), follow_type: str = "") -> str:
     """GUI camera behind and to the right of the rover's start, looking past it toward the zones; it then follows the rover
-    (Webots 'Tracking Shot' keeps this offset). Orientation = yaw about z, then pitch down about y, as an axis-angle."""
+    (Webots 'Tracking Shot' keeps this offset; ``follow_type`` "Mounted Shot" also turns with the rover). Orientation = yaw
+    about z, then pitch down about y, as an axis-angle."""
     pos = [r + o for r, o in zip(rover_xyz, offset)]
     d = [r + a - p for r, a, p in zip(rover_xyz, look_ahead, pos)]
     yaw, pitch = math.atan2(d[1], d[0]), math.atan2(-d[2], math.hypot(d[0], d[1]))
     cy, sy, cp, sp = math.cos(yaw / 2), math.sin(yaw / 2), math.cos(pitch / 2), math.sin(pitch / 2)
     w, v = cy * cp, (-sy * sp, cy * sp, sy * cp)
     n = math.sqrt(sum(c * c for c in v))
+    ft = f'\n  followType "{follow_type}"' if follow_type else ""
     return ("Viewpoint {\n  orientation " + " ".join(f"{c / n:.6f}" for c in v) + f" {2 * math.acos(w):.6f}\n"
-            "  position " + " ".join(f"{c:g}" for c in pos) + '\n  follow "artemis_rover"\n}')
+            "  position " + " ".join(f"{c:g}" for c in pos) + '\n  follow "artemis_rover"' + ft + "\n}")
 
 
 # Overlay layout for the GUI (Webots stacks every overlay at the top-left otherwise): name;visible;pixel size;x;y (fractions)
@@ -633,25 +640,69 @@ COURSE_WBPROJ_OVERLAYS = ("renderingDevicePerspectives: artemis_rover:front_came
                           "renderingDevicePerspectives: artemis_rover:front_depth;1;0.3;0;0.78\n")
 
 
-def write_course_wbproj(name: str) -> None:
-    """Hidden per-world GUI settings file (git-ignored): keep Webots' own panel layout, replace only the overlay entries."""
+# R4.5 monitor world: 2 x 2 grid of equal 720 x 480 panels in the right part of the 3D view; the scene and the rover
+# (MONITOR_VIEWPOINT) stay visible in the left part. The raw camera / range-finder overlays are hidden: the panels show them.
+# Entry format: visible;pixel size (screen pixels per device pixel);x;y (fractions of the 3D view)
+MONITOR_PANEL_SCALE, MONITOR_MARGIN_PX, MONITOR_GAP_PX = 0.8, 10, 26   # Webots pushes apart overlays that (nearly) touch
+MONITOR_VIEW_PX = (1646, 1000)         # 3D view of the maximised window, 1920 x 1200 screen (125 % scaling), physical px
+# Chase camera mounted on the rover (turns with it): behind and to its right, aimed ahead-right, so the rover stays in the
+# lower-left part of the view that the panels leave free
+MONITOR_VIEWPOINT = {"offset": (-3.3, -1.4, 1.8), "look_ahead": (1.5, -1.06, 0.0), "follow_type": "Mounted Shot"}
+
+
+def monitor_wbproj_overlays() -> str:
+    """Panels anchored to the top-right corner of the 3D view, equal size, equal gaps (pixel size is in physical pixels)."""
+    vw, vh = MONITOR_VIEW_PX
+    pw, ph = 720 * MONITOR_PANEL_SCALE, 480 * MONITOR_PANEL_SCALE
+    x0 = vw - MONITOR_MARGIN_PX - 2 * pw - MONITOR_GAP_PX
+    out = ["renderingDevicePerspectives: artemis_rover:front_camera;0;0.5;0;0\n",
+           "renderingDevicePerspectives: artemis_rover:front_depth;0;0.5;0;0\n"]
+    for name, (c, r) in {"rgb_view": (0, 0), "yolo_view": (1, 0), "depth_view": (0, 1), "map_view": (1, 1)}.items():
+        x = (x0 + c * (pw + MONITOR_GAP_PX)) / vw
+        y = (MONITOR_MARGIN_PX + r * (ph + MONITOR_GAP_PX)) / vh
+        out.append(f"renderingDevicePerspectives: artemis_rover:{name};1;{MONITOR_PANEL_SCALE:g};{x:.4f};{y:.4f}\n")
+    return "".join(out)
+
+
+def monitor_wbproj_base() -> list:
+    """GUI layout of the monitor world: the course world's (scene tree kept), with the text-editor and console docks
+    hidden so the 3D view gets the room. Qt saveState: the byte after each dock's name is its flags (1 = visible)."""
+    p = WORLDS / ".artemis_test_course.wbproj"
+    lines = [l for l in p.read_text(encoding="utf-8").splitlines(True) if not l.startswith("renderingDevicePerspectives:")] \
+        if p.exists() else ["Webots Project File version R2025a\n"]
+    hide = {"00540065007800740045006400690074006f0072",                      # "TextEditor"
+            "0043006f006e0073006f006c00650041006c006c0041006c006c"}          # "ConsoleAllAll"
+    out = []
+    for l in lines:
+        if l.startswith("perspectives: "):
+            for h in hide:
+                l = l.replace(h + "01", h + "00")
+        out.append(l)
+    return out
+
+
+def write_course_wbproj(name: str, overlays: str = COURSE_WBPROJ_OVERLAYS, base: list | None = None) -> None:
+    """Hidden per-world GUI settings file (git-ignored): keep Webots' own panel layout, replace only the overlay entries
+    (``base``: a full layout to write instead, e.g. the monitor world's)."""
     p = WORLDS / f".{name}.wbproj"
-    keep = [l for l in p.read_text(encoding="utf-8").splitlines(True) if not l.startswith("renderingDevicePerspectives:")] if p.exists() \
+    keep = base if base is not None else \
+        [l for l in p.read_text(encoding="utf-8").splitlines(True) if not l.startswith("renderingDevicePerspectives:")] if p.exists() \
         else ["Webots Project File version R2025a\n"]
-    data = ("".join(keep) + COURSE_WBPROJ_OVERLAYS).encode("utf-8")
+    data = ("".join(keep) + overlays).encode("utf-8")
     with open(p, "r+b" if p.exists() else "wb") as f:     # Webots marks the file hidden: Windows refuses mode "w" on it
         f.write(data)
         f.truncate()
 
 
-def build_test_course(webots_home: str, lighting: str = "lowsun", recognition: bool = True) -> tuple[str, dict]:
+def build_test_course(webots_home: str, lighting: str = "lowsun", recognition: bool = True, monitor: bool = False) -> tuple[str, dict]:
     lay = course_layout() if course_assets_available() else None
     if lay is None:
         raise SystemExit("Poly Haven assets missing: run artemis-webots/tools/fetch_polyhaven.py first")
     info = ('    "Artemis-X test course v2: nine zones (isolated, small scatter, large boulder, occlusion/cluster, non-rock distractors,"\n'
             f'    "shadowed, craters, boulder field, half-buried) - Poly Haven CC0 rocks on cratered regolith terrain, {SUN[lighting][1]}."')
     head = lunar_lighting(lower_sample_ground(sample_head(webots_home, f"Artemis-X test course ({lighting})", info)), SUN[lighting][0])
-    head = re.sub(r"Viewpoint \{\n.*?\n\}", course_viewpoint((0.0, LANE_Y, 0.0)), head, count=1, flags=re.S)
+    vp = course_viewpoint((0.0, LANE_Y, 0.0), **MONITOR_VIEWPOINT) if monitor else course_viewpoint((0.0, LANE_Y, 0.0))
+    head = re.sub(r"Viewpoint \{\n.*?\n\}", vp, head, count=1, flags=re.S)
     nodes = [terrain_node()]
     man = {"seed": "course", "variant": "test_course" if lighting == "lowsun" else f"test_course_{lighting}", "lighting_variant": lighting, "style": "polyhaven", "camera": _camera_meta(),
            "viewpoints": lay["viewpoints"], "lighting": SUN[lighting][1] + ", HDR fill 0.15, shadows", "rocks": [], "distractors": [],
@@ -666,7 +717,7 @@ def build_test_course(webots_home: str, lighting: str = "lowsun", recognition: b
         nodes.append(distractor_node(d))
         man["distractors"].append(d)
     plan = json.dumps(lay["tour"], separators=(",", ":")).replace('"', '\\"')
-    return head + rover(recognition, (0, LANE_Y, 0), custom_data=plan, live_view=True) + "".join(nodes), man
+    return head + rover(recognition, (0, LANE_Y, 0), custom_data=plan, live_view=True, monitor=monitor) + "".join(nodes), man
 
 
 def main() -> None:
@@ -703,6 +754,10 @@ def main() -> None:
             write_course_wbproj(name)
             print(f"wrote artemis-webots/worlds/{name}.wbt ({len(man['rocks'])} rocks, {len(man['distractors'])} distractors, "
                   f"{len(man['craters'])} craters, {len(man['tour']['stops'])} tour stops)")
+        text, _ = build_test_course(a.webots_home, "lowsun", recognition=True, monitor=True)
+        (WORLDS / "artemis_r4_monitor.wbt").write_text(text, encoding="utf-8", newline="\n")
+        write_course_wbproj("artemis_r4_monitor", monitor_wbproj_overlays(), monitor_wbproj_base())
+        print("wrote artemis-webots/worlds/artemis_r4_monitor.wbt (R4.5 2 x 2 monitoring layout; manifest: artemis_test_course.json)")
 
 
 if __name__ == "__main__":

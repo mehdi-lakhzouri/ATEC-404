@@ -20,20 +20,24 @@ from .projection import CameraModel, localize
 
 def draw_detections(display, rgb: bytes, w: int, h: int, dets: list, frame_id: int, latency_ms: float, encoding: str = "rgb8") -> None:
     """Paint the analysed frame (not the newest one) with its YOLO boxes: magenta = depth-localised, orange = no valid depth."""
-    img = display.imageNew(rgb, display.BGRA if encoding == "bgra8" else display.RGB, w, h)
-    display.imagePaste(img, 0, 0, False)
-    display.imageDelete(img)
+    from .monitor import CHAR_W, TITLE_H, paste_image, title_bar, use_font
+    paste_image(display, rgb, display.BGRA if encoding == "bgra8" else display.RGB, w, h, 0, 0)
+    use_font(display)                                                # once per display: see monitor.FONT
     for d in dets:
         x0, y0, x1, y1 = (int(round(v)) for v in d["xyxy"])
-        display.setColor(0xFF00FF if d.get("valid") else 0xFFA000)
+        col = 0xFF00FF if d.get("valid") else 0xFFA000
+        display.setColor(col)
         for k in (0, 1):                                            # 2 px outline
             display.drawRectangle(x0 - k, y0 - k, max(1, x1 - x0 + 2 * k), max(1, y1 - y0 + 2 * k))
-        lbl = f"rock {d['conf']:.2f}" + (f" {d['range_m']:.1f}m" if d.get("valid") else " no depth")
-        display.drawText(lbl, x0, max(0, y0 - 11))
-    display.setColor(0x000000)
-    display.fillRectangle(0, 0, w, 14)
-    display.setColor(0xFFFFFF)
-    display.drawText(f"YOLO11n (frozen) | frame {frame_id} | {len(dets)} rock(s) | {latency_ms:.0f} ms", 3, 3)
+        lbl = f"rock {d['conf']:.2f}" + (f"  {d['range_m']:.1f} m" if d.get("valid") else "  no depth")
+        ly = y0 - 20 if y0 - 20 >= TITLE_H else y1 + 2               # label above the box, below it if it would hit the bar
+        display.setAlpha(0.75)
+        display.setColor(0x081016)
+        display.fillRectangle(x0 - 1, ly, CHAR_W * len(lbl) + 6, 19)     # dark backing keeps labels readable on bright regolith
+        display.setAlpha(1.0)
+        display.setColor(col)
+        display.drawText(lbl, x0 + 2, ly + 1)
+    title_bar(display, "AI DETECTION", f"frame {frame_id}  {len(dets)} rocks  {latency_ms:.0f} ms")
 
 
 class InferenceLink:

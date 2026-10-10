@@ -61,3 +61,67 @@ def start():
 
 def dump(prof, out_dir: Path):
     return prof.dump(out_dir) if prof is not None else None
+
+
+class MemTrace:
+    """Opt-in memory trace (ARTEMIS_MEMTRACE=1, or =tracemalloc for Python allocation totals too): every ``every_s`` of
+    simulation time one JSON line with resident and private (commit) memory, GC generation counts and caller-supplied
+    counters, flushed immediately so a crashing run still leaves its trace."""
+
+    def __init__(self, path: Path, every_s: float = 5.0, tracemalloc_on: bool = False):
+        self.f = path.open("w", encoding="utf-8")
+        self.every, self.next_t = every_s, 0.0
+        self.tm = tracemalloc_on
+        if self.tm:
+            import tracemalloc
+            tracemalloc.start(1)
+
+    @staticmethod
+    def _mem() -> dict:
+        try:
+            import ctypes
+            from ctypes import wintypes
+
+            class PMC(ctypes.Structure):
+                _fields_ = [("cb", wintypes.DWORD), ("PageFaultCount", wintypes.DWORD)] + [
+                    (f, ctypes.c_size_t) for f in ("PeakWorkingSetSize", "WorkingSetSize", "QuotaPeakPagedPoolUsage", "QuotaPagedPoolUsage",
+                                                   "QuotaPeakNonPagedPoolUsage", "QuotaNonPagedPoolUsage", "PagefileUsage", "PeakPagefileUsage")]
+            c = PMC()
+            c.cb = ctypes.sizeof(PMC)
+            k32 = ctypes.windll.kernel32
+            k32.GetCurrentProcess.restype = wintypes.HANDLE
+            f = ctypes.windll.psapi.GetProcessMemoryInfo
+            f.argtypes = [wintypes.HANDLE, ctypes.POINTER(PMC), wintypes.DWORD]
+            if f(k32.GetCurrentProcess(), ctypes.byref(c), c.cb):
+                mb = 2 ** 20
+                return {"rss_mb": round(c.WorkingSetSize / mb, 1), "private_mb": round(c.PagefileUsage / mb, 1),
+                        "peak_private_mb": round(c.PeakPagefileUsage / mb, 1)}
+        except (AttributeError, OSError):
+            pass
+        return {}
+
+    def tick(self, t: float, extra=None) -> None:
+        if t < self.next_t:
+            return
+        self.next_t = t + self.every
+        rec = {"t": round(t, 2), "wall": round(time.time(), 2), **self._mem(), "gc_count": gc.get_count(),
+               "gc_enabled": gc.isenabled(), "gc_objects": len(gc.get_objects())}
+        if self.tm:
+            import tracemalloc
+            cur, peak = tracemalloc.get_traced_memory()
+            rec["py_alloc_mb"], rec["py_peak_mb"] = round(cur / 2 ** 20, 1), round(peak / 2 ** 20, 1)
+        if extra is not None:
+            rec.update(extra() if callable(extra) else extra)
+        self.f.write(json.dumps(rec) + "\n")
+        self.f.flush()
+
+    def close(self) -> None:
+        self.f.close()
+
+
+def memtrace(out_dir: Path):
+    v = os.environ.get("ARTEMIS_MEMTRACE")
+    if not v:
+        return None
+    out_dir.mkdir(parents=True, exist_ok=True)
+    return MemTrace(out_dir / "memtrace.jsonl", tracemalloc_on=(v == "tracemalloc"))

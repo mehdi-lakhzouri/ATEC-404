@@ -80,21 +80,30 @@ def _pose_and_mapper(sensors, out_dir: Path, enabled_default: bool, want_rgb: bo
     if not on or sensors.camera is None or sensors.depth is None:
         return est, None
     from .mapping.mapper import Mapper
-    return est, Mapper(sensors, out_dir / "mapping", estimator=est, want_rgb=want_rgb, faults=faults)
+    cfg = None
+    if os.environ.get("ARTEMIS_GC_MANAGED") == "0":    # diagnostics only: Python's automatic GC instead of idle-step GC
+        from .mapping.config import MappingConfig
+        cfg = MappingConfig(gc_managed=False)
+    return est, Mapper(sensors, out_dir / "mapping", cfg=cfg, estimator=est, want_rgb=want_rgb, faults=faults)
 
 
-def _perception_tick(t: float, mapper, link, pose_now, gt: dict | None) -> None:
+def _perception_tick(t: float, mapper, link, pose_now, gt: dict | None, monitor=None) -> None:
     """One step of perception: a mapping cycle when due (it captures the frame), then the inference link, which submits
-    that same frame with the pose at its sample time, or only polls for results. Ground truth is passed for logging only."""
+    that same frame with the pose at its sample time, or only polls for results. Ground truth is passed for logging only.
+    The GUI monitor (R4.5 display part) only ever works on idle steps, never on a mapping step."""
     frame = pose_at = None
     if mapper is not None:
         mapper.set_inference_status(link.health_status(t) if link is not None else {"enabled": False})
         if mapper.due(t):
             frame, pose_at = mapper.cycle(t, gt)       # capture + scan
+            if monitor is not None:
+                monitor.on_frame(frame)
         elif mapper.pending is not None:
             mapper.integrate_pending()                 # grid update of the previous scan, one step later
         else:
             mapper.idle_step(t)                        # no mapping work this step: scheduled garbage collection
+            if monitor is not None:
+                monitor.tick(t)                        # one bounded chunk of panel rendering
     if link is not None:
         if mapper is not None:
             link.tick(t, pose_at.to_dict() if pose_at is not None else None, gt, frame=frame,
@@ -299,12 +308,20 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
     link = None
     if client is not None and sensors.camera is not None and sensors.depth is not None:
         from .perception import InferenceLink
-        link = InferenceLink(sensors, client, out_dir / "inference", display=find_device(robot, "yolo_view"))
+        ai_panel = "ai" in os.environ.get("ARTEMIS_MONITOR_PANELS", "ai")   # diagnostics: panel subsets
+        link = InferenceLink(sensors, client, out_dir / "inference", display=find_device(robot, "yolo_view") if ai_panel else None)
     moves = drive.tour_moves(plan["stops"])
     est, mapper = _pose_and_mapper(sensors, out_dir, enabled_default=True, want_rgb=link is not None)
     if mapper is not None and link is not None:
         link.next_t = math.inf                         # the mapper owns the capture cadence; the link submits its frames
         link.on_detections = mapper.fuse               # R4.4: fresh YOLO results -> fusion + tracker
+    from .monitor import Monitor
+    monitor = Monitor.create(robot, sensors, mapper)   # GUI panels, only in worlds that have them (R4 monitor world)
+    reset_at = float(os.environ.get("ARTEMIS_MAP_RESET_AT", "inf"))   # validation only: one explicit map reset at this time
+    from . import profiling
+    mt = profiling.memtrace(out_dir)                   # no-op unless ARTEMIS_MEMTRACE is set
+    mt_extra = (lambda: {"cycles": mapper.stats["cycles"] if mapper else None,
+                         "monitor": monitor.counters() if monitor is not None else None})
     odo = est.odo                                      # the tour drives on the same encoder integrator the estimator wraps
     out_dir.mkdir(parents=True, exist_ok=True)
     tele = (out_dir / "telemetry.csv").open("w", newline="", encoding="utf-8")
@@ -355,11 +372,18 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
                     i, start, settle = i + 1, None, 0
             w.writerow([round(t, 4), mv.label, round(applied.left, 3), round(applied.right, 3), round(odo.x, 4), round(odo.y, 4),
                         round(odo.yaw, 4), *[round(gt[k], 4) if k in gt else None for k in ("x", "y", "yaw")]])
-            _perception_tick(t, mapper, link, pose_now, gt)
+            if mapper is not None and t >= reset_at:
+                mapper.reset_map("ARTEMIS_MAP_RESET_AT (validation)")
+                reset_at = math.inf
+            _perception_tick(t, mapper, link, pose_now, gt, monitor)
             work_ms.append((time.perf_counter() - t0w) * 1000)
+            if mt is not None:
+                mt.tick(t, mt_extra)
     finally:
         rover.stop()
         tele.close()
+    if monitor is not None:
+        summary["monitor"] = monitor.finish()
     if mapper is not None:
         summary["mapping"] = mapper.finish()
     prof_summary = profiling.dump(prof, out_dir)
