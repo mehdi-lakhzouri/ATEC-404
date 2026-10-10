@@ -87,7 +87,7 @@ def _pose_and_mapper(sensors, out_dir: Path, enabled_default: bool, want_rgb: bo
     return est, Mapper(sensors, out_dir / "mapping", cfg=cfg, estimator=est, want_rgb=want_rgb, faults=faults)
 
 
-def _perception_tick(t: float, mapper, link, pose_now, gt: dict | None, monitor=None) -> None:
+def _perception_tick(t: float, mapper, link, pose_now, gt: dict | None, monitor=None, telemetry=None) -> None:
     """One step of perception: a mapping cycle when due (it captures the frame), then the inference link, which submits
     that same frame with the pose at its sample time, or only polls for results. Ground truth is passed for logging only.
     The GUI monitor (R4.5 display part) only ever works on idle steps, never on a mapping step."""
@@ -104,6 +104,8 @@ def _perception_tick(t: float, mapper, link, pose_now, gt: dict | None, monitor=
             mapper.idle_step(t)                        # no mapping work this step: scheduled garbage collection
             if monitor is not None:
                 monitor.tick(t)                        # one bounded chunk of panel rendering
+            if telemetry is not None:
+                telemetry.tick(t)                      # R5.2: one adapter job + non-blocking UDP sends
     if link is not None:
         if mapper is not None:
             link.tick(t, pose_at.to_dict() if pose_at is not None else None, gt, frame=frame,
@@ -317,6 +319,8 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
         link.on_detections = mapper.fuse               # R4.4: fresh YOLO results -> fusion + tracker
     from .monitor import Monitor
     monitor = Monitor.create(robot, sensors, mapper)   # GUI panels, only in worlds that have them (R4 monitor world)
+    from ..telemetry.transport import LiveTelemetry
+    telemetry = LiveTelemetry.from_env(mapper)         # R5.2 UDP telemetry, only with ARTEMIS_TELEMETRY=1
     reset_at = float(os.environ.get("ARTEMIS_MAP_RESET_AT", "inf"))   # validation only: one explicit map reset at this time
     from . import profiling
     mt = profiling.memtrace(out_dir)                   # no-op unless ARTEMIS_MEMTRACE is set
@@ -375,7 +379,7 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
             if mapper is not None and t >= reset_at:
                 mapper.reset_map("ARTEMIS_MAP_RESET_AT (validation)")
                 reset_at = math.inf
-            _perception_tick(t, mapper, link, pose_now, gt, monitor)
+            _perception_tick(t, mapper, link, pose_now, gt, monitor, telemetry)
             work_ms.append((time.perf_counter() - t0w) * 1000)
             if mt is not None:
                 mt.tick(t, mt_extra)
@@ -384,6 +388,8 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
         tele.close()
     if monitor is not None:
         summary["monitor"] = monitor.finish()
+    if telemetry is not None:
+        summary["telemetry"] = telemetry.finish(robot.getTime(), out_dir)
     if mapper is not None:
         summary["mapping"] = mapper.finish()
     prof_summary = profiling.dump(prof, out_dir)

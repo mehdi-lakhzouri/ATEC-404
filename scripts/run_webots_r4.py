@@ -401,6 +401,55 @@ SCENARIOS = {    # name -> (inference mode, ARTEMIS_FAULTS spec or None, extra)
                                        "env": {"ARTEMIS_MONITOR_SAVE_AT": "28,118,238,358,488"}}),
 }
 MONITOR_SCENARIOS = ["monitor", "monitor_off", "monitor_noyolo", "monitor_reset", "monitor_gui"]
+# R5.2 live UDP telemetry (course world, YOLO on). The ground receiver runs in THIS process, independent of the controller.
+TELEMETRY_PORT = 5791
+SCENARIOS.update({
+    "telemetry":            ("on", None, {"telemetry": "on"}),
+    "telemetry_restart":    ("on", None, {"telemetry": "restart", "ground_down_wall_s": (15.0, 25.0)}),
+    "telemetry_noreceiver": ("on", None, {"telemetry": "absent"}),
+})
+TELEMETRY_SCENARIOS = ["fusion", "telemetry", "telemetry_restart", "telemetry_noreceiver"]
+
+
+def start_ground(out: Path, mode: str, env: dict) -> dict:
+    """Enable controller telemetry and run a GroundReceiver thread ('on'), none ('absent'), or one that is stopped and
+    restarted on the same port ('restart', wall-clock window from SCENARIOS). Output: ground.jsonl + ground_stats.json."""
+    import threading
+    from artemis_x.telemetry.transport import GroundReceiver
+    env.update({"ARTEMIS_TELEMETRY": "1", "ARTEMIS_TELEMETRY_PORT": TELEMETRY_PORT})
+    stats, stop, threads = [], threading.Event(), []
+    if mode == "absent":
+        return {"stop": lambda: (out / "ground_stats.json").write_text(json.dumps({"mode": mode, "receivers": []}), encoding="utf-8")}
+
+    def serve(down: threading.Event):
+        rx = GroundReceiver("127.0.0.1", TELEMETRY_PORT, out / "ground.jsonl", timeout_s=0.2)
+        while not stop.is_set() and not down.is_set():
+            rx.receive_once()
+        stats.append(rx.close())
+
+    first_down = threading.Event()
+    threads.append(threading.Thread(target=serve, args=(first_down,), daemon=True))
+    threads[0].start()
+    timers = []
+    if mode == "restart":
+        a, b = SCENARIOS["telemetry_restart"][2]["ground_down_wall_s"]
+        def restart():
+            threads[0].join()
+            th = threading.Thread(target=serve, args=(threading.Event(),), daemon=True)
+            threads.append(th)
+            th.start()
+        timers = [threading.Timer(a, first_down.set), threading.Timer(b, restart)]
+        for tm in timers:
+            tm.start()
+
+    def _stop():
+        for tm in timers:
+            tm.cancel()
+        stop.set()
+        for th in list(threads):
+            th.join()
+        (out / "ground_stats.json").write_text(json.dumps({"mode": mode, "receivers": stats}, indent=1), encoding="utf-8")
+    return {"stop": _stop}
 
 
 VALIDATE_MONITOR = ["monitor", "monitor_off", "monitor_noyolo", "monitor_reset"]   # headless (GUI evidence is from R4.5)
@@ -498,6 +547,7 @@ def run_scenario(root: Path, name: str) -> dict:
             srv.kill()
         killer = threading.Timer(extra["kill_after_wall_s"], _kill)
     shots = []
+    ground = start_ground(out, extra["telemetry"], env) if extra.get("telemetry") else None
     if "ARTEMIS_MONITOR_SAVE_AT" in env:
         env["ARTEMIS_MONITOR_SAVE"] = out / "panels"
     if extra.get("gui"):
@@ -524,6 +574,8 @@ def run_scenario(root: Path, name: str) -> dict:
             killer.cancel()
         if srv is not None and srv.poll() is None:
             r3.stop_server(srv, PORT)
+        if ground is not None:
+            ground["stop"]()
     (out / "webots.log").write_text(log, encoding="utf-8")
     meta = {"scenario": name, "inference_mode": mode, "faults": faults, "extra": extra, "webots_exit": code,
             "wall_s": round(time.time() - t0, 1), "server_killed_wall_s": killed.get("wall_s"), "screenshots": shots}
@@ -540,7 +592,7 @@ def analyse_safety(root: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=("measure", "analyse", "map", "analyse-map", "safety-run", "safety", "analyse-safety", "fusion",
-                                    "analyse-fusion", "monitor", "validate"))
+                                    "analyse-fusion", "monitor", "validate", "telemetry"))
     ap.add_argument("--only", nargs="*", help="safety-run / safety: subset of scenarios")
     ap.add_argument("path", nargs="?")
     ap.add_argument("--no-inference", action="store_true")
@@ -567,6 +619,12 @@ def main() -> int:
             run_scenario(root, name)
         from r4_fusion_analysis import analyse_fusion
         res = analyse_fusion(root)
+    elif a.cmd == "telemetry":                             # R5.2: Webots -> UDP -> ground receiver, live
+        root = WB / "output" / f"r5-telemetry-{time.strftime('%Y%m%d-%H%M%S')}"
+        for name in (a.only or TELEMETRY_SCENARIOS):
+            run_scenario(root, name)
+        from r5_telemetry_analysis import analyse_telemetry
+        res = analyse_telemetry(root)
     elif a.cmd == "validate":                              # R4.6: safety + fusion + monitor on the same code, Webots memory sampled
         res = validate(WB / "output" / f"r4-validate-{time.strftime('%Y%m%d-%H%M%S')}")
     elif a.cmd == "monitor":                               # R4.5 display part: panels on/off timing, no YOLO, GUI screenshots
