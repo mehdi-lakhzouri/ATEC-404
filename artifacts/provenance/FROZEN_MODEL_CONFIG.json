@@ -1,0 +1,84 @@
+{
+  "frozen": true,
+  "frozen_at": "2026-10-09T23:04:27",
+  "selected_on": "validation split only (923 images)",
+  "test_split_used": false,
+  "model": {
+    "file": "experiments/task-f/model-selection-001/model/artemis_rock_yolo11n_e1c_s42.pt",
+    "sha256": "413d0481a728a310f5b919d069676ee5ddd2091e81b4b663831e1e977a0752eb",
+    "source_checkpoint": "experiments/task-e/full-training-config-a-200-s42/weights/best.pt",
+    "source_sha256": "413d0481a728a310f5b919d069676ee5ddd2091e81b4b663831e1e977a0752eb",
+    "architecture": "YOLO11n",
+    "params": 2590035,
+    "class_names": {
+      "0": "rock"
+    },
+    "training_run": "E.1c full-training-config-a-200-s42",
+    "ultralytics_best_epoch": 111
+  },
+  "inference": {
+    "imgsz": 736,
+    "conf": 0.2,
+    "nms_iou": 0.6,
+    "max_det": 300,
+    "min_box_area_px2": 50.0,
+    "classes": [
+      0
+    ],
+    "agnostic_nms": false,
+    "input": "native 720x480 render, RGB",
+    "note": "min_box_area is a post-filter applied after Ultralytics predict (boxes < 50 px^2 dropped)"
+  },
+  "evaluation_policy": {
+    "primary": "Primary = REVIEW regions ignored (eval_ignore_regions.json), IoU 0.5, IoA 0.5, 101-pt AP, min_pred_area 50. Sub-threshold PROPOSED ignores reported as secondary only (not approved).",
+    "match_iou": 0.5,
+    "ignore_ioa": 0.5,
+    "ap": "101-point, AP50 and AP50-95 (IoU 0.50:0.95:0.05)",
+    "size_bins_px2": {
+      "small": "<400",
+      "medium": "400-2500",
+      "large": ">=2500"
+    },
+    "ignore_files": [
+      {
+        "file": "dataset/processed/yolo-rock-v1.1/manifests/eval_ignore_regions.json",
+        "sha256": "8468458f5f2158fa685df836d114b10645539040e53c6d20c3fd60b929d2af8b"
+      }
+    ],
+    "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+  },
+  "dataset": {
+    "name": "yolo-rock-v1.1",
+    "status": "PROVISIONAL, NOT FROZEN",
+    "split_manifest_sha256": "3274dcd2290b59946e9a367ac572388d133b5a663da0444666ea7c32b9dd6576"
+  },
+  "selection_rules": {
+    "checkpoint": "Keep best.pt (provisional primary, user decision) unless a comparison candidate exceeds its primary ignore-aware AP50 by more than 0.005 (below that, differences are within single-seed checkpoint-to-checkpoint noise).",
+    "threshold": "Recall-oriented: the LOWEST threshold in the grid whose F1 is within 0.02 of the best F1 on the grid (recall gained at negligible F1 cost; a missed obstacle costs more than a false alarm).",
+    "nms": "Unchanged from the evaluation that produced the candidates: NMS IoU 0.6, max_det 300, imgsz 736, plus min box area 50 px^2.",
+    "evaluation_policy": "Primary = REVIEW regions ignored (eval_ignore_regions.json), IoU 0.5, IoA 0.5, 101-pt AP, min_pred_area 50. Sub-threshold PROPOSED ignores reported as secondary only (not approved)."
+  },
+  "selection_result": {
+    "checkpoint": "best.pt",
+    "candidates_beating_best_by_gt_0.005": {},
+    "f1_max_on_grid": 0.7433,
+    "f1_argmax_conf": 0.25,
+    "conf": 0.2
+  },
+  "val_metrics_at_frozen_config": {
+    "conf": 0.2,
+    "tp": 20021,
+    "fp": 8742,
+    "fn": 5801,
+    "gt": 25822,
+    "precision": 0.6961,
+    "recall": 0.7753,
+    "f1": 0.7336,
+    "f2": 0.7581,
+    "fp_per_image": 9.47
+  },
+  "val_AP": {
+    "AP50": 0.7759,
+    "AP50_95": 0.4315
+  }
+}

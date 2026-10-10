@@ -1,0 +1,33 @@
+{
+  "description": "Descriptive only (no tuning): recall at frozen conf 0.20, PRIMARY policy, for large GT (>=2500 px^2) by position; edge = box within 1 px of the image border",
+  "results": {
+    "val": {
+      "side/top-edge": {
+        "gt": 183,
+        "recall": 0.82
+      },
+      "interior": {
+        "gt": 1060,
+        "recall": 0.806
+      },
+      "bottom-edge": {
+        "gt": 166,
+        "recall": 0.801
+      }
+    },
+    "test": {
+      "interior": {
+        "gt": 989,
+        "recall": 0.792
+      },
+      "side/top-edge": {
+        "gt": 171,
+        "recall": 0.801
+      },
+      "bottom-edge": {
+        "gt": 173,
+        "recall": 0.751
+      }
+    }
+  }
+}

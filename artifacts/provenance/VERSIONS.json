@@ -1,0 +1,80 @@
+{
+  "note": "Content hashes (sha256 of bytes; tree hash = sha256 over sorted relative path + file sha256). mtimes ignored.",
+  "versions": {
+    "curated-dataset-v1": {
+      "status": "ARCHIVED (superseded by v1.1; read-only, unchanged)",
+      "policy_version": "S2-H/1.0",
+      "files": {
+        "annotations/annotations_all.csv": "764eff12245125751ccaee818e8a1bac33e1ccb89f3cd4f90bd1128b714f4a5d",
+        "annotations/rock_valid.csv": "a62688ea448ce59eedd3f3240073c57b6a01c7a0f8c8bfaef84bdd69a74a4e84",
+        "annotations/review_required.csv": "3af784c5dde56fb457a67313238c6d31ff94aa9d69fe63bb00bfd63b89dac44d",
+        "manifests/scenes.csv": "4e6fb30e9eb2211791a67c1bc12d8028d402e1b06c22e6eb1aea8e17af9dfe90",
+        "metadata/policy.json": "e4a759882de9f2f9807a886839c1fb21d9eedc86465460c5a75c1016181688a6",
+        "metadata/counts.json": "9b549835b6ac230227eec0a68c5787076f9255a59a04df59dc05b358640dae91"
+      },
+      "counts": {
+        "REJECTED": 49817,
+        "REVIEW_REQUIRED": 192826,
+        "VALID": 261385
+      }
+    },
+    "curated-dataset-v1.1": {
+      "status": "CURRENT (provisional, not frozen)",
+      "policy_version": "S2-H/1.1",
+      "files": {
+        "annotations/annotations_all.csv": "87213054874f6d1c2d9f94fe4cc785b1444f5408d19cde7bdd415d79cd1452a9",
+        "annotations/rock_valid.csv": "b61e1e60257de5d85272632d704e0875373f2a06aab6a0c77ae9cc4f88d57935",
+        "annotations/review_required.csv": "48ee793b9664c61c4adc3954bd73b819e3d77b8554fa50bea8ed4fee07d0e1bc",
+        "manifests/scenes.csv": "58121e411b8a5f87ad62e19702efbc94ae4ed13caa594b8b37cd267748c9a7b7",
+        "metadata/policy.json": "0996934bbd9ebc2848c6e46a5b8005fad7dcb2ad261ec2878adb68f667141a7d",
+        "metadata/counts.json": "c03aa9598e216dc45f26728704ac70a0e560b4d9b951b0187b4eba4b62afde7b"
+      },
+      "counts": {
+        "REJECTED": 50005,
+        "REVIEW_REQUIRED": 192784,
+        "VALID": 261239
+      }
+    },
+    "yolo-rock-v1": {
+      "status": "ARCHIVED (superseded by v1.1; contained export-time D05 correction)",
+      "built_from": "curated-dataset-v1",
+      "files": {
+        "manifests/split_manifest.csv": "7ff8bec2efc4b5d8192441dca89a42a0b7545e59fd781f16fa354dd3c370853d",
+        "data_A.yaml": "7fa5fd6881c6f7d31705c66d30a17c0e5a7fe5e0d284d8451c0e66b93ac4309c",
+        "data_B.yaml": "72a3113ab39be8edf472845a10b195cd9ffae2f01787c25f452b0004eee0e1a1",
+        "manifests/eval_ignore_regions.json": "7e94a66ac505c40e0d73649a4dd6d3585603c3f5047884dcbfd495e509d0751b"
+      },
+      "labels_tree": {
+        "files": 11096,
+        "content_sha256": "e2a4b406b05e797eb8b55f8ba9a5a7fa060026d908afba00709daf4f034ab3bf"
+      },
+      "images_tree": {
+        "files": 11096,
+        "content_sha256": "01509ce8e67ae7b020bf0072900f6007be65833fcdd726d3acda673bc4eb4f3f"
+      }
+    },
+    "yolo-rock-v1.1": {
+      "status": "CURRENT (provisional, NOT frozen, NOT approved for training)",
+      "built_from": "curated-dataset-v1.1",
+      "files": {
+        "manifests/split_manifest.csv": "3274dcd2290b59946e9a367ac572388d133b5a663da0444666ea7c32b9dd6576",
+        "data_A.yaml": "fc5f0fdcc8fd4cf0ea1dfa18b61e41e9d28ee08467ff05022f3e9fb6c49deb68",
+        "data_B.yaml": "cda93d8dfd3284a06ecf21040574ce16247adf6a4843541c603833dd42db450d",
+        "manifests/eval_ignore_regions.json": "8468458f5f2158fa685df836d114b10645539040e53c6d20c3fd60b929d2af8b",
+        "manifests/eval_ignore_regions_subthreshold_PROPOSED.json": "c47bc89bfe9cbdb4dea3f1686eac34cf7c48e4e5f6934364079fe6ee280c11bc"
+      },
+      "labels_tree": {
+        "files": 11096,
+        "content_sha256": "e2a4b406b05e797eb8b55f8ba9a5a7fa060026d908afba00709daf4f034ab3bf"
+      },
+      "images_tree": {
+        "files": 11096,
+        "content_sha256": "1f58b56fcbfa41c29c1e30f4f5122e517e5846df12f4f317719ca62e7a86ffbb"
+      }
+    }
+  },
+  "identity_checks": {
+    "labels_v1_eq_v1_1": true,
+    "split_manifest_v1_eq_v1_1": false
+  }
+}

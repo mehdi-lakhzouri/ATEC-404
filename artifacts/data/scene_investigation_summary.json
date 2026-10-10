@@ -1,0 +1,122 @@
+{
+  "4138": {
+    "config_B_masked_fraction": "",
+    "review_reasons": {
+      "ambiguous_low_visibility": 30,
+      "low_solidity_possible_merge": 2,
+      "possible_merge_borderline_split": 3
+    },
+    "small_components": null,
+    "split": "val",
+    "status_counts": {
+      "REJECTED": 5,
+      "REVIEW_REQUIRED": 30,
+      "VALID": 14
+    }
+  },
+  "4357": {
+    "config_B_masked_fraction": "",
+    "review_reasons": {
+      "ambiguous_low_visibility": 152,
+      "low_solidity_possible_merge": 18,
+      "mostly_in_shadow": 1,
+      "possible_merge_borderline_split": 14
+    },
+    "small_components": null,
+    "split": "test",
+    "status_counts": {
+      "REJECTED": 26,
+      "REVIEW_REQUIRED": 155,
+      "VALID": 31
+    }
+  },
+  "4465": {
+    "config_B_masked_fraction": "0.0",
+    "review_reasons": {},
+    "small_components": {
+      "25_49": 0,
+      "ge50": 0,
+      "lt25": 0,
+      "max_area": 0,
+      "n": 0
+    },
+    "split": "train",
+    "status_counts": {}
+  },
+  "5311": {
+    "config_B_masked_fraction": "",
+    "review_reasons": {},
+    "small_components": {
+      "25_49": 1,
+      "ge50": 0,
+      "lt25": 1,
+      "max_area": 41,
+      "n": 2
+    },
+    "split": "test",
+    "status_counts": {}
+  },
+  "6352": {
+    "config_B_masked_fraction": "",
+    "review_reasons": {
+      "ambiguous_low_visibility": 16,
+      "csv_box_in_black_shadow": 1,
+      "low_solidity_possible_merge": 2,
+      "mostly_in_shadow": 6,
+      "possible_merge_borderline_split": 7
+    },
+    "small_components": null,
+    "split": "val",
+    "status_counts": {
+      "REJECTED": 36,
+      "REVIEW_REQUIRED": 26,
+      "VALID": 60
+    }
+  },
+  "6864": {
+    "config_B_masked_fraction": "",
+    "review_reasons": {
+      "ambiguous_low_visibility": 67,
+      "low_solidity_possible_merge": 4,
+      "possible_merge_borderline_split": 6
+    },
+    "small_components": null,
+    "split": "val",
+    "status_counts": {
+      "REJECTED": 10,
+      "REVIEW_REQUIRED": 68,
+      "VALID": 8
+    }
+  },
+  "8894": {
+    "config_B_masked_fraction": "0.159988",
+    "review_reasons": {
+      "ambiguous_low_visibility": 60,
+      "low_solidity_possible_merge": 1,
+      "possible_merge_borderline_split": 3
+    },
+    "small_components": null,
+    "split": "train",
+    "status_counts": {
+      "REJECTED": 3,
+      "REVIEW_REQUIRED": 60,
+      "VALID": 10
+    }
+  },
+  "977": {
+    "config_B_masked_fraction": "0.293157",
+    "review_reasons": {
+      "ambiguous_low_visibility": 17,
+      "low_solidity_possible_merge": 6,
+      "mostly_in_shadow": 1,
+      "possible_merge_borderline_split": 4
+    },
+    "small_components": null,
+    "split": "train",
+    "status_counts": {
+      "REJECTED": 27,
+      "REVIEW_REQUIRED": 26,
+      "VALID": 82
+    }
+  }
+}

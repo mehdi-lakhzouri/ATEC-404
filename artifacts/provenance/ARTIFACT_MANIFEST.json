@@ -1,0 +1,576 @@
+{
+  "generated": "2026-10-09T23:34:59",
+  "generator": "scripts/export_artifacts.py",
+  "policy": "No dataset pixels or box coordinates are published (redistribution licence not confirmed). COPY = byte-identical; SANITISED = absolute local paths replaced by <repo>/<user-home>.",
+  "files": [
+    {
+      "path": "artifacts/provenance/VERSIONS.json",
+      "mode": "COPY",
+      "source": "dataset/processed/VERSIONS.json",
+      "source_sha256": "da2333f388f38de109dbf80ed3f83645828e172ddd541465fc9c7f46d84778d1",
+      "sha256": "da2333f388f38de109dbf80ed3f83645828e172ddd541465fc9c7f46d84778d1",
+      "bytes": 3942
+    },
+    {
+      "path": "artifacts/provenance/FROZEN_MODEL_CONFIG.json",
+      "mode": "COPY",
+      "source": "experiments/task-f/model-selection-001/FROZEN_MODEL_CONFIG.json",
+      "source_sha256": "efdc5802cbc3a4f0aad75eb34cc7d4bae6ae0d8010bfb9303defc6da63b44bf4",
+      "sha256": "efdc5802cbc3a4f0aad75eb34cc7d4bae6ae0d8010bfb9303defc6da63b44bf4",
+      "bytes": 3259
+    },
+    {
+      "path": "artifacts/provenance/TEST_RUN_LOCK.json",
+      "mode": "COPY",
+      "source": "experiments/task-f/test-evaluation-001/TEST_RUN_LOCK.json",
+      "source_sha256": "8bf83421e2d2dde546e82242fbb8ac8ea154c85555c2dfe197dc84e160567333",
+      "sha256": "8bf83421e2d2dde546e82242fbb8ac8ea154c85555c2dfe197dc84e160567333",
+      "bytes": 327
+    },
+    {
+      "path": "artifacts/provenance/model_selection_CHECKSUMS.sha256",
+      "mode": "COPY",
+      "source": "experiments/task-f/model-selection-001/CHECKSUMS.sha256",
+      "source_sha256": "7dd84aa90fa24b40a12ba7bc7ec678a30382cdc772c0ed3e5055097b2b7611c5",
+      "sha256": "7dd84aa90fa24b40a12ba7bc7ec678a30382cdc772c0ed3e5055097b2b7611c5",
+      "bytes": 2992
+    },
+    {
+      "path": "artifacts/provenance/test_evaluation_CHECKSUMS.sha256",
+      "mode": "COPY",
+      "source": "experiments/task-f/test-evaluation-001/CHECKSUMS.sha256",
+      "source_sha256": "20675ad362ef58a06090c087f0503251f41eb16452b2bd69cf924d3a67de8c81",
+      "sha256": "20675ad362ef58a06090c087f0503251f41eb16452b2bd69cf924d3a67de8c81",
+      "bytes": 99620
+    },
+    {
+      "path": "artifacts/provenance/task_e_experiments.yaml",
+      "mode": "COPY",
+      "source": "backend/training/configs/task_e_experiments.yaml",
+      "source_sha256": "c3e0da8fddb854a58466545148092e7fd8f9f637a7a9a886e41784c3d92f5484",
+      "sha256": "c3e0da8fddb854a58466545148092e7fd8f9f637a7a9a886e41784c3d92f5484",
+      "bytes": 3450
+    },
+    {
+      "path": "data/manifests/split_manifest.csv",
+      "mode": "COPY",
+      "source": "dataset/processed/yolo-rock-v1.1/manifests/split_manifest.csv",
+      "source_sha256": "3274dcd2290b59946e9a367ac572388d133b5a663da0444666ea7c32b9dd6576",
+      "sha256": "3274dcd2290b59946e9a367ac572388d133b5a663da0444666ea7c32b9dd6576",
+      "bytes": 2021233
+    },
+    {
+      "path": "artifacts/data/artificial_lunar_analysis.json",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/artificial_lunar_analysis.json",
+      "source_sha256": "4bae581ece2b4eb250a8de057240422bdbb7c43dc98b42d12384dc02d22d6ecf",
+      "sha256": "4bae581ece2b4eb250a8de057240422bdbb7c43dc98b42d12384dc02d22d6ecf",
+      "bytes": 50289
+    },
+    {
+      "path": "artifacts/data/data_quality_report.json",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/data_quality_report.json",
+      "source_sha256": "ba7153d33eab5ae663bbf10f409f98f905f89b76474f112d5a281ecbc7ceedc4",
+      "sha256": "ba7153d33eab5ae663bbf10f409f98f905f89b76474f112d5a281ecbc7ceedc4",
+      "bytes": 26698
+    },
+    {
+      "path": "artifacts/data/dataset_inventory.json",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/dataset_inventory.json",
+      "source_sha256": "89a52aae2afaac4652a44bfc3c2613bd2e03e7e675c77573490907829927cc2d",
+      "sha256": "89a52aae2afaac4652a44bfc3c2613bd2e03e7e675c77573490907829927cc2d",
+      "bytes": 15493
+    },
+    {
+      "path": "artifacts/data/strategy_decision.json",
+      "mode": "COPY",
+      "source": "experiments/annotation-validation/strategy_decision.json",
+      "source_sha256": "996c517f740dd02e13cf6d9fd467ddab01efc3b82389d743f5d5d783d3a2e9d2",
+      "sha256": "996c517f740dd02e13cf6d9fd467ddab01efc3b82389d743f5d5d783d3a2e9d2",
+      "bytes": 6715
+    },
+    {
+      "path": "artifacts/data/strategy_metrics.json",
+      "mode": "COPY",
+      "source": "experiments/annotation-validation/strategy_metrics.json",
+      "source_sha256": "9a38b82c4bbebf547fbc0f409ad2c10b4ba65c10514a38d4334583203581cd7f",
+      "sha256": "9a38b82c4bbebf547fbc0f409ad2c10b4ba65c10514a38d4334583203581cd7f",
+      "bytes": 54619
+    },
+    {
+      "path": "artifacts/data/annotation_quality_findings.json",
+      "mode": "COPY",
+      "source": "experiments/annotation-validation/quality_findings.json",
+      "source_sha256": "a4d8089587861002a26c482ba81621ddd17d1d61137af2934489903c127837f1",
+      "sha256": "a4d8089587861002a26c482ba81621ddd17d1d61137af2934489903c127837f1",
+      "bytes": 3934
+    },
+    {
+      "path": "artifacts/data/cleaning_quality_metrics_v1.1.json",
+      "mode": "COPY",
+      "source": "experiments/dataset-cleaning-v1.1/quality_metrics.json",
+      "source_sha256": "a14fff2a8a9091bebeaf1581e7fc56161a0122a4cbe3c835e43aa8e3e6ac7bed",
+      "sha256": "a14fff2a8a9091bebeaf1581e7fc56161a0122a4cbe3c835e43aa8e3e6ac7bed",
+      "bytes": 91344
+    },
+    {
+      "path": "artifacts/data/split_statistics_v1.1.json",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset-v1.1/split_statistics.json",
+      "source_sha256": "9be8f92355364f054c3089631019c14428a489f95bbb998c9430b9ee25e1512b",
+      "sha256": "9be8f92355364f054c3089631019c14428a489f95bbb998c9430b9ee25e1512b",
+      "bytes": 14654
+    },
+    {
+      "path": "artifacts/data/annotation_distributions_v1.1.json",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset-v1.1/annotation_distributions.json",
+      "source_sha256": "25c48462c8bf90996c6c64dfb28808d791fe12140463ac9343b977aa2856d8f4",
+      "sha256": "25c48462c8bf90996c6c64dfb28808d791fe12140463ac9343b977aa2856d8f4",
+      "bytes": 4215
+    },
+    {
+      "path": "artifacts/data/dataset_status_v1.1.json",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset-v1.1/dataset_status.json",
+      "source_sha256": "b47f7fdd6397274781560b963e0ea42451a54827bf0fed9bd94a41a5d9adf299",
+      "sha256": "b47f7fdd6397274781560b963e0ea42451a54827bf0fed9bd94a41a5d9adf299",
+      "bytes": 4073
+    },
+    {
+      "path": "artifacts/data/task_c_validation_v1.1.json",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset-v1.1/task_c_validation.json",
+      "source_sha256": "f768c93465e133772eb1a80eda52033ac71962b37ffe62fd8e6e02c40e33278a",
+      "sha256": "f768c93465e133772eb1a80eda52033ac71962b37ffe62fd8e6e02c40e33278a",
+      "bytes": 6937
+    },
+    {
+      "path": "artifacts/data/masking_audit_summary.json",
+      "mode": "COPY",
+      "source": "experiments/remediation/masking_audit/masking_audit_summary.json",
+      "source_sha256": "c24661868c59f2dc4efdeecbba6905b14a04371a04338338f67845b0ae69a041",
+      "sha256": "c24661868c59f2dc4efdeecbba6905b14a04371a04338338f67845b0ae69a041",
+      "bytes": 4095
+    },
+    {
+      "path": "artifacts/data/threshold_study.json",
+      "mode": "COPY",
+      "source": "experiments/remediation/threshold_study/threshold_study.json",
+      "source_sha256": "1cc25b12a0ebf46e20427a8634d8bc17368a81c66b454d5c0c8f6ec9adecc872",
+      "sha256": "1cc25b12a0ebf46e20427a8634d8bc17368a81c66b454d5c0c8f6ec9adecc872",
+      "bytes": 27204
+    },
+    {
+      "path": "artifacts/data/scene_investigation_summary.json",
+      "mode": "COPY",
+      "source": "experiments/remediation/scene_investigation/summary.json",
+      "source_sha256": "c459c69b0e9613bc78d57b30308da930fea5539c8beda5ab95ce9b0d4bddd6bd",
+      "sha256": "c459c69b0e9613bc78d57b30308da930fea5539c8beda5ab95ce9b0d4bddd6bd",
+      "bytes": 2755
+    },
+    {
+      "path": "artifacts/training/results.csv",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/results.csv",
+      "source_sha256": "25c030b08c79d59a28b7af6cea9bcb1d050d60c39d460dd7a543bbcae81dca62",
+      "sha256": "25c030b08c79d59a28b7af6cea9bcb1d050d60c39d460dd7a543bbcae81dca62",
+      "bytes": 25053
+    },
+    {
+      "path": "artifacts/training/per_epoch_performance.csv",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/analysis/per_epoch_performance.csv",
+      "source_sha256": "3802db8d46e0d95f35ed2ea2fe49aa8692007fa75d7995b13c6f230ab27c7eab",
+      "sha256": "3802db8d46e0d95f35ed2ea2fe49aa8692007fa75d7995b13c6f230ab27c7eab",
+      "bytes": 15175
+    },
+    {
+      "path": "artifacts/training/e1c_summary.json",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/analysis/summary.json",
+      "source_sha256": "01f8e3e3e43c9a50c5cf9116d78fb22790554aaf4859d1e21365d2d3493dcc3d",
+      "sha256": "01f8e3e3e43c9a50c5cf9116d78fb22790554aaf4859d1e21365d2d3493dcc3d",
+      "bytes": 5940
+    },
+    {
+      "path": "artifacts/training/checkpoint_inventory.json",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/checkpoint_inventory.json",
+      "source_sha256": "c7926443830fb20aa073d5ee6b56ed0e6784d903c6c948749462df70192c4cd0",
+      "sha256": "c7926443830fb20aa073d5ee6b56ed0e6784d903c6c948749462df70192c4cd0",
+      "bytes": 31324
+    },
+    {
+      "path": "artifacts/evaluation/ignore_aware_val_22_checkpoints.json",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/ignore_aware_val.json",
+      "source_sha256": "86284998e632b1b7f1b42769ca69ab4c14b252fe2e50b3c3b33fc6a462b8326c",
+      "sha256": "86284998e632b1b7f1b42769ca69ab4c14b252fe2e50b3c3b33fc6a462b8326c",
+      "bytes": 67536
+    },
+    {
+      "path": "artifacts/evaluation/selection_analysis.json",
+      "mode": "COPY",
+      "source": "experiments/task-f/model-selection-001/selection_analysis.json",
+      "source_sha256": "012b55386f4a742b70b3805c85abb02031cdce1f1725af0d0856898611bc0e06",
+      "sha256": "012b55386f4a742b70b3805c85abb02031cdce1f1725af0d0856898611bc0e06",
+      "bytes": 20746
+    },
+    {
+      "path": "artifacts/evaluation/inference_check.json",
+      "mode": "COPY",
+      "source": "experiments/task-f/model-selection-001/inference_check.json",
+      "source_sha256": "fc1ed987d65d517329feed37d7f59749eb178298c8feab574cb4bb918bcd0d48",
+      "sha256": "fc1ed987d65d517329feed37d7f59749eb178298c8feab574cb4bb918bcd0d48",
+      "bytes": 6525
+    },
+    {
+      "path": "artifacts/evaluation/test_results.json",
+      "mode": "COPY",
+      "source": "experiments/task-f/test-evaluation-001/test_results.json",
+      "source_sha256": "a3d6d6088fc8fa2e60db4a89b42e016341ad19163f2e2c91e558680357bce2c8",
+      "sha256": "a3d6d6088fc8fa2e60db4a89b42e016341ad19163f2e2c91e558680357bce2c8",
+      "bytes": 9425
+    },
+    {
+      "path": "artifacts/evaluation/large_rock_edge_analysis.json",
+      "mode": "COPY",
+      "source": "experiments/task-f/test-evaluation-001/large_rock_edge_analysis.json",
+      "source_sha256": "dff0e99712c27a52fe0e3cdb905aabb4a38b52f41ea733f98b702a16b983ed50",
+      "sha256": "dff0e99712c27a52fe0e3cdb905aabb4a38b52f41ea733f98b702a16b983ed50",
+      "bytes": 717
+    },
+    {
+      "path": "artifacts/figures/a_bbox_distributions.png",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/figures/al_bbox_distributions.png",
+      "source_sha256": "d77456540d60d79b9fbf60618eb06a66994fe2b420bc20d5977c788dca59adef",
+      "sha256": "d77456540d60d79b9fbf60618eb06a66994fe2b420bc20d5977c788dca59adef",
+      "bytes": 54638
+    },
+    {
+      "path": "artifacts/figures/a_objects_per_frame.png",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/figures/al_objects_per_frame.png",
+      "source_sha256": "106f724de832e53007194a920dd420c27485ce2896dedd3f5d0558f3dcef312d",
+      "sha256": "106f724de832e53007194a920dd420c27485ce2896dedd3f5d0558f3dcef312d",
+      "bytes": 43540
+    },
+    {
+      "path": "artifacts/figures/a_render_intensity_and_sky.png",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/figures/al_render_intensity_and_sky.png",
+      "source_sha256": "e41efa4139801fbc05aa63bd33ab0404b0fc004230d632186be1c8f42aa1cc73",
+      "sha256": "e41efa4139801fbc05aa63bd33ab0404b0fc004230d632186be1c8f42aa1cc73",
+      "bytes": 30735
+    },
+    {
+      "path": "artifacts/figures/a_anomaly_list_metrics.png",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/figures/al_anomaly_list_metrics.png",
+      "source_sha256": "3c4cca3950f2fabadad70f864ac098a5eeb70a92afe41485b71e77a396db1662",
+      "sha256": "3c4cca3950f2fabadad70f864ac098a5eeb70a92afe41485b71e77a396db1662",
+      "bytes": 72611
+    },
+    {
+      "path": "artifacts/figures/b_s1_vs_s2_counts.png",
+      "mode": "COPY",
+      "source": "experiments/annotation-validation/figures/s1_vs_s2_counts.png",
+      "source_sha256": "533572640a052f561f874da09dc13f2859f2c7247cc57076659fc8d54c4c856d",
+      "sha256": "533572640a052f561f874da09dc13f2859f2c7247cc57076659fc8d54c4c856d",
+      "bytes": 72321
+    },
+    {
+      "path": "artifacts/figures/d_split_strata.png",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset-v1.1/figures/split_strata.png",
+      "source_sha256": "85cadee22e7efc4c29462833af8abdfa071d3cc53a4eda319e032e2f36ac0edb",
+      "sha256": "85cadee22e7efc4c29462833af8abdfa071d3cc53a4eda319e032e2f36ac0edb",
+      "bytes": 38405
+    },
+    {
+      "path": "artifacts/figures/d_split_box_distributions.png",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset-v1.1/figures/split_box_distributions.png",
+      "source_sha256": "46eefe5bd2eb3cfb20f9e475d4f17d2fcdfb107366529bb9d20a19c225e3726b",
+      "sha256": "46eefe5bd2eb3cfb20f9e475d4f17d2fcdfb107366529bb9d20a19c225e3726b",
+      "bytes": 39143
+    },
+    {
+      "path": "artifacts/figures/d2_threshold_curves.png",
+      "mode": "COPY",
+      "source": "experiments/remediation/threshold_study/threshold_curves.png",
+      "source_sha256": "b144283bf79654ba3607d5c8644b0785f912114262d974e61dd179b3d7874b26",
+      "sha256": "b144283bf79654ba3607d5c8644b0785f912114262d974e61dd179b3d7874b26",
+      "bytes": 102504
+    },
+    {
+      "path": "artifacts/figures/e_training_curves.png",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/analysis/training_curves.png",
+      "source_sha256": "07cb758bff6677ed571a840eaa9c5e0c6c0c102efc82246425ceda0d5556b20a",
+      "sha256": "07cb758bff6677ed571a840eaa9c5e0c6c0c102efc82246425ceda0d5556b20a",
+      "bytes": 227378
+    },
+    {
+      "path": "artifacts/figures/e_hardware_telemetry.png",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/analysis/hardware_telemetry.png",
+      "source_sha256": "a2b5bdc22441ff5e23a07f19f8d38649f9296f6384d0a79764bd75c1f10f40c1",
+      "sha256": "a2b5bdc22441ff5e23a07f19f8d38649f9296f6384d0a79764bd75c1f10f40c1",
+      "bytes": 480573
+    },
+    {
+      "path": "artifacts/figures/e_epoch_performance.png",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/analysis/epoch_performance.png",
+      "source_sha256": "eb8e1637cd1c7557a8199c22b846e1611c0fb3995c5be25adfa1f28952b3f00c",
+      "sha256": "eb8e1637cd1c7557a8199c22b846e1611c0fb3995c5be25adfa1f28952b3f00c",
+      "bytes": 133832
+    },
+    {
+      "path": "artifacts/figures/f_threshold_analysis.png",
+      "mode": "COPY",
+      "source": "experiments/task-f/model-selection-001/threshold_analysis.png",
+      "source_sha256": "cfcbed79c0c36823740e7f398445c4e93118635b2f552a0c24d33f3bcde2b65d",
+      "sha256": "cfcbed79c0c36823740e7f398445c4e93118635b2f552a0c24d33f3bcde2b65d",
+      "bytes": 159140
+    },
+    {
+      "path": "artifacts/figures/f_test_evaluation.png",
+      "mode": "COPY",
+      "source": "experiments/task-f/test-evaluation-001/test_evaluation_figures.png",
+      "source_sha256": "2f06ad17c621d1897b0ccb4cd62d733a69ae14ffcce32d1dff2d9e095f104b0f",
+      "sha256": "2f06ad17c621d1897b0ccb4cd62d733a69ae14ffcce32d1dff2d9e095f104b0f",
+      "bytes": 73299
+    },
+    {
+      "path": "artifacts/figures/f_test_confusion_analysis.png",
+      "mode": "COPY",
+      "source": "experiments/task-f/test-evaluation-001/test_confusion_analysis.png",
+      "source_sha256": "23f011c3456167b5ffad28f9db1c682b3504968fce671c09de07305f9db356ba",
+      "sha256": "23f011c3456167b5ffad28f9db1c682b3504968fce671c09de07305f9db356ba",
+      "bytes": 32420
+    },
+    {
+      "path": "artifacts/reports/A_DATASET_EXPLORATION_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/dataset-exploration/DATASET_EXPLORATION_REPORT.md",
+      "source_sha256": "b3d43e6a455f5222bb8494cc7e49ce20f27b4f8b12fc6a84a1b83e1cfc2a3d9b",
+      "sha256": "b3d43e6a455f5222bb8494cc7e49ce20f27b4f8b12fc6a84a1b83e1cfc2a3d9b",
+      "bytes": 22649
+    },
+    {
+      "path": "artifacts/reports/B_STRATEGY_COMPARISON.md",
+      "mode": "COPY",
+      "source": "experiments/annotation-validation/STRATEGY_COMPARISON.md",
+      "source_sha256": "48f4ccbd5acbd096908ae89626ceaec12fd25115b2c362120596680b8b5f2e21",
+      "sha256": "48f4ccbd5acbd096908ae89626ceaec12fd25115b2c362120596680b8b5f2e21",
+      "bytes": 5656
+    },
+    {
+      "path": "artifacts/reports/B_ANNOTATION_VALIDATION_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/annotation-validation/ANNOTATION_VALIDATION_REPORT.md",
+      "source_sha256": "685147545a02cf0cb808ad3c757ab622f8b44d624268a10f8808d90e95ffed10",
+      "sha256": "685147545a02cf0cb808ad3c757ab622f8b44d624268a10f8808d90e95ffed10",
+      "bytes": 12165
+    },
+    {
+      "path": "artifacts/reports/C_ANNOTATION_POLICY.md",
+      "mode": "COPY",
+      "source": "experiments/dataset-cleaning/ANNOTATION_POLICY.md",
+      "source_sha256": "d5edebe219bc421592c29994e2c12d69ee0fbe76aa7bdda037c5abeade9f197a",
+      "sha256": "d5edebe219bc421592c29994e2c12d69ee0fbe76aa7bdda037c5abeade9f197a",
+      "bytes": 4783
+    },
+    {
+      "path": "artifacts/reports/C_CLEANING_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/dataset-cleaning/CLEANING_REPORT.md",
+      "source_sha256": "4f621c6182f0f70663d35d06f9cfaa6855693a86e13e7f98f9d5f40a74147f62",
+      "sha256": "4f621c6182f0f70663d35d06f9cfaa6855693a86e13e7f98f9d5f40a74147f62",
+      "bytes": 5295
+    },
+    {
+      "path": "artifacts/reports/C_DATASET_QUALITY_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/dataset-cleaning/DATASET_QUALITY_REPORT.md",
+      "source_sha256": "7a734d8a6a2fd5b1e37e25051ad503d74ba4ba0f2e61ce6f45251aff90a10892",
+      "sha256": "7a734d8a6a2fd5b1e37e25051ad503d74ba4ba0f2e61ce6f45251aff90a10892",
+      "bytes": 4089
+    },
+    {
+      "path": "artifacts/reports/D_DATASET_ENGINEERING_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset/DATASET_ENGINEERING_REPORT.md",
+      "source_sha256": "3ae2c60e07e7bb11a11228b05543efddae29d27304ec33c43345da7d4b12de82",
+      "sha256": "3ae2c60e07e7bb11a11228b05543efddae29d27304ec33c43345da7d4b12de82",
+      "bytes": 8953
+    },
+    {
+      "path": "artifacts/reports/D_SPLIT_VALIDATION_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset/SPLIT_VALIDATION_REPORT.md",
+      "source_sha256": "24330f6607ead7f2dcde84ee6ed38723179ac5913373fd12853a8bd705ef033b",
+      "sha256": "24330f6607ead7f2dcde84ee6ed38723179ac5913373fd12853a8bd705ef033b",
+      "bytes": 3689
+    },
+    {
+      "path": "artifacts/reports/D_REVIEW_HANDLING_DECISION.md",
+      "mode": "COPY",
+      "source": "experiments/yolo-dataset/REVIEW_HANDLING_DECISION.md",
+      "source_sha256": "a0d9b40055e585fa3d2b09fe27e8d48ee0d12c7b6fa9d432075928a2dd6d7278",
+      "sha256": "a0d9b40055e585fa3d2b09fe27e8d48ee0d12c7b6fa9d432075928a2dd6d7278",
+      "bytes": 4284
+    },
+    {
+      "path": "artifacts/reports/D2_ANNOTATION_QUALITY_REMEDIATION_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/remediation/ANNOTATION_QUALITY_REMEDIATION_REPORT.md",
+      "source_sha256": "e396bea5f0a7107667e6d8400ec4e829cc540041f673889fd5a661ccb813bc91",
+      "sha256": "e396bea5f0a7107667e6d8400ec4e829cc540041f673889fd5a661ccb813bc91",
+      "bytes": 7013
+    },
+    {
+      "path": "artifacts/reports/D2_EVALUATION_PROTOCOL_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/remediation/EVALUATION_PROTOCOL_REPORT.md",
+      "source_sha256": "5ba264234635df00f5aee279de6b7c0bf9be88f96fd667af376889d3e81da1a3",
+      "sha256": "5ba264234635df00f5aee279de6b7c0bf9be88f96fd667af376889d3e81da1a3",
+      "bytes": 4578
+    },
+    {
+      "path": "artifacts/reports/D2_TASK_C_V1_1_FIX_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/remediation/TASK_C_V1_1_FIX_REPORT.md",
+      "source_sha256": "688b71e7d5cf7f1653e9d7fd6644330569280efcf11b944f7dea324bd386a20e",
+      "sha256": "688b71e7d5cf7f1653e9d7fd6644330569280efcf11b944f7dea324bd386a20e",
+      "bytes": 3689
+    },
+    {
+      "path": "artifacts/reports/D2_MASKING_ABLATION_RECOMMENDATION.md",
+      "mode": "COPY",
+      "source": "experiments/remediation/MASKING_ABLATION_RECOMMENDATION.md",
+      "source_sha256": "b715aaf8fad9a4623385b7b4c2af807abc19516a0f3ca69086bde8868fb88658",
+      "sha256": "b715aaf8fad9a4623385b7b4c2af807abc19516a0f3ca69086bde8868fb88658",
+      "bytes": 4048
+    },
+    {
+      "path": "artifacts/reports/D2_TRAINING_READINESS_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/remediation/TRAINING_READINESS_REPORT.md",
+      "source_sha256": "5cd24b4b3972b086f5e8386c67a1c2d054427d3041cecaa357f0b6a4e884a2ed",
+      "sha256": "5cd24b4b3972b086f5e8386c67a1c2d054427d3041cecaa357f0b6a4e884a2ed",
+      "bytes": 6830
+    },
+    {
+      "path": "artifacts/reports/E0_SMOKE_TEST_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/task-e/smoke-test-001/SMOKE_TEST_REPORT.md",
+      "source_sha256": "821e1eb9d05de3fd62201b48b788fc7599a7dbe1e62eb1efe9c49a371d75d7b5",
+      "sha256": "821e1eb9d05de3fd62201b48b788fc7599a7dbe1e62eb1efe9c49a371d75d7b5",
+      "bytes": 11496
+    },
+    {
+      "path": "artifacts/reports/E1A_BENCHMARK_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/task-e/benchmark-e1a-001/E1A_BENCHMARK_REPORT.md",
+      "source_sha256": "3e6ae315caf22c8e90398fcfd6822771ee4245a5315a89f815c789287d256225",
+      "sha256": "3e6ae315caf22c8e90398fcfd6822771ee4245a5315a89f815c789287d256225",
+      "bytes": 16637
+    },
+    {
+      "path": "artifacts/reports/E1C_TRAINING_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/task-e/full-training-config-a-200-s42/E1C_TRAINING_REPORT.md",
+      "source_sha256": "ef2b3613c07c2a038c37365385896d7a705e486d742fe9e5b27bd377e4d8da73",
+      "sha256": "ef2b3613c07c2a038c37365385896d7a705e486d742fe9e5b27bd377e4d8da73",
+      "bytes": 15282
+    },
+    {
+      "path": "artifacts/reports/F_MODEL_SELECTION_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/task-f/model-selection-001/TASK_F_MODEL_SELECTION_REPORT.md",
+      "source_sha256": "6a626ffec0af2070bf42c7760cc8c6eb33111e9bbabc789565487ae695755fd6",
+      "sha256": "6a626ffec0af2070bf42c7760cc8c6eb33111e9bbabc789565487ae695755fd6",
+      "bytes": 9585
+    },
+    {
+      "path": "artifacts/reports/F_TEST_EVALUATION_REPORT.md",
+      "mode": "COPY",
+      "source": "experiments/task-f/test-evaluation-001/TASK_F_TEST_EVALUATION_REPORT.md",
+      "source_sha256": "15966e40943c27670a1b825c50a824bd167d279931e1d68d8fdd27bc6ddd130c",
+      "sha256": "15966e40943c27670a1b825c50a824bd167d279931e1d68d8fdd27bc6ddd130c",
+      "bytes": 10431
+    },
+    {
+      "path": "models/artemis_rock_yolo11n.pt",
+      "mode": "COPY",
+      "source": "experiments/task-f/model-selection-001/model/artemis_rock_yolo11n_e1c_s42.pt",
+      "source_sha256": "413d0481a728a310f5b919d069676ee5ddd2091e81b4b663831e1e977a0752eb",
+      "sha256": "413d0481a728a310f5b919d069676ee5ddd2091e81b4b663831e1e977a0752eb",
+      "bytes": 5484122
+    },
+    {
+      "path": "data/manifests/data_A.yaml",
+      "mode": "SANITISED",
+      "source": "dataset/processed/yolo-rock-v1.1/data_A.yaml",
+      "source_sha256": "fc5f0fdcc8fd4cf0ea1dfa18b61e41e9d28ee08467ff05022f3e9fb6c49deb68",
+      "sha256": "0b12dd07aa98aaff316d8dfe293697f7631dbbc3ad627620d207bed2bbc093b3",
+      "bytes": 237
+    },
+    {
+      "path": "data/manifests/data_B.yaml",
+      "mode": "SANITISED",
+      "source": "dataset/processed/yolo-rock-v1.1/data_B.yaml",
+      "source_sha256": "cda93d8dfd3284a06ecf21040574ce16247adf6a4843541c603833dd42db450d",
+      "sha256": "1c7f6ee18fef9e4a8473002f99ae7912b03fa4efd608a204ac046b9a138a8474",
+      "bytes": 237
+    },
+    {
+      "path": "artifacts/training/e1c_args.yaml",
+      "mode": "SANITISED",
+      "source": "experiments/task-e/full-training-config-a-200-s42/args.yaml",
+      "source_sha256": "98a3b32accf5fbdc944eb75ff17b3b86f49fdadfaec762fe5110e0da08a768a7",
+      "sha256": "d41cffc35e52aa3e512995efd94bb732137bf20d275ac87ccdf1c21a30485ab7",
+      "bytes": 1770
+    },
+    {
+      "path": "artifacts/training/e1c_train_config.json",
+      "mode": "SANITISED",
+      "source": "experiments/task-e/full-training-config-a-200-s42/train_config.json",
+      "source_sha256": "77631d305b9f98362db7ab0307017a17a07239e422bbd72e254b063c76e9b1f4",
+      "sha256": "f43a3c68e44e6cc72a497a3e3a2d6ffc2cd87bba7c25e4cb50f273b15161f9c8",
+      "bytes": 177472
+    },
+    {
+      "path": "artifacts/provenance/runs_registry.jsonl",
+      "mode": "SANITISED",
+      "source": "experiments/task-e/runs_registry.jsonl",
+      "source_sha256": "b61340a5beab30cf3a906086a4788e314f697ce46bbe8b6016a964bd2ef9aba3",
+      "sha256": "32aa6841a66e8bd4678fcbda488c44c1c9fda7eff8389ef79ef7491ce3aac4c3",
+      "bytes": 141417
+    },
+    {
+      "path": "artifacts/provenance/e1c_preflight_pre.json",
+      "mode": "SANITISED",
+      "source": "experiments/task-e/full-training-config-a-200-s42/preflight_pre.json",
+      "source_sha256": "fc845a4d36145139e747a71cbd301bd0fcc0c83e3a7b3e00402c2dc6a263940e",
+      "sha256": "52f7b7629335a3b5d8855305bc5a8c61cb7fe726dba71942b8931544b73d7b78",
+      "bytes": 2356
+    },
+    {
+      "path": "artifacts/provenance/e1c_preflight_post.json",
+      "mode": "SANITISED",
+      "source": "experiments/task-e/full-training-config-a-200-s42/preflight_post.json",
+      "source_sha256": "784352f6f9d5d5d33fddabd7ed49a9ebacf2a584392b4797f6e9e8d8e7b1a7e9",
+      "sha256": "71072581fcfcc70c7c3bc913ae9cf63be8d1d617f022737e14f718d5831cb00a",
+      "bytes": 2593
+    }
+  ],
+  "missing_sources": []
+}

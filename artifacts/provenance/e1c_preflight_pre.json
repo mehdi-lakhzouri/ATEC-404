@@ -1,0 +1,73 @@
+{
+  "dataset": "yolo-rock-v1.1",
+  "config": "A",
+  "train_images": 1903,
+  "val_images": 923,
+  "weights": {
+    "path": "<repo>\\backend\\yolo11n.pt",
+    "sha256": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1",
+    "bytes": 5613764
+  },
+  "gpu_compute_processes": [
+    "33320, C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe, [N/A]",
+    "20852, C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe, [N/A]"
+  ],
+  "gpu_idle_snapshot": {
+    "util_pct": 5.0,
+    "mem_used_mib": 447.0
+  },
+  "warnings": [
+    "other GPU client (not a training job): 33320, C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe, [N/A]",
+    "other GPU client (not a training job): 20852, C:\\Program Files\\BraveSoftware\\Brave-Browser\\Application\\brave.exe, [N/A]"
+  ],
+  "disk_free_gb": 372.5,
+  "ram": {
+    "total_gb": 31.2,
+    "available_gb": 17.8
+  },
+  "power": {
+    "plugged_in": true,
+    "battery_pct": 100
+  },
+  "checks": {
+    "data_A_yaml_hash_matches_registry": true,
+    "split_manifest_hash_matches_registry": true,
+    "labels_tree_matches_registry": true,
+    "class_mapping_single_rock": true,
+    "train_images_have_labels": true,
+    "val_images_have_labels": true,
+    "train_count_is_config_A_1903": true,
+    "val_count_923": true,
+    "dataset_provisional_not_frozen": true,
+    "no_previous_checkpoint_in_run_dir": true,
+    "weights_present": true,
+    "weights_sha256_is_official_yolo11n": true,
+    "class_names_rock": true,
+    "no_concurrent_gpu_job": true,
+    "disk_free_ge_20gb": true,
+    "ram_available_ge_16gb": true,
+    "on_ac_power": true
+  },
+  "fingerprints": {
+    "source_datasets": {
+      "files": 38590,
+      "sha256": "eb5e1ee3cfe3eda0149582dc9efde7b381220110c3131a7dd1d124220cd560c7"
+    },
+    "task_c_v1_1": {
+      "files": 40,
+      "sha256": "b1049d3f728adc1cda562b2e7c7a9ea62c672997f63a65c74d33b5947e5b1ec3"
+    },
+    "task_d_v1_1": {
+      "files": 22215,
+      "sha256": "0cb885c6e2e4824ccb5ea04d19e80f73c019eb6471a1764ac98d18a1ef1e067b"
+    },
+    "archived_v1": {
+      "files": 22211,
+      "sha256": "3ea83488bc7f6ce7fddc46e542707457a01255613ee5152dc1f37a57da729013"
+    },
+    "previous_experiments": {
+      "files": 12328,
+      "sha256": "9760861bc837b9c68895830f36fdf2676cc9e275b207a15e6f46821dd91488a4"
+    }
+  }
+}

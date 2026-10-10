@@ -1,0 +1,85 @@
+{
+  "approved_for_training": false,
+  "confidence": "medium",
+  "decision_author": "AI assistant recommendation (not human-approved)",
+  "evaluation_ontology": "Primary ontology = 'rock' (any visible rock whose box is >= ~50 px area at 720x480, i.e. what POLAR-Sim labels on NASA images). The S1 baseline predicts 'large_rock' (a renderer size class, not an apparent-size class); when it is scored against 'rock' ground truth, report recall per box-size bin and do not read low small-rock recall as a model failure. On synthetic held-out data score both models against both label sets (S1 and S2-H). On NASA use the 92-image exposure-selected subset, rock class only.",
+  "evidence_summary": [
+    "S1 CSV boxes come from the strict blue (physically large) mask class: 97% (66,430/68,560) of unboxed blue components are < 21 px in width or height; CSV boxes are geometrically valid and separate touching boulders that the semantic mask merges.",
+    "S1 is semantically incomplete for obstacle avoidance: in 41 of 62 assessed candidate-subset scenes S1 misses clearly visible rocks (13 partial, 8 no). 'large' is a 3D-size class: 28,519 green components in the candidate subset are larger in the image than the median CSV box (1,836 px^2), versus 17,685 CSV boxes in total.",
+    "S2 recovers missed rocks (45/62 scenes yes, 12 partial) and boxes are mostly tight (55 mostly, 5 yes, 2 no); no split-of-one-rock cases observed at scene level, but merges in 18/62 scenes.",
+    "Per-candidate review (AI assistant, 86 additional S2 candidates >= 50 px): 50 visible rocks (58%), 16 merged groups (19%), 18 ambiguous (21%), 2 not visible. Below 50 px only 5/16 (31%) are visible rocks -> 50 px minimum area. Green 50-100 px: 13/16 (81%).",
+    "S2 large-rock components are worse than S1: blue components >= 1000 px without a CSV box were merged rock groups in 9/10 reviewed cases; 3,034 of 3,177 'uncertain' CSV boxes cover part of a larger merged mask region.",
+    "Morphological closing hurts: V2 lowers CSV match rate 0.837 -> 0.801 and increases merged components 1,705 -> 1,898; cyan assignment (V1) reduces split CSV boxes 477 -> 350 at +2% merges.",
+    "Uncertain CSV boxes (46 reviewed): candidate-subset strata are mostly valid boxes the matcher missed (of 28 clean items: 12 matcher failure + 4 imperfect mask = 16 valid, 10 undetermined, 2 annotation errors); anomaly strata are frame mismatches (6/6) or corrupted-mask errors (5/6 cam_anomaly); shadow strata undeterminable (6/6).",
+    "Terrain06: UNVERIFIED_NEGATIVE (8 apparently rock-free, 2 rock-like/ambiguous, 8 unusable of 18 reviewed images); POLAR-Sim segmentation of terrain06 contains only background/ground polygons.",
+    "Dark exposures: POLAR-Sim rock boxes are identifiable after contrast enhancement at 16-64 ms (automated proxy: 90% / 72% / 28% 'visible only enhanced' at 16/32/64 ms), but not in a fixed 12->8-bit view; 1024-2048 ms clips sunlit rocks. Exposure-selected subset: 92 images, 96.5% of rock boxes visible in fixed view."
+  ],
+  "human_review_status": {
+    "decisions": {
+      "NOT_REVIEWED": 424
+    },
+    "rows": 424
+  },
+  "key_numbers": {
+    "additional_s2_candidates_ge_50px_per_image_mean": 45.13532,
+    "candidate_review_by_stratum": {
+      "large_matched_25-inf": 1.0,
+      "large_new_1000-inf": 0.1,
+      "large_new_200-1000": 0.6,
+      "large_new_25-200": 0.7,
+      "small_100-200": 0.625,
+      "small_1000-inf": 0.6667,
+      "small_200-1000": 0.5,
+      "small_25-50": 0.3125,
+      "small_50-100": 0.8125
+    },
+    "candidate_subset_csv_boxes": 17685,
+    "candidate_subset_frames": 9193,
+    "csv_match_rate_V0_strict": 0.836924,
+    "csv_match_rate_V1_cyan": 0.833644,
+    "nasa_policy_rock_box_visibility": {
+      "not_identifiable": 0.0045,
+      "rock_boxes": 889,
+      "visible_fixed_linear": 0.9651,
+      "visible_only_enhanced": 0.0304
+    },
+    "uncertain_auto_triage": {
+      "box_covers_mask_pixels_other": 41,
+      "fragmented_mask_components": 54,
+      "mask_component_extends_beyond_box": 3034,
+      "matched_after_cyan_assignment": 12,
+      "no_large_rock_pixels_in_box": 32,
+      "partial_mask_support": 4
+    }
+  },
+  "limitations": [
+    "All visual verdicts are the AI assistant's assessment at display resolution, not human validation; small-rock judgements on 190-px crops are uncertain.",
+    "Candidate review strata are not proportional to the population; pass rates must not be averaged into a dataset-wide precision, and no confidence interval is claimed.",
+    "The visibility proxy (contrast/darkness) is weak: 111/114 reviewed candidates were 'ok' but only 59% of those were visible rocks.",
+    "The split rule for merged green components is not designed yet; S2-H as specified still contains ~19% merged boxes among additional candidates.",
+    "S2-H roughly 24x the box count of S1 (46.1 vs 1.9 boxes per image) -> much denser, harder training target; effect on YOLO is unmeasured.",
+    "No human has reviewed the NASA exposure policy, Terrain06 or the uncertain boxes."
+  ],
+  "next_task": "AI-01.C",
+  "recommended_strategy": "HYBRID",
+  "required_human_reviews": [
+    "Confirm or reject the ontology decision 'rock' (vs 'large_rock') - it changes what the rover will detect.",
+    "Review >= 20 comparison sheets in gallery/index.html (filter: candidate subset) and fill reviewer_decision for S1/S2 rows.",
+    "Spot-check s2_mask_overlays/candidate_review/candidates_0[1-3].jpg to confirm the 50 px threshold.",
+    "Confirm Terrain06 = UNVERIFIED_NEGATIVE (nasa_terrain06/).",
+    "Approve the NASA exposure-selection policy (92 images) and the 12->8-bit conversion choice for evaluation.",
+    "Approve proceeding to AI-01.C (build S2-H with merged-component splitting) - training stays unauthorised."
+  ],
+  "s2_extraction_policy": {
+    "distant_large_rocks": "V1_cyan blue components 50..999 px not >=50% inside a CSV box, visibility proxy ok (CSV omits rocks below ~21 px)",
+    "frames": "candidate subset only (exclude the 573 anomaly-listed frames)",
+    "large_rocks": "S1 CSV instance boxes (NOT blue-mask components: the semantic mask merges touching boulders; 9/10 reviewed blue components >=1000px without CSV box were merged rock groups)",
+    "min_area_px": 50,
+    "name": "S2-H (hybrid label set to be built and validated in AI-01.C)",
+    "small_medium_rocks": "V1_cyan green components >= 50 px, visibility proxy ok; needs split-of-merged-components step before use",
+    "variant": "V1_cyan (cyan edge pixels -> large rock; no morphological closing)"
+  },
+  "status": "PENDING_HUMAN_REVIEW",
+  "target_ontology": "rock",
+  "task": "AI-01.B"
+}

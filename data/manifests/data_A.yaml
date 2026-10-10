@@ -1,0 +1,8 @@
+# PROVISIONAL - labels are automated S2-H VALID boxes, NOT human-verified. Do not train before approval.
+path: <repo>/dataset/processed/yolo-rock-v1.1
+train: config_A/images/train
+val: images/val
+test: images/test
+names:
+  0: rock
+nc: 1

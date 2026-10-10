@@ -1,0 +1,2321 @@
+{
+  "policy": {
+    "split": "val (923 images)",
+    "predict": "imgsz 736, conf 0.001, NMS IoU 0.6, max_det 300 (training/evaluate.py)",
+    "match": "IoU 0.5 greedy by score; ignore = COCO-crowd IoA >= 0.5 on REVIEW regions; 101-pt AP; min_pred_area 50 px^2",
+    "primary": "review_ignores",
+    "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+  },
+  "checkpoints": {
+    "epoch_completed_010.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6776930877480887,
+        "tp@conf": 15739,
+        "fp@conf": 5728,
+        "fn@conf": 10083,
+        "precision@conf": 0.7331718451576839,
+        "recall@conf": 0.6095190147935868,
+        "AP50_95": 0.3284579915594649,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.596771329742983,
+            "recall@conf": 0.5435562613963885
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8052003779223852,
+            "recall@conf": 0.7347544522396114
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8185521998456141,
+            "recall@conf": 0.7466288147622427
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7101476250717883,
+        "tp@conf": 15739,
+        "fp@conf": 3870,
+        "fn@conf": 10083,
+        "precision@conf": 0.8026416441429955,
+        "recall@conf": 0.6095190147935868,
+        "AP50_95": 0.3415755674615364,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6536355445159241,
+            "recall@conf": 0.5435562613963885
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8067932985871616,
+            "recall@conf": 0.7347544522396114
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8185798367823991,
+            "recall@conf": 0.7466288147622427
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.5549365470115677,
+        "tp@conf": 15739,
+        "fp@conf": 12622,
+        "fn@conf": 10083,
+        "precision@conf": 0.5549522231233032,
+        "recall@conf": 0.6095190147935868,
+        "AP50_95": 0.27323008868487586,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.4850416444670855,
+            "recall@conf": 0.5435562613963885
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.675478973404256,
+            "recall@conf": 0.7347544522396114
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.6938574220808895,
+            "recall@conf": 0.7466288147622427
+          }
+        }
+      },
+      "seconds": 115.2
+    },
+    "epoch_completed_020.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7279733854338764,
+        "tp@conf": 17384,
+        "fp@conf": 6166,
+        "fn@conf": 8438,
+        "precision@conf": 0.7381740976645436,
+        "recall@conf": 0.6732243823096584,
+        "AP50_95": 0.37857233654312566,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6591052807340636,
+            "recall@conf": 0.610199400035292
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.845598534626304,
+            "recall@conf": 0.8009983810037776
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8406235995223171,
+            "recall@conf": 0.7615330021291696
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7491570773317076,
+        "tp@conf": 17384,
+        "fp@conf": 4736,
+        "fn@conf": 8438,
+        "precision@conf": 0.7858951175406872,
+        "recall@conf": 0.6732243823096584,
+        "AP50_95": 0.38805686394581895,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6964618561438036,
+            "recall@conf": 0.610199400035292
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8473886889037119,
+            "recall@conf": 0.8009983810037776
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8408282979597089,
+            "recall@conf": 0.7615330021291696
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6155845505794009,
+        "tp@conf": 17384,
+        "fp@conf": 13573,
+        "fn@conf": 8438,
+        "precision@conf": 0.5615531220725523,
+        "recall@conf": 0.6732243823096584,
+        "AP50_95": 0.32500532974104773,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5589609680549831,
+            "recall@conf": 0.610199400035292
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7284796093003525,
+            "recall@conf": 0.8009983810037776
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.6926187194969866,
+            "recall@conf": 0.7615330021291696
+          }
+        }
+      },
+      "seconds": 147.2
+    },
+    "epoch_completed_030.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7421024326431007,
+        "tp@conf": 16945,
+        "fp@conf": 4762,
+        "fn@conf": 8877,
+        "precision@conf": 0.780623761920118,
+        "recall@conf": 0.6562233754163117,
+        "AP50_95": 0.39548519893160533,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6732290265390036,
+            "recall@conf": 0.5770837009587672
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8625946689252756,
+            "recall@conf": 0.8143550998381004
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8512807228339963,
+            "recall@conf": 0.7792760823278921
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7607364215600099,
+        "tp@conf": 16945,
+        "fp@conf": 3695,
+        "fn@conf": 8877,
+        "precision@conf": 0.8209786821705426,
+        "recall@conf": 0.6562233754163117,
+        "AP50_95": 0.4038345695938981,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7073147370096456,
+            "recall@conf": 0.5770837009587672
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8646713162812465,
+            "recall@conf": 0.8143550998381004
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8514357638495612,
+            "recall@conf": 0.7792760823278921
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6171322907020508,
+        "tp@conf": 16945,
+        "fp@conf": 12192,
+        "fn@conf": 8877,
+        "precision@conf": 0.5815629611833751,
+        "recall@conf": 0.6562233754163117,
+        "AP50_95": 0.33479921595430345,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.555641091059808,
+            "recall@conf": 0.5770837009587672
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7395247896553121,
+            "recall@conf": 0.8143550998381004
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7201742668671482,
+            "recall@conf": 0.7792760823278921
+          }
+        }
+      },
+      "seconds": 139.7
+    },
+    "epoch_completed_040.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7549093970738737,
+        "tp@conf": 18366,
+        "fp@conf": 6444,
+        "fn@conf": 7456,
+        "precision@conf": 0.7402660217654172,
+        "recall@conf": 0.7112539694833863,
+        "AP50_95": 0.40273350801205643,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6918855184939748,
+            "recall@conf": 0.6529615904946768
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8617955643562349,
+            "recall@conf": 0.8255531570426335
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8620554275793306,
+            "recall@conf": 0.8133427963094393
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7814256314590943,
+        "tp@conf": 18366,
+        "fp@conf": 4345,
+        "fn@conf": 7456,
+        "precision@conf": 0.8086830170402007,
+        "recall@conf": 0.7112539694833863,
+        "AP50_95": 0.414473722820561,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7398335208343743,
+            "recall@conf": 0.6529615904946768
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8635828580710506,
+            "recall@conf": 0.8255531570426335
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8621628704168085,
+            "recall@conf": 0.8133427963094393
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6408783586984452,
+        "tp@conf": 18366,
+        "fp@conf": 14337,
+        "fn@conf": 7456,
+        "precision@conf": 0.5615998532244748,
+        "recall@conf": 0.7112539694833863,
+        "AP50_95": 0.34727745832287343,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5856502124071119,
+            "recall@conf": 0.6529615904946768
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.74686641252997,
+            "recall@conf": 0.8255531570426335
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.742858333220014,
+            "recall@conf": 0.8133427963094393
+          }
+        }
+      },
+      "seconds": 69.9
+    },
+    "epoch_completed_050.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7498903297377015,
+        "tp@conf": 18804,
+        "fp@conf": 7780,
+        "fn@conf": 7018,
+        "precision@conf": 0.7073427625639482,
+        "recall@conf": 0.72821624970955,
+        "AP50_95": 0.4046929686776332,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6811637956878228,
+            "recall@conf": 0.680489382977472
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8638976206655397,
+            "recall@conf": 0.8205612520237453
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8600339022384285,
+            "recall@conf": 0.8183108587650816
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7862364416847215,
+        "tp@conf": 18804,
+        "fp@conf": 4607,
+        "fn@conf": 7018,
+        "precision@conf": 0.8032121652214771,
+        "recall@conf": 0.72821624970955,
+        "AP50_95": 0.42092879708915404,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.744177066661838,
+            "recall@conf": 0.680489382977472
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8657092094411397,
+            "recall@conf": 0.8205612520237453
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8601308735911763,
+            "recall@conf": 0.8183108587650816
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6438091140830314,
+        "tp@conf": 18804,
+        "fp@conf": 15840,
+        "fn@conf": 7018,
+        "precision@conf": 0.542777970211292,
+        "recall@conf": 0.72821624970955,
+        "AP50_95": 0.3525690707668522,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5832909770936185,
+            "recall@conf": 0.680489382977472
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7546295408877051,
+            "recall@conf": 0.8205612520237453
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7521253905865906,
+            "recall@conf": 0.8183108587650816
+          }
+        }
+      },
+      "seconds": 75.6
+    },
+    "epoch_completed_060.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7447314663598783,
+        "tp@conf": 19170,
+        "fp@conf": 9468,
+        "fn@conf": 6652,
+        "precision@conf": 0.6693903205531112,
+        "recall@conf": 0.7423902098985361,
+        "AP50_95": 0.4046942426548431,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6775616100196735,
+            "recall@conf": 0.6986647844244456
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8580582817394417,
+            "recall@conf": 0.8309498111171074
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8445463553326916,
+            "recall@conf": 0.8041163946061036
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7800014525141185,
+        "tp@conf": 19170,
+        "fp@conf": 5874,
+        "fn@conf": 6652,
+        "precision@conf": 0.7654528030666028,
+        "recall@conf": 0.7423902098985361,
+        "AP50_95": 0.42049379836942935,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7398163744886566,
+            "recall@conf": 0.6986647844244456
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8596265470338856,
+            "recall@conf": 0.8309498111171074
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8447756676899034,
+            "recall@conf": 0.8041163946061036
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6276998577712661,
+        "tp@conf": 19170,
+        "fp@conf": 18619,
+        "fn@conf": 6652,
+        "precision@conf": 0.5072904813570086,
+        "recall@conf": 0.7423902098985361,
+        "AP50_95": 0.3459715763434936,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5726326583279645,
+            "recall@conf": 0.6986647844244456
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7362688630879644,
+            "recall@conf": 0.8309498111171074
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7144561902829201,
+            "recall@conf": 0.8041163946061036
+          }
+        }
+      },
+      "seconds": 83.1
+    },
+    "epoch_completed_070.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7743231553208406,
+        "tp@conf": 18345,
+        "fp@conf": 5144,
+        "fn@conf": 7477,
+        "precision@conf": 0.7810038741538593,
+        "recall@conf": 0.7104407094725428,
+        "AP50_95": 0.42598324704532536,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7176897944238091,
+            "recall@conf": 0.647726604317393
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8808717840081256,
+            "recall@conf": 0.8378305450620616
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8581178386470492,
+            "recall@conf": 0.7970191625266146
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7942199785551021,
+        "tp@conf": 18345,
+        "fp@conf": 3683,
+        "fn@conf": 7477,
+        "precision@conf": 0.8328037043762484,
+        "recall@conf": 0.7104407094725428,
+        "AP50_95": 0.43501801995675643,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7541320002193167,
+            "recall@conf": 0.647726604317393
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8823397650783097,
+            "recall@conf": 0.8378305450620616
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8582355081358521,
+            "recall@conf": 0.7970191625266146
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6500914010120017,
+        "tp@conf": 18345,
+        "fp@conf": 12856,
+        "fn@conf": 7477,
+        "precision@conf": 0.5879619242972982,
+        "recall@conf": 0.7104407094725428,
+        "AP50_95": 0.36337911447357996,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5993215938122031,
+            "recall@conf": 0.647726604317393
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7583104854254866,
+            "recall@conf": 0.8378305450620616
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.744221042357244,
+            "recall@conf": 0.7970191625266146
+          }
+        }
+      },
+      "seconds": 68.1
+    },
+    "epoch_completed_080.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.75363532711489,
+        "tp@conf": 19465,
+        "fp@conf": 9160,
+        "fn@conf": 6357,
+        "precision@conf": 0.68,
+        "recall@conf": 0.7538145767175277,
+        "AP50_95": 0.41213951001347066,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6901968737747355,
+            "recall@conf": 0.7113110993470972
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.862238324357572,
+            "recall@conf": 0.8381003777657852
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.851754717710042,
+            "recall@conf": 0.8232789212207239
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7894169649450444,
+        "tp@conf": 19465,
+        "fp@conf": 5417,
+        "fn@conf": 6357,
+        "precision@conf": 0.7822924202234547,
+        "recall@conf": 0.7538145767175277,
+        "AP50_95": 0.4281260616065749,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7531592590856154,
+            "recall@conf": 0.7113110993470972
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8640641252107817,
+            "recall@conf": 0.8381003777657852
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8517762440440347,
+            "recall@conf": 0.8232789212207239
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6433216647594905,
+        "tp@conf": 19465,
+        "fp@conf": 17826,
+        "fn@conf": 6357,
+        "precision@conf": 0.5219758118580891,
+        "recall@conf": 0.7538145767175277,
+        "AP50_95": 0.3564495731507247,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5923820166030979,
+            "recall@conf": 0.7113110993470972
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7532527578155843,
+            "recall@conf": 0.8381003777657852
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7221709209798636,
+            "recall@conf": 0.8232789212207239
+          }
+        }
+      },
+      "seconds": 77.9
+    },
+    "epoch_completed_090.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7488733910466338,
+        "tp@conf": 19391,
+        "fp@conf": 9419,
+        "fn@conf": 6431,
+        "precision@conf": 0.6730649080180493,
+        "recall@conf": 0.750948803345984,
+        "AP50_95": 0.4080599331044884,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.679805578698987,
+            "recall@conf": 0.7106640785836127
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8672235138292497,
+            "recall@conf": 0.8362115488397194
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8380574720490682,
+            "recall@conf": 0.7885024840312278
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7891759884625241,
+        "tp@conf": 19391,
+        "fp@conf": 5423,
+        "fn@conf": 6431,
+        "precision@conf": 0.7814540178931249,
+        "recall@conf": 0.750948803345984,
+        "AP50_95": 0.4265151346148647,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7491911448940219,
+            "recall@conf": 0.7106640785836127
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8692381808966497,
+            "recall@conf": 0.8362115488397194
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8381353171083384,
+            "recall@conf": 0.7885024840312278
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6477407370315178,
+        "tp@conf": 19391,
+        "fp@conf": 17534,
+        "fn@conf": 6431,
+        "precision@conf": 0.5251455653351388,
+        "recall@conf": 0.750948803345984,
+        "AP50_95": 0.3569677848026061,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5911277177986046,
+            "recall@conf": 0.7106640785836127
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7562320993434277,
+            "recall@conf": 0.8362115488397194
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7275176501321213,
+            "recall@conf": 0.7885024840312278
+          }
+        }
+      },
+      "seconds": 78.1
+    },
+    "epoch_completed_100.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7249739833108868,
+        "tp@conf": 19696,
+        "fp@conf": 13110,
+        "fn@conf": 6126,
+        "precision@conf": 0.6003779796378711,
+        "recall@conf": 0.7627604368368058,
+        "AP50_95": 0.39614652350943536,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6519050070045178,
+            "recall@conf": 0.7287218398917711
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8505709610309634,
+            "recall@conf": 0.8329735563950351
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8090232511382481,
+            "recall@conf": 0.8041163946061036
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7728290023300721,
+        "tp@conf": 19696,
+        "fp@conf": 7383,
+        "fn@conf": 6126,
+        "precision@conf": 0.7273532996048598,
+        "recall@conf": 0.7627604368368058,
+        "AP50_95": 0.4176164948793297,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7362444185733319,
+            "recall@conf": 0.7287218398917711
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8525341048131322,
+            "recall@conf": 0.8329735563950351
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8090423139197057,
+            "recall@conf": 0.8041163946061036
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6132436746652709,
+        "tp@conf": 19696,
+        "fp@conf": 22946,
+        "fn@conf": 6126,
+        "precision@conf": 0.461892031330613,
+        "recall@conf": 0.7627604368368058,
+        "AP50_95": 0.3388925055376316,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5637649730914764,
+            "recall@conf": 0.7287218398917711
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7233391547500143,
+            "recall@conf": 0.8329735563950351
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.6672348155996926,
+            "recall@conf": 0.8041163946061036
+          }
+        }
+      },
+      "seconds": 76.2
+    },
+    "epoch_completed_110.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7497351914647159,
+        "tp@conf": 16772,
+        "fp@conf": 3826,
+        "fn@conf": 9050,
+        "precision@conf": 0.8142538110496165,
+        "recall@conf": 0.6495236619936489,
+        "AP50_95": 0.40608311345972786,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6984920209396982,
+            "recall@conf": 0.5837891888712429
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.850467535494416,
+            "recall@conf": 0.7833243389098759
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8157612161059398,
+            "recall@conf": 0.7395315826827538
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7689960682502203,
+        "tp@conf": 16772,
+        "fp@conf": 2869,
+        "fn@conf": 9050,
+        "precision@conf": 0.8539280077389135,
+        "recall@conf": 0.6495236619936489,
+        "AP50_95": 0.4148173679965888,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7333659145118462,
+            "recall@conf": 0.5837891888712429
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8519843874551892,
+            "recall@conf": 0.7833243389098759
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.816013406193678,
+            "recall@conf": 0.7395315826827538
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6267103392136645,
+        "tp@conf": 16772,
+        "fp@conf": 9701,
+        "fn@conf": 9050,
+        "precision@conf": 0.6335511653382692,
+        "recall@conf": 0.6495236619936489,
+        "AP50_95": 0.3434284049738858,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.5972079031975398,
+            "recall@conf": 0.5837891888712429
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7357844917369669,
+            "recall@conf": 0.7833243389098759
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.6592479210523022,
+            "recall@conf": 0.7395315826827538
+          }
+        }
+      },
+      "seconds": 68.5
+    },
+    "epoch_completed_120.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7747814700624491,
+        "tp@conf": 19013,
+        "fp@conf": 6001,
+        "fn@conf": 6809,
+        "precision@conf": 0.7600943471655873,
+        "recall@conf": 0.7363101231508017,
+        "AP50_95": 0.4327790869652645,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7209971045092676,
+            "recall@conf": 0.6849008881830481
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.877960025721103,
+            "recall@conf": 0.8399892066918511
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8375269842572433,
+            "recall@conf": 0.8112136266855926
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7983226103041686,
+        "tp@conf": 19013,
+        "fp@conf": 3985,
+        "fn@conf": 6809,
+        "precision@conf": 0.8267240629619967,
+        "recall@conf": 0.7363101231508017,
+        "AP50_95": 0.4436445012595006,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7637466633107012,
+            "recall@conf": 0.6849008881830481
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.879285010074083,
+            "recall@conf": 0.8399892066918511
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8376428834806062,
+            "recall@conf": 0.8112136266855926
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6516219800785547,
+        "tp@conf": 19013,
+        "fp@conf": 13864,
+        "fn@conf": 6809,
+        "precision@conf": 0.5783070231468808,
+        "recall@conf": 0.7363101231508017,
+        "AP50_95": 0.36897100718894066,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.612165675636034,
+            "recall@conf": 0.6849008881830481
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7535937551529645,
+            "recall@conf": 0.8399892066918511
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7184912325771042,
+            "recall@conf": 0.8112136266855926
+          }
+        }
+      },
+      "seconds": 67.1
+    },
+    "epoch_completed_130.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7692641052117092,
+        "tp@conf": 19650,
+        "fp@conf": 8272,
+        "fn@conf": 6172,
+        "precision@conf": 0.7037461499892558,
+        "recall@conf": 0.7609790101463868,
+        "AP50_95": 0.42926566909852254,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7114434031816212,
+            "recall@conf": 0.7236044938533027
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8706639533145186,
+            "recall@conf": 0.8386400431732326
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8423022117013323,
+            "recall@conf": 0.8034066713981547
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.8034639726514166,
+        "tp@conf": 19650,
+        "fp@conf": 4654,
+        "fn@conf": 6172,
+        "precision@conf": 0.8085088874259381,
+        "recall@conf": 0.7609790101463868,
+        "AP50_95": 0.44474986747966855,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.771743954842922,
+            "recall@conf": 0.7236044938533027
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8722276264049373,
+            "recall@conf": 0.8386400431732326
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8423219288003733,
+            "recall@conf": 0.8034066713981547
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6413188945654202,
+        "tp@conf": 19650,
+        "fp@conf": 17330,
+        "fn@conf": 6172,
+        "precision@conf": 0.5313683071930774,
+        "recall@conf": 0.7609790101463868,
+        "AP50_95": 0.36203048214485933,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6056588827490129,
+            "recall@conf": 0.7236044938533027
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7377574733096425,
+            "recall@conf": 0.8386400431732326
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7036483257144235,
+            "recall@conf": 0.8034066713981547
+          }
+        }
+      },
+      "seconds": 73.1
+    },
+    "epoch_completed_140.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7745718040493708,
+        "tp@conf": 18983,
+        "fp@conf": 5913,
+        "fn@conf": 6839,
+        "precision@conf": 0.7624919665809768,
+        "recall@conf": 0.735148323135311,
+        "AP50_95": 0.43313960904995996,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7249858204994759,
+            "recall@conf": 0.6877830715840245
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8693315697821505,
+            "recall@conf": 0.8320291419320022
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8423056401953858,
+            "recall@conf": 0.7970191625266146
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7974881895889812,
+        "tp@conf": 18983,
+        "fp@conf": 3918,
+        "fn@conf": 6839,
+        "precision@conf": 0.8289157678703987,
+        "recall@conf": 0.735148323135311,
+        "AP50_95": 0.44361431288167374,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7664974390484433,
+            "recall@conf": 0.6877830715840245
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8706532118450414,
+            "recall@conf": 0.8320291419320022
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8424003593492778,
+            "recall@conf": 0.7970191625266146
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6453932281159871,
+        "tp@conf": 18983,
+        "fp@conf": 13755,
+        "fn@conf": 6839,
+        "precision@conf": 0.5798460504612377,
+        "recall@conf": 0.735148323135311,
+        "AP50_95": 0.3650167938190644,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6170904947674956,
+            "recall@conf": 0.6877830715840245
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7359347519923052,
+            "recall@conf": 0.8320291419320022
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7012649979662969,
+            "recall@conf": 0.7970191625266146
+          }
+        }
+      },
+      "seconds": 67.0
+    },
+    "epoch_completed_150.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.77191363906931,
+        "tp@conf": 19151,
+        "fp@conf": 6570,
+        "fn@conf": 6671,
+        "precision@conf": 0.7445666964736986,
+        "recall@conf": 0.7416544032220587,
+        "AP50_95": 0.4312734012688919,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7234816990487016,
+            "recall@conf": 0.7042526910181754
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8676652090889106,
+            "recall@conf": 0.8204263356718834
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8358733838372491,
+            "recall@conf": 0.7785663591199432
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7977652978864657,
+        "tp@conf": 19151,
+        "fp@conf": 4165,
+        "fn@conf": 6671,
+        "precision@conf": 0.8213673014239149,
+        "recall@conf": 0.7416544032220587,
+        "AP50_95": 0.44314898489804044,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7689724741023455,
+            "recall@conf": 0.7042526910181754
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8690044636234044,
+            "recall@conf": 0.8204263356718834
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8359248607858736,
+            "recall@conf": 0.7785663591199432
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6508452618789019,
+        "tp@conf": 19151,
+        "fp@conf": 14262,
+        "fn@conf": 6671,
+        "precision@conf": 0.5731601472480771,
+        "recall@conf": 0.7416544032220587,
+        "AP50_95": 0.3678312982300856,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.618665472456704,
+            "recall@conf": 0.7042526910181754
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7397731608854411,
+            "recall@conf": 0.8204263356718834
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7220338317805133,
+            "recall@conf": 0.7785663591199432
+          }
+        }
+      },
+      "seconds": 67.4
+    },
+    "epoch_completed_160.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7714077639808781,
+        "tp@conf": 19276,
+        "fp@conf": 6734,
+        "fn@conf": 6546,
+        "precision@conf": 0.7410995770857363,
+        "recall@conf": 0.7464952366199364,
+        "AP50_95": 0.43093936608106187,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7228420511431207,
+            "recall@conf": 0.7093700370566437
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8642341865017733,
+            "recall@conf": 0.8271721532649757
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8330281852610187,
+            "recall@conf": 0.7700496806245565
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7980165494884514,
+        "tp@conf": 19276,
+        "fp@conf": 4180,
+        "fn@conf": 6546,
+        "precision@conf": 0.821793997271487,
+        "recall@conf": 0.7464952366199364,
+        "AP50_95": 0.4431051128262647,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7699665182118115,
+            "recall@conf": 0.7093700370566437
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8653786119769737,
+            "recall@conf": 0.8271721532649757
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8331340131198679,
+            "recall@conf": 0.7700496806245565
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6475653081832493,
+        "tp@conf": 19276,
+        "fp@conf": 14647,
+        "fn@conf": 6546,
+        "precision@conf": 0.5682280458685848,
+        "recall@conf": 0.7464952366199364,
+        "AP50_95": 0.36590498720370584,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6151144194994446,
+            "recall@conf": 0.7093700370566437
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7342758727026689,
+            "recall@conf": 0.8271721532649757
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7188162360553594,
+            "recall@conf": 0.7700496806245565
+          }
+        }
+      },
+      "seconds": 71.9
+    },
+    "epoch_completed_170.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7671567674934313,
+        "tp@conf": 19418,
+        "fp@conf": 7558,
+        "fn@conf": 6404,
+        "precision@conf": 0.7198250296559905,
+        "recall@conf": 0.7519944233599256,
+        "AP50_95": 0.4262463346422751,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7166900295934976,
+            "recall@conf": 0.7221339921181107
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8620757306424335,
+            "recall@conf": 0.8189422558014031
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8306438066839124,
+            "recall@conf": 0.7601135557132718
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7982001371837727,
+        "tp@conf": 19418,
+        "fp@conf": 4430,
+        "fn@conf": 6404,
+        "precision@conf": 0.814240187856424,
+        "recall@conf": 0.7519944233599256,
+        "AP50_95": 0.4403668762991533,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.770761642178477,
+            "recall@conf": 0.7221339921181107
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8636359987912001,
+            "recall@conf": 0.8189422558014031
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8306764316404676,
+            "recall@conf": 0.7601135557132718
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6485217088466285,
+        "tp@conf": 19418,
+        "fp@conf": 15488,
+        "fn@conf": 6404,
+        "precision@conf": 0.5562940468687332,
+        "recall@conf": 0.7519944233599256,
+        "AP50_95": 0.3641243028789548,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6165052789703163,
+            "recall@conf": 0.7221339921181107
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7383143606620414,
+            "recall@conf": 0.8189422558014031
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7041401076685904,
+            "recall@conf": 0.7601135557132718
+          }
+        }
+      },
+      "seconds": 68.7
+    },
+    "epoch_completed_180.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7614391330013824,
+        "tp@conf": 19395,
+        "fp@conf": 7902,
+        "fn@conf": 6427,
+        "precision@conf": 0.7105176393010221,
+        "recall@conf": 0.7511037100147161,
+        "AP50_95": 0.4234346176746893,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7108440883986752,
+            "recall@conf": 0.7228398329510028
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8581915691498789,
+            "recall@conf": 0.8140852671343767
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8239576018557662,
+            "recall@conf": 0.7608232789212207
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7935687090045396,
+        "tp@conf": 19395,
+        "fp@conf": 4627,
+        "fn@conf": 6427,
+        "precision@conf": 0.8073848971775872,
+        "recall@conf": 0.7511037100147161,
+        "AP50_95": 0.43806591390163907,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7666743332552779,
+            "recall@conf": 0.7228398329510028
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8597050100989966,
+            "recall@conf": 0.8140852671343767
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8240141814430029,
+            "recall@conf": 0.7608232789212207
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6445203715949374,
+        "tp@conf": 19395,
+        "fp@conf": 15872,
+        "fn@conf": 6427,
+        "precision@conf": 0.5499475430288938,
+        "recall@conf": 0.7511037100147161,
+        "AP50_95": 0.36213745748903475,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6117675576278888,
+            "recall@conf": 0.7228398329510028
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.733265490400935,
+            "recall@conf": 0.8140852671343767
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7103216293687583,
+            "recall@conf": 0.7608232789212207
+          }
+        }
+      },
+      "seconds": 70.7
+    },
+    "epoch_completed_190.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7634931011314682,
+        "tp@conf": 19275,
+        "fp@conf": 7457,
+        "fn@conf": 6547,
+        "precision@conf": 0.7210459374532395,
+        "recall@conf": 0.7464565099527535,
+        "AP50_95": 0.4236142510980726,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7162246837873132,
+            "recall@conf": 0.7180754073289807
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8569269676825638,
+            "recall@conf": 0.8092282784673502
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8205308997777954,
+            "recall@conf": 0.758694109297374
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7931048921664055,
+        "tp@conf": 19275,
+        "fp@conf": 4469,
+        "fn@conf": 6547,
+        "precision@conf": 0.8117840296495957,
+        "recall@conf": 0.7464565099527535,
+        "AP50_95": 0.43709249248666093,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7677797220419452,
+            "recall@conf": 0.7180754073289807
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8583197886082726,
+            "recall@conf": 0.8092282784673502
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8205939647794803,
+            "recall@conf": 0.758694109297374
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6449734146070992,
+        "tp@conf": 19275,
+        "fp@conf": 15260,
+        "fn@conf": 6547,
+        "precision@conf": 0.5581294339076299,
+        "recall@conf": 0.7464565099527535,
+        "AP50_95": 0.3614405379051323,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6148983904223593,
+            "recall@conf": 0.7180754073289807
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7331380321575761,
+            "recall@conf": 0.8092282784673502
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7061954627308602,
+            "recall@conf": 0.758694109297374
+          }
+        }
+      },
+      "seconds": 66.9
+    },
+    "epoch_completed_200.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7640436356354282,
+        "tp@conf": 19405,
+        "fp@conf": 7701,
+        "fn@conf": 6417,
+        "precision@conf": 0.7158931601859367,
+        "recall@conf": 0.7514909766865464,
+        "AP50_95": 0.42433775712119115,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7126742178506156,
+            "recall@conf": 0.7218398917710723
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8597697963799553,
+            "recall@conf": 0.8167835941716136
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8327185670228477,
+            "recall@conf": 0.765791341376863
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7952958127656176,
+        "tp@conf": 19405,
+        "fp@conf": 4509,
+        "fn@conf": 6417,
+        "precision@conf": 0.8114493602074099,
+        "recall@conf": 0.7514909766865464,
+        "AP50_95": 0.4385050309900095,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7671012186605266,
+            "recall@conf": 0.7218398917710723
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8610773633385306,
+            "recall@conf": 0.8167835941716136
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8327782048882025,
+            "recall@conf": 0.765791341376863
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6421706032172255,
+        "tp@conf": 19405,
+        "fp@conf": 15901,
+        "fn@conf": 6417,
+        "precision@conf": 0.5496232934911913,
+        "recall@conf": 0.7514909766865464,
+        "AP50_95": 0.36033784309027783,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6089096891496909,
+            "recall@conf": 0.7218398917710723
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7313178450552096,
+            "recall@conf": 0.8167835941716136
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7131167596841449,
+            "recall@conf": 0.765791341376863
+          }
+        }
+      },
+      "seconds": 66.2
+    },
+    "best.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.775934138772726,
+        "tp@conf": 19108,
+        "fp@conf": 6482,
+        "fn@conf": 6714,
+        "precision@conf": 0.7466979288784682,
+        "recall@conf": 0.7399891565331888,
+        "AP50_95": 0.4314759174891292,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7231583090094311,
+            "recall@conf": 0.6977236633139227
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.870767705417235,
+            "recall@conf": 0.8279816513761468
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8401712626964929,
+            "recall@conf": 0.78708303761533
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.8020159888463516,
+        "tp@conf": 19108,
+        "fp@conf": 4138,
+        "fn@conf": 6714,
+        "precision@conf": 0.8219908801514239,
+        "recall@conf": 0.7399891565331888,
+        "AP50_95": 0.44332666538061305,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7688269525093968,
+            "recall@conf": 0.6977236633139227
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8720960835865643,
+            "recall@conf": 0.8279816513761468
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8402495043101306,
+            "recall@conf": 0.78708303761533
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6627019873776815,
+        "tp@conf": 19108,
+        "fp@conf": 14071,
+        "fn@conf": 6714,
+        "precision@conf": 0.5759064468489105,
+        "recall@conf": 0.7399891565331888,
+        "AP50_95": 0.37327118946409066,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6197630117622015,
+            "recall@conf": 0.6977236633139227
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7566500289754158,
+            "recall@conf": 0.8279816513761468
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7329306229812564,
+            "recall@conf": 0.78708303761533
+          }
+        }
+      },
+      "seconds": 72.3
+    },
+    "last.pt": {
+      "primary_review_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7640436356354282,
+        "tp@conf": 19405,
+        "fp@conf": 7701,
+        "fn@conf": 6417,
+        "precision@conf": 0.7158931601859367,
+        "recall@conf": 0.7514909766865464,
+        "AP50_95": 0.42433775712119115,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7126742178506156,
+            "recall@conf": 0.7218398917710723
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8597697963799553,
+            "recall@conf": 0.8167835941716136
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8327185670228477,
+            "recall@conf": 0.765791341376863
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "secondary_review_plus_subthreshold_PROPOSED": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.7952958127656176,
+        "tp@conf": 19405,
+        "fp@conf": 4509,
+        "fn@conf": 6417,
+        "precision@conf": 0.8114493602074099,
+        "recall@conf": 0.7514909766865464,
+        "AP50_95": 0.4385050309900095,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.7671012186605266,
+            "recall@conf": 0.7218398917710723
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.8610773633385306,
+            "recall@conf": 0.8167835941716136
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.8327782048882025,
+            "recall@conf": 0.765791341376863
+          }
+        },
+        "ignore_files": [
+          "eval_ignore_regions.json",
+          "eval_ignore_regions_subthreshold_PROPOSED.json"
+        ],
+        "labels": "PROVISIONAL automated S2-H VALID boxes (not human-verified)"
+      },
+      "reference_no_ignores": {
+        "images": 923,
+        "conf": 0.25,
+        "ioa_thr": 0.5,
+        "min_pred_area": 50.0,
+        "gt": 25822,
+        "AP50": 0.6421706032172255,
+        "tp@conf": 19405,
+        "fp@conf": 15901,
+        "fn@conf": 6417,
+        "precision@conf": 0.5496232934911913,
+        "recall@conf": 0.7514909766865464,
+        "AP50_95": 0.36033784309027783,
+        "by_size": {
+          "small": {
+            "gt": 17001,
+            "AP50": 0.6089096891496909,
+            "recall@conf": 0.7218398917710723
+          },
+          "medium": {
+            "gt": 7412,
+            "AP50": 0.7313178450552096,
+            "recall@conf": 0.8167835941716136
+          },
+          "large": {
+            "gt": 1409,
+            "AP50": 0.7131167596841449,
+            "recall@conf": 0.765791341376863
+          }
+        }
+      },
+      "seconds": 52.4
+    }
+  }
+}

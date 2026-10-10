@@ -1,0 +1,283 @@
+{
+  "epochs_in_results_csv": 200,
+  "epochs_recorded": 200,
+  "status": "COMPLETED",
+  "started": "2026-10-09T21:02:23",
+  "finished": "2026-10-09T22:11:04",
+  "wall_clock_h_epochs": 1.14,
+  "epoch_duration_s": {
+    "n": 200,
+    "mean": 20.5,
+    "median": 19.8,
+    "p95": 26.0,
+    "max": 43.1,
+    "min": 18.8
+  },
+  "train_s": {
+    "n": 200,
+    "mean": 15.6,
+    "median": 15.2,
+    "p95": 18.7,
+    "max": 24.4,
+    "min": 14.4
+  },
+  "val_save_s": {
+    "n": 200,
+    "mean": 4.9,
+    "median": 4.5,
+    "p95": 7.3,
+    "max": 18.7,
+    "min": 4.2
+  },
+  "img_per_s_epoch": {
+    "n": 200,
+    "mean": 122.6,
+    "median": 125.4,
+    "p95": 127.5,
+    "max": 132.5,
+    "min": 78.0
+  },
+  "img_per_s_batches": {
+    "n": 200,
+    "mean": 123.2,
+    "median": 125.6,
+    "p95": 127.7,
+    "max": 132.7,
+    "min": 101.4
+  },
+  "final_eval_best_pt": {
+    "metrics/precision(B)": 0.6372257518933503,
+    "metrics/recall(B)": 0.6665246688869956,
+    "metrics/mAP50(B)": 0.6593592088830559,
+    "metrics/mAP50-95(B)": 0.3722454077719991
+  },
+  "final_eval_s": 7.16,
+  "ultralytics_best_epoch_by_fitness": 111,
+  "resource_warnings": [],
+  "telemetry": {
+    "nvidia_smi_samples": 4098,
+    "gpu_util_train_window": {
+      "n": 3105,
+      "mean": 83.6,
+      "median": 87.0,
+      "p95": 94.0,
+      "max": 97.0,
+      "min": 0.0
+    },
+    "gpu_util_val_save_window": {
+      "n": 978,
+      "mean": 47.9,
+      "median": 49.0,
+      "p95": 83.0,
+      "max": 96.0,
+      "min": 0.0
+    },
+    "gpu_mem_util_train_window": {
+      "n": 3105,
+      "mean": 67.2,
+      "median": 70.0,
+      "p95": 76.0,
+      "max": 83.0,
+      "min": 0.0
+    },
+    "vram_mib": {
+      "n": 4098,
+      "mean": 3871.5,
+      "median": 4135.0,
+      "p95": 4525.0,
+      "max": 5537.0,
+      "min": 509.0
+    },
+    "temp_c": {
+      "n": 4098,
+      "mean": 65.7,
+      "median": 67.0,
+      "p95": 69.0,
+      "max": 71.0,
+      "min": 45.0
+    },
+    "power_w_train": {
+      "n": 3105,
+      "mean": 76.4,
+      "median": 79.0,
+      "p95": 86.4,
+      "max": 103.4,
+      "min": 3.6
+    },
+    "power_w_all": {
+      "n": 4098,
+      "mean": 70.2,
+      "median": 77.8,
+      "p95": 86.0,
+      "max": 103.4,
+      "min": 3.6
+    },
+    "sm_clock_mhz_train": {
+      "n": 3105,
+      "mean": 2723.0,
+      "median": 2782.0,
+      "p95": 2790.0,
+      "max": 2805.0,
+      "min": 225.0
+    },
+    "thermal_slowdown_samples": 0,
+    "power_cap_samples": 1,
+    "cuda_alloc_mb_max": 2989.0,
+    "cuda_reserved_mb_max": 5262.0,
+    "cpu_pct": {
+      "n": 4038,
+      "mean": 17.4,
+      "median": 16.6,
+      "p95": 22.4,
+      "max": 46.2,
+      "min": 8.1
+    },
+    "dataloader_workers": {
+      "min": 0,
+      "max": 12
+    },
+    "ram_used_gb": {
+      "n": 4038,
+      "mean": 17.7,
+      "median": 17.6,
+      "p95": 25.4,
+      "max": 25.9,
+      "min": 11.3
+    },
+    "ram_available_gb": {
+      "n": 4038,
+      "mean": 13.5,
+      "median": 13.6,
+      "p95": 16.9,
+      "max": 19.9,
+      "min": 5.3
+    },
+    "ram_available_lt_2gb_samples": 0,
+    "ram_available_lt_4gb_samples": 0
+  },
+  "milestones": {
+    "50": {
+      "box": 1.589,
+      "cls": 0.9429,
+      "dfl": 0.9411,
+      "vbox": 1.5023,
+      "vcls": 1.0438,
+      "vdfl": 0.9823,
+      "P": 0.6232,
+      "R": 0.6349,
+      "m50": 0.6376,
+      "m5095": 0.3483,
+      "lr_pg0": 0.00860473,
+      "slope_per10ep_last20": {
+        "box": -0.0348,
+        "cls": -0.02586,
+        "vbox": -0.03147,
+        "vcls": -0.02665,
+        "m50": 0.01205,
+        "m5095": 0.01135
+      },
+      "best_mAP50_95_so_far": {
+        "epoch": 49,
+        "value": 0.3536
+      },
+      "train_minus_val_cls_loss": -0.1009
+    },
+    "100": {
+      "box": 1.4787,
+      "cls": 0.8549,
+      "dfl": 0.9141,
+      "vbox": 1.4992,
+      "vcls": 1.1186,
+      "vdfl": 0.9858,
+      "P": 0.5954,
+      "R": 0.6282,
+      "m50": 0.6079,
+      "m5095": 0.3363,
+      "lr_pg0": 0.00512775,
+      "slope_per10ep_last20": {
+        "box": -0.02165,
+        "cls": -0.01727,
+        "vbox": 0.01169,
+        "vcls": 0.0095,
+        "m50": -0.00995,
+        "m5095": -0.00667
+      },
+      "best_mAP50_95_so_far": {
+        "epoch": 97,
+        "value": 0.3713
+      },
+      "train_minus_val_cls_loss": -0.2638
+    },
+    "150": {
+      "box": 1.386,
+      "cls": 0.775,
+      "dfl": 0.8891,
+      "vbox": 1.4462,
+      "vcls": 0.9895,
+      "vdfl": 0.9727,
+      "P": 0.6405,
+      "R": 0.667,
+      "m50": 0.6458,
+      "m5095": 0.3657,
+      "lr_pg0": 0.00160523,
+      "slope_per10ep_last20": {
+        "box": -0.01828,
+        "cls": -0.0144,
+        "vbox": 0.00229,
+        "vcls": 0.00111,
+        "m50": -0.00193,
+        "m5095": -0.00116
+      },
+      "best_mAP50_95_so_far": {
+        "epoch": 111,
+        "value": 0.3724
+      },
+      "train_minus_val_cls_loss": -0.2145
+    },
+    "200": {
+      "box": 1.2901,
+      "cls": 0.7234,
+      "dfl": 0.8893,
+      "vbox": 1.4625,
+      "vcls": 1.0071,
+      "vdfl": 0.9823,
+      "P": 0.6328,
+      "R": 0.6662,
+      "m50": 0.6386,
+      "m5095": 0.3582,
+      "lr_pg0": 0.000100611,
+      "slope_per10ep_last20": {
+        "box": -0.03829,
+        "cls": -0.0143,
+        "vbox": 0.00429,
+        "vcls": 0.00379,
+        "m50": -0.00212,
+        "m5095": -0.00205
+      },
+      "best_mAP50_95_so_far": {
+        "epoch": 111,
+        "value": 0.3724
+      },
+      "train_minus_val_cls_loss": -0.2837
+    }
+  },
+  "last_row": {
+    "epoch": 200.0,
+    "time": 4106.04,
+    "train/box_loss": 1.29008,
+    "train/cls_loss": 0.72338,
+    "train/dfl_loss": 0.88933,
+    "metrics/precision(B)": 0.63278,
+    "metrics/recall(B)": 0.66621,
+    "metrics/mAP50(B)": 0.63861,
+    "metrics/mAP50-95(B)": 0.35824,
+    "val/box_loss": 1.46247,
+    "val/cls_loss": 1.0071,
+    "val/dfl_loss": 0.98226,
+    "lr/pg0": 0.000100611,
+    "lr/pg1": 0.000100611,
+    "lr/pg2": 0.000100611
+  },
+  "max_mAP50": 0.6607,
+  "max_mAP50_95": 0.37241
+}

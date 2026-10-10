@@ -1,0 +1,1470 @@
+{
+  "root": "hackathon",
+  "scanned_at": "2026-10-09T23:50:40",
+  "scan_seconds": 14.8,
+  "total_files": 217681,
+  "total_apparent_bytes": 69959369035,
+  "total_physical_bytes": 60810911520,
+  "bytes_hardlinked_outside_workspace": 3961316315,
+  "hardlink_sharing_between_units": {
+    "dataset/processed/yolo-rock-v1.1/config_B <-> dataset/processed/yolo-rock-v1/config_B": 3236630566,
+    "dataset/processed/yolo-rock-v1.1/config_A <-> dataset/processed/yolo-rock-v1/config_A <-> experiments/task-e/benchmark-e1a-001/data_view <-> experiments/task-e/full-training-config-a-200-s42/data_view <-> experiments/task-e/smoke-test-001/data_view": 918368390,
+    "dataset/processed/yolo-rock-v1.1/images <-> dataset/processed/yolo-rock-v1/images <-> experiments/task-e/benchmark-e1a-001/data_view <-> experiments/task-e/full-training-config-a-200-s42/data_view <-> experiments/task-e/smoke-test-001/data_view": 446646468,
+    "dataset/processed/yolo-rock-v1.1/images <-> dataset/processed/yolo-rock-v1/images": 439796550,
+    "dataset/processed/yolo-rock-v1.1/config_A <-> experiments/task-e/benchmark-e1a-001/data_view <-> experiments/task-e/full-training-config-a-200-s42/data_view <-> experiments/task-e/smoke-test-001/data_view": 1902280,
+    "dataset/processed/yolo-rock-v1.1/labels <-> experiments/task-e/benchmark-e1a-001/data_view <-> experiments/task-e/full-training-config-a-200-s42/data_view <-> experiments/task-e/smoke-test-001/data_view": 981236
+  },
+  "links_and_junctions_not_followed": [
+    "frontend/apps/docs/node_modules/eslint",
+    "frontend/apps/docs/node_modules/next",
+    "frontend/apps/docs/node_modules/react",
+    "frontend/apps/docs/node_modules/react-dom",
+    "frontend/apps/docs/node_modules/typescript",
+    "frontend/apps/docs/node_modules/@repo/eslint-config",
+    "frontend/apps/docs/node_modules/@repo/typescript-config",
+    "frontend/apps/docs/node_modules/@repo/ui",
+    "frontend/apps/docs/node_modules/@types/node",
+    "frontend/apps/docs/node_modules/@types/react",
+    "frontend/apps/docs/node_modules/@types/react-dom",
+    "frontend/apps/web/node_modules/eslint",
+    "frontend/apps/web/node_modules/next",
+    "frontend/apps/web/node_modules/react",
+    "frontend/apps/web/node_modules/react-dom",
+    "frontend/apps/web/node_modules/typescript",
+    "frontend/apps/web/node_modules/@repo/eslint-config",
+    "frontend/apps/web/node_modules/@repo/typescript-config",
+    "frontend/apps/web/node_modules/@repo/ui",
+    "frontend/apps/web/node_modules/@types/node",
+    "frontend/apps/web/node_modules/@types/react",
+    "frontend/apps/web/node_modules/@types/react-dom",
+    "frontend/node_modules/prettier",
+    "frontend/node_modules/turbo",
+    "frontend/node_modules/typescript",
+    "frontend/node_modules/.pnpm/@babel+code-frame@7.29.7/node_modules/js-tokens",
+    "frontend/node_modules/.pnpm/@babel+code-frame@7.29.7/node_modules/picocolors",
+    "frontend/node_modules/.pnpm/@babel+code-frame@7.29.7/node_modules/@babel/helper-validator-identifier",
+    "frontend/node_modules/.pnpm/@babel+code-frame@8.0.0/node_modules/js-tokens",
+    "frontend/node_modules/.pnpm/@babel+code-frame@8.0.0/node_modules/@babel/helper-validator-identifier",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/convert-source-map",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/debug",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/gensync",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/json5",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/semver",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/code-frame",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/generator",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/helper-compilation-targets",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/helper-module-transforms",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/helpers",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/template",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+core@7.29.7_supports-color@7.2.0/node_modules/@jridgewell/remapping",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/convert-source-map",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/empathic",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/gensync",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/import-meta-resolve",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/json5",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/obug",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/semver",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/code-frame",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/generator",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/helper-compilation-targets",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/helpers",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/template",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+core@8.0.1/node_modules/@types/gensync",
+    "frontend/node_modules/.pnpm/@babel+eslint-parser@8.0.1__8a431b1158807edd35383f002afdda9f/node_modules/eslint",
+    "frontend/node_modules/.pnpm/@babel+eslint-parser@8.0.1__8a431b1158807edd35383f002afdda9f/node_modules/eslint-scope",
+    "frontend/node_modules/.pnpm/@babel+eslint-parser@8.0.1__8a431b1158807edd35383f002afdda9f/node_modules/eslint-visitor-keys",
+    "frontend/node_modules/.pnpm/@babel+eslint-parser@8.0.1__8a431b1158807edd35383f002afdda9f/node_modules/semver",
+    "frontend/node_modules/.pnpm/@babel+eslint-parser@8.0.1__8a431b1158807edd35383f002afdda9f/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+generator@7.29.8/node_modules/jsesc",
+    "frontend/node_modules/.pnpm/@babel+generator@7.29.8/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+generator@7.29.8/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+generator@7.29.8/node_modules/@jridgewell/gen-mapping",
+    "frontend/node_modules/.pnpm/@babel+generator@7.29.8/node_modules/@jridgewell/trace-mapping",
+    "frontend/node_modules/.pnpm/@babel+generator@8.0.0/node_modules/jsesc",
+    "frontend/node_modules/.pnpm/@babel+generator@8.0.0/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+generator@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+generator@8.0.0/node_modules/@jridgewell/gen-mapping",
+    "frontend/node_modules/.pnpm/@babel+generator@8.0.0/node_modules/@jridgewell/trace-mapping",
+    "frontend/node_modules/.pnpm/@babel+generator@8.0.0/node_modules/@types/jsesc",
+    "frontend/node_modules/.pnpm/@babel+helper-annotate-as-pure@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@7.29.7/node_modules/browserslist",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@7.29.7/node_modules/lru-cache",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@7.29.7/node_modules/semver",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@7.29.7/node_modules/@babel/compat-data",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@7.29.7/node_modules/@babel/helper-validator-option",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@8.0.0/node_modules/browserslist",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@8.0.0/node_modules/lru-cache",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@8.0.0/node_modules/semver",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@8.0.0/node_modules/@babel/compat-data",
+    "frontend/node_modules/.pnpm/@babel+helper-compilation-targets@8.0.0/node_modules/@babel/helper-validator-option",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/semver",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/@babel/helper-annotate-as-pure",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/@babel/helper-member-expression-to-functions",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/@babel/helper-optimise-call-expression",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/@babel/helper-replace-supers",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/@babel/helper-skip-transparent-expression-wrappers",
+    "frontend/node_modules/.pnpm/@babel+helper-create-class-_2ade2a711d6d95baddc621c2bc65995a/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-member-expression-to-functions@8.0.0/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-member-expression-to-functions@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+helper-module-imports@7.29.7_supports-color@7.2.0/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-module-imports@7.29.7_supports-color@7.2.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+helper-module-imports@8.0.0/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-module-imports@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transforms@8.0.1_@babel+core@8.0.1/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transforms@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-module-imports",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transforms@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-validator-identifier",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transforms@8.0.1_@babel+core@8.0.1/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transf_ca3daa5572729cf9e58956e439cfaf01/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transf_ca3daa5572729cf9e58956e439cfaf01/node_modules/@babel/helper-module-imports",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transf_ca3daa5572729cf9e58956e439cfaf01/node_modules/@babel/helper-validator-identifier",
+    "frontend/node_modules/.pnpm/@babel+helper-module-transf_ca3daa5572729cf9e58956e439cfaf01/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-optimise-call-expression@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+helper-plugin-utils@8.0.1_@babel+core@8.0.1/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+helper-replace-supers@8.0.1_@babel+core@8.0.1/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+helper-replace-supers@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-member-expression-to-functions",
+    "frontend/node_modules/.pnpm/@babel+helper-replace-supers@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-optimise-call-expression",
+    "frontend/node_modules/.pnpm/@babel+helper-replace-supers@8.0.1_@babel+core@8.0.1/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-skip-transparent-expression-wrappers@8.0.0/node_modules/@babel/traverse",
+    "frontend/node_modules/.pnpm/@babel+helper-skip-transparent-expression-wrappers@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+helpers@7.29.7/node_modules/@babel/template",
+    "frontend/node_modules/.pnpm/@babel+helpers@7.29.7/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+helpers@8.0.0/node_modules/@babel/template",
+    "frontend/node_modules/.pnpm/@babel+helpers@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+parser@7.29.8/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+parser@8.0.4/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+plugin-syntax-typescript@8.0.3_@babel+core@8.0.1/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+plugin-syntax-typescript@8.0.3_@babel+core@8.0.1/node_modules/@babel/helper-plugin-utils",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-mod_7df52a317ccf821415c30987601175e1/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-mod_7df52a317ccf821415c30987601175e1/node_modules/@babel/helper-module-transforms",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-mod_7df52a317ccf821415c30987601175e1/node_modules/@babel/helper-plugin-utils",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-annotate-as-pure",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-create-class-features-plugin",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-plugin-utils",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-skip-transparent-expression-wrappers",
+    "frontend/node_modules/.pnpm/@babel+plugin-transform-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/plugin-syntax-typescript",
+    "frontend/node_modules/.pnpm/@babel+preset-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/core",
+    "frontend/node_modules/.pnpm/@babel+preset-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-plugin-utils",
+    "frontend/node_modules/.pnpm/@babel+preset-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/helper-validator-option",
+    "frontend/node_modules/.pnpm/@babel+preset-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/plugin-transform-modules-commonjs",
+    "frontend/node_modules/.pnpm/@babel+preset-typescript@8.0.1_@babel+core@8.0.1/node_modules/@babel/plugin-transform-typescript",
+    "frontend/node_modules/.pnpm/@babel+template@7.29.7/node_modules/@babel/code-frame",
+    "frontend/node_modules/.pnpm/@babel+template@7.29.7/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+template@7.29.7/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+template@8.0.0/node_modules/@babel/code-frame",
+    "frontend/node_modules/.pnpm/@babel+template@8.0.0/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+template@8.0.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+traverse@7.29.8_supports-color@7.2.0/node_modules/debug",
+    "frontend/node_modules/.pnpm/@babel+traverse@7.29.8_supports-color@7.2.0/node_modules/@babel/code-frame",
+    "frontend/node_modules/.pnpm/@babel+traverse@7.29.8_supports-color@7.2.0/node_modules/@babel/generator",
+    "frontend/node_modules/.pnpm/@babel+traverse@7.29.8_supports-color@7.2.0/node_modules/@babel/helper-globals",
+    "frontend/node_modules/.pnpm/@babel+traverse@7.29.8_supports-color@7.2.0/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+traverse@7.29.8_supports-color@7.2.0/node_modules/@babel/template",
+    "frontend/node_modules/.pnpm/@babel+traverse@7.29.8_supports-color@7.2.0/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+traverse@8.0.4/node_modules/obug",
+    "frontend/node_modules/.pnpm/@babel+traverse@8.0.4/node_modules/@babel/code-frame",
+    "frontend/node_modules/.pnpm/@babel+traverse@8.0.4/node_modules/@babel/generator",
+    "frontend/node_modules/.pnpm/@babel+traverse@8.0.4/node_modules/@babel/helper-globals",
+    "frontend/node_modules/.pnpm/@babel+traverse@8.0.4/node_modules/@babel/parser",
+    "frontend/node_modules/.pnpm/@babel+traverse@8.0.4/node_modules/@babel/template",
+    "frontend/node_modules/.pnpm/@babel+traverse@8.0.4/node_modules/@babel/types",
+    "frontend/node_modules/.pnpm/@babel+types@7.29.8/node_modules/@babel/helper-string-parser",
+    "frontend/node_modules/.pnpm/@babel+types@7.29.8/node_modules/@babel/helper-validator-identifier",
+    "frontend/node_modules/.pnpm/@babel+types@8.0.4/node_modules/@babel/helper-string-parser",
+    "frontend/node_modules/.pnpm/@babel+types@8.0.4/node_modules/@babel/helper-validator-identifier",
+    "frontend/node_modules/.pnpm/@eslint+config-array@0.23.5_supports-color@7.2.0/node_modules/debug",
+    "frontend/node_modules/.pnpm/@eslint+config-array@0.23.5_supports-color@7.2.0/node_modules/minimatch",
+    "frontend/node_modules/.pnpm/@eslint+config-array@0.23.5_supports-color@7.2.0/node_modules/@eslint/object-schema",
+    "frontend/node_modules/.pnpm/@eslint+config-helpers@0.7.0/node_modules/@eslint/core",
+    "frontend/node_modules/.pnpm/@eslint+core@1.2.1/node_modules/@types/json-schema",
+    "frontend/node_modules/.pnpm/@eslint+js@10.0.1_eslint@10.9.1_supports-color@7.2.0_/node_modules/eslint",
+    "frontend/node_modules/.pnpm/@eslint+plugin-kit@0.7.2/node_modules/levn",
+    "frontend/node_modules/.pnpm/@eslint+plugin-kit@0.7.2/node_modules/@eslint/core",
+    "frontend/node_modules/.pnpm/@eslint-community+eslint-ut_4078e510cb613fe2027481806e68bfcc/node_modules/eslint",
+    "frontend/node_modules/.pnpm/@eslint-community+eslint-ut_4078e510cb613fe2027481806e68bfcc/node_modules/eslint-visitor-keys",
+    "frontend/node_modules/.pnpm/@humanfs+node@0.16.7/node_modules/@humanfs/core",
+    "frontend/node_modules/.pnpm/@humanfs+node@0.16.7/node_modules/@humanwhocodes/retry",
+    "frontend/node_modules/.pnpm/@jridgewell+gen-mapping@0.3.13/node_modules/@jridgewell/sourcemap-codec",
+    "frontend/node_modules/.pnpm/@jridgewell+gen-mapping@0.3.13/node_modules/@jridgewell/trace-mapping",
+    "frontend/node_modules/.pnpm/@jridgewell+remapping@2.3.5/node_modules/@jridgewell/gen-mapping",
+    "frontend/node_modules/.pnpm/@jridgewell+remapping@2.3.5/node_modules/@jridgewell/trace-mapping",
+    "frontend/node_modules/.pnpm/@jridgewell+trace-mapping@0.3.31/node_modules/@jridgewell/resolve-uri",
+    "frontend/node_modules/.pnpm/@jridgewell+trace-mapping@0.3.31/node_modules/@jridgewell/sourcemap-codec",
+    "frontend/node_modules/.pnpm/@next+eslint-plugin-next@16_184e2ff424e13d079804d30b2843a170/node_modules/fast-glob",
+    "frontend/node_modules/.pnpm/@next+eslint-plugin-next@16_184e2ff424e13d079804d30b2843a170/node_modules/@eslint-community/eslint-utils",
+    "frontend/node_modules/.pnpm/@nodelib+fs.scandir@2.1.5/node_modules/run-parallel",
+    "frontend/node_modules/.pnpm/@nodelib+fs.scandir@2.1.5/node_modules/@nodelib/fs.stat",
+    "frontend/node_modules/.pnpm/@nodelib+fs.walk@1.2.8/node_modules/fastq",
+    "frontend/node_modules/.pnpm/@nodelib+fs.walk@1.2.8/node_modules/@nodelib/fs.scandir",
+    "frontend/node_modules/.pnpm/@swc+helpers@0.5.23/node_modules/tslib",
+    "frontend/node_modules/.pnpm/@types+node@26.4.1/node_modules/undici-types",
+    "frontend/node_modules/.pnpm/@types+react-dom@19.2.5_@types+react@19.2.18/node_modules/@types/react",
+    "frontend/node_modules/.pnpm/@types+react@19.2.18/node_modules/csstype",
+    "frontend/node_modules/.pnpm/acorn-jsx@5.3.2_acorn@8.18.0/node_modules/acorn",
+    "frontend/node_modules/.pnpm/ajv@6.15.0/node_modules/fast-deep-equal",
+    "frontend/node_modules/.pnpm/ajv@6.15.0/node_modules/fast-json-stable-stringify",
+    "frontend/node_modules/.pnpm/ajv@6.15.0/node_modules/json-schema-traverse",
+    "frontend/node_modules/.pnpm/ajv@6.15.0/node_modules/uri-js",
+    "frontend/node_modules/.pnpm/brace-expansion@5.0.12/node_modules/balanced-match",
+    "frontend/node_modules/.pnpm/braces@3.0.3/node_modules/fill-range",
+    "frontend/node_modules/.pnpm/browserslist@4.28.8/node_modules/baseline-browser-mapping"
+  ],
+  "stat_errors": 0,
+  "large_files": [
+    {
+      "path": ".git/objects/pack/loose-d5c95e9407139b513779b5a601a38cd42a88fa87.pack",
+      "bytes": 15653457351,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/artificial-lunar/archive.zip",
+      "bytes": 5390536893,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/d0/9137d13482d16ba45dd4009afd38ec909fafc8",
+      "bytes": 1095440823,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain06_Smooth.zip",
+      "bytes": 947219814,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/10/09124b838925286ca243789042324473762d2e",
+      "bytes": 946297186,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain11_FreshCrater.zip",
+      "bytes": 927427278,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/9a/ae7bd70150099dff76d34a7795edc9586080ce",
+      "bytes": 926531076,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain01_LargeOnly.zip",
+      "bytes": 748321473,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/19/ab4c514a6f2f9c325b1e95c5c2ea3e9e27ba25",
+      "bytes": 747169928,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cublasLt64_13.dll",
+      "bytes": 477896816,
+      "nlink": 2
+    },
+    {
+      "path": "experiments/yolo-dataset/cache/orb_features.npz",
+      "bytes": 445421308,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/torch_cuda.dll",
+      "bytes": 422658048,
+      "nlink": 2
+    },
+    {
+      "path": ".git/objects/82/a9603daec6554ded10f231c3ddd1f692a21ec0",
+      "bytes": 362253640,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/torch_cpu.dll",
+      "bytes": 306006528,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cufft64_12.dll",
+      "bytes": 284331040,
+      "nlink": 2
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain01_LargeOnly/GroundTruth_ascii/PosA.xyz",
+      "bytes": 235118325,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain01_LargeOnly/GroundTruth_ascii/PosC.xyz",
+      "bytes": 227083249,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain06_Smooth/GroundTruth_ascii/PosA.xyz",
+      "bytes": 226985528,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cudnn_engines_precompiled64_9.dll",
+      "bytes": 221832304,
+      "nlink": 2
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain11_FreshCrater/GroundTruth_ascii/PosA.xyz",
+      "bytes": 206965353,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain11_FreshCrater/GroundTruth_ascii/PosC.xyz",
+      "bytes": 183650313,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/nasa-polar/Terrain06_Smooth/GroundTruth_ascii/PosC.xyz",
+      "bytes": 172695273,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/_polars_runtime_32/_polars_runtime.pyd",
+      "bytes": 171975680,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cusparse64_12.dll",
+      "bytes": 150326304,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cusolver64_12.dll",
+      "bytes": 126421024,
+      "nlink": 2
+    },
+    {
+      "path": "polar-sim-source/.git/objects/pack/pack-6407858cc792e6733be6014ff269f22b240a99f9.pack",
+      "bytes": 112826329,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cudnn_graph64_9.dll",
+      "bytes": 110908016,
+      "nlink": 2
+    },
+    {
+      "path": "dataset/processed/curated-dataset-v1.1/annotations/annotations_all.csv",
+      "bytes": 110485842,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/processed/curated-dataset-v1/annotations/annotations_all.csv",
+      "bytes": 110478449,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cudnn_adv64_9.dll",
+      "bytes": 106547312,
+      "nlink": 2
+    },
+    {
+      "path": "frontend/node_modules/.pnpm/@next+swc-win32-x64-msvc@16.3.8/node_modules/@next/swc-win32-x64-msvc/next-swc.win32-x64-msvc.node",
+      "bytes": 106191360,
+      "nlink": 3
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cusolverMg64_12.dll",
+      "bytes": 95365152,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/nvrtc64_130_0.alt.dll",
+      "bytes": 91028512,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/nvrtc64_130_0.dll",
+      "bytes": 90961440,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/nvJitLink_130_0.dll",
+      "bytes": 88218656,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/cv2/cv2.pyd",
+      "bytes": 86293504,
+      "nlink": 2
+    },
+    {
+      "path": "polar-sim-source/.git/objects/pack/pack-3aa7d4adeca8f46bcb08acf1b70dd915b2e2fd52.pack",
+      "bytes": 85760261,
+      "nlink": 1
+    },
+    {
+      "path": "polar-sim-source/.git/objects/pack/pack-ad5a78e15efa908d40bf6bf43a832e3854a35baf.pack",
+      "bytes": 76596875,
+      "nlink": 1
+    },
+    {
+      "path": "polar-sim-source/.git/objects/pack/pack-1bc7568caa8c683d721a512fbadd4aca14d5fbd1.pack",
+      "bytes": 63893797,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/63/72837bc882ff681dc69fec4109ece98bdd8b32",
+      "bytes": 60261906,
+      "nlink": 1
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/curand64_10.dll",
+      "bytes": 58863672,
+      "nlink": 2
+    },
+    {
+      "path": "backend/.venv/Lib/site-packages/torch/lib/cudnn_heuristic64_9.dll",
+      "bytes": 58741360,
+      "nlink": 2
+    },
+    {
+      "path": ".git/objects/78/4679e49a7fa19f662f7fac84cfa4ae98a3db8d",
+      "bytes": 58641689,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/f7/1cf4d2f863c4f87aa4ebc6f3fca5c1e54e1378",
+      "bytes": 58113943,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/95/42f92ac21e3fe7c0295287c4dfa9543597a0c3",
+      "bytes": 55888860,
+      "nlink": 1
+    },
+    {
+      "path": "artemis-comparisons.zip",
+      "bytes": 55876806,
+      "nlink": 1
+    },
+    {
+      "path": ".git/objects/54/b87b1dda051aefaebf429aeb5eeefb0694ee62",
+      "bytes": 55306181,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/processed/curated-dataset-v1/annotations/rock_valid.csv",
+      "bytes": 52926141,
+      "nlink": 1
+    },
+    {
+      "path": "dataset/processed/curated-dataset-v1.1/annotations/rock_valid.csv",
+      "bytes": 52890899,
+      "nlink": 1
+    }
+  ],
+  "units": {
+    ".git": {
+      "files": 47976,
+      "apparent_bytes": 31428658183,
+      "physical_bytes": 31428658183,
+      "reclaimable_bytes": 31428658183,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:40",
+      "top_types": {
+        "(none)": 15773292840,
+        ".pack": 15653457351,
+        ".idx": 1689336,
+        ".rev": 191868,
+        ".sample": 26788
+      }
+    },
+    "dataset/artificial-lunar": {
+      "files": 7,
+      "apparent_bytes": 5390966123,
+      "physical_bytes": 5390966123,
+      "reclaimable_bytes": 5390966123,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:29",
+      "top_types": {
+        ".zip": 5390536893,
+        ".csv": 425365,
+        ".txt": 3865
+      }
+    },
+    "dataset/artificial-lunar/images": {
+      "files": 29298,
+      "apparent_bytes": 5390247190,
+      "physical_bytes": 5390247190,
+      "reclaimable_bytes": 5390247190,
+      "files_with_multiple_links": 0,
+      "last_modified": "2025-10-04 19:26",
+      "top_types": {
+        ".png": 5390247190
+      }
+    },
+    "backend/.venv": {
+      "files": 23296,
+      "apparent_bytes": 3580042220,
+      "physical_bytes": 3580042220,
+      "reclaimable_bytes": 72313615,
+      "files_with_multiple_links": 20479,
+      "last_modified": "2026-10-09 23:40",
+      "top_types": {
+        ".dll": 2929062352,
+        ".pyd": 306511872,
+        ".py": 150392158,
+        ".pyc": 69418825,
+        ".lib": 47343064
+      }
+    },
+    "dataset/processed/yolo-rock-v1.1/config_B": {
+      "files": 14706,
+      "apparent_bytes": 3248513928,
+      "physical_bytes": 3248513928,
+      "reclaimable_bytes": 11883362,
+      "files_with_multiple_links": 7345,
+      "last_modified": "2026-10-09 20:10",
+      "top_types": {
+        ".png": 3240555588,
+        ".txt": 7958340
+      }
+    },
+    "dataset/processed/yolo-rock-v1/config_B": {
+      "files": 14706,
+      "apparent_bytes": 3248511055,
+      "physical_bytes": 3248511055,
+      "reclaimable_bytes": 11880489,
+      "files_with_multiple_links": 7345,
+      "last_modified": "2026-10-09 18:17",
+      "top_types": {
+        ".png": 3240552715,
+        ".txt": 7958340
+      }
+    },
+    "dataset/nasa-polar": {
+      "files": 3,
+      "apparent_bytes": 2622968565,
+      "physical_bytes": 2622968565,
+      "reclaimable_bytes": 2622968565,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:42",
+      "top_types": {
+        ".zip": 2622968565
+      }
+    },
+    "experiments/task-e/full-training-config-a-200-s42/data_view": {
+      "files": 5655,
+      "apparent_bytes": 1370051329,
+      "physical_bytes": 1370051329,
+      "reclaimable_bytes": 2152955,
+      "files_with_multiple_links": 5652,
+      "last_modified": "2026-10-09 21:02",
+      "top_types": {
+        ".png": 1365014858,
+        ".txt": 2883516,
+        ".cache": 2152789,
+        ".yaml": 166
+      }
+    },
+    "experiments/task-e/benchmark-e1a-001/data_view": {
+      "files": 5655,
+      "apparent_bytes": 1370014578,
+      "physical_bytes": 1370014578,
+      "reclaimable_bytes": 2116204,
+      "files_with_multiple_links": 5652,
+      "last_modified": "2026-10-09 20:45",
+      "top_types": {
+        ".png": 1365014858,
+        ".txt": 2883516,
+        ".cache": 2116051,
+        ".yaml": 153
+      }
+    },
+    "experiments/task-e/smoke-test-001/data_view": {
+      "files": 5655,
+      "apparent_bytes": 1370006097,
+      "physical_bytes": 1370006097,
+      "reclaimable_bytes": 2107723,
+      "files_with_multiple_links": 5652,
+      "last_modified": "2026-10-09 20:30",
+      "top_types": {
+        ".png": 1365014858,
+        ".txt": 2883516,
+        ".cache": 2107573,
+        ".yaml": 150
+      }
+    },
+    "dataset/nasa-polar/Terrain06_Smooth": {
+      "files": 448,
+      "apparent_bytes": 1305254883,
+      "physical_bytes": 1305254883,
+      "reclaimable_bytes": 1305254883,
+      "files_with_multiple_links": 0,
+      "last_modified": "2017-04-17 22:21",
+      "top_types": {
+        ".png": 864258676,
+        ".xyz": 440995587,
+        ".calibration": 620
+      }
+    },
+    "dataset/nasa-polar/Terrain11_FreshCrater": {
+      "files": 448,
+      "apparent_bytes": 1268555642,
+      "physical_bytes": 1268555642,
+      "reclaimable_bytes": 1268555642,
+      "files_with_multiple_links": 0,
+      "last_modified": "2017-04-17 22:21",
+      "top_types": {
+        ".png": 843252826,
+        ".xyz": 425302196,
+        ".calibration": 620
+      }
+    },
+    "dataset/nasa-polar/Terrain01_LargeOnly": {
+      "files": 340,
+      "apparent_bytes": 1152703476,
+      "physical_bytes": 1152703476,
+      "reclaimable_bytes": 1152703476,
+      "files_with_multiple_links": 0,
+      "last_modified": "2017-04-17 22:21",
+      "top_types": {
+        ".png": 653116641,
+        ".xyz": 499586208,
+        ".calibration": 627
+      }
+    },
+    "dataset/processed/yolo-rock-v1/config_A": {
+      "files": 3806,
+      "apparent_bytes": 920270670,
+      "physical_bytes": 920270670,
+      "reclaimable_bytes": 1902280,
+      "files_with_multiple_links": 1903,
+      "last_modified": "2026-10-09 18:16",
+      "top_types": {
+        ".png": 918368390,
+        ".txt": 1902280
+      }
+    },
+    "dataset/processed/yolo-rock-v1.1/config_A": {
+      "files": 3806,
+      "apparent_bytes": 920270670,
+      "physical_bytes": 920270670,
+      "reclaimable_bytes": 0,
+      "files_with_multiple_links": 3806,
+      "last_modified": "2026-10-09 20:09",
+      "top_types": {
+        ".png": 918368390,
+        ".txt": 1902280
+      }
+    },
+    "dataset/processed/yolo-rock-v1/images": {
+      "files": 1840,
+      "apparent_bytes": 886443018,
+      "physical_bytes": 886443018,
+      "reclaimable_bytes": 0,
+      "files_with_multiple_links": 1840,
+      "last_modified": "2026-10-09 18:16",
+      "top_types": {
+        ".png": 886443018
+      }
+    },
+    "dataset/processed/yolo-rock-v1.1/images": {
+      "files": 1840,
+      "apparent_bytes": 886443018,
+      "physical_bytes": 886443018,
+      "reclaimable_bytes": 0,
+      "files_with_multiple_links": 1840,
+      "last_modified": "2026-10-09 18:16",
+      "top_types": {
+        ".png": 886443018
+      }
+    },
+    "polar-sim-source/.git": {
+      "files": 186,
+      "apparent_bytes": 607029565,
+      "physical_bytes": 607029565,
+      "reclaimable_bytes": 607029565,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 18:39",
+      "top_types": {
+        ".pack": 605751251,
+        "(none)": 1007030,
+        ".idx": 126284,
+        ".promisor": 100307,
+        ".sample": 26788
+      }
+    },
+    "frontend/node_modules": {
+      "files": 14776,
+      "apparent_bytes": 457178407,
+      "physical_bytes": 453857988,
+      "reclaimable_bytes": 270278,
+      "files_with_multiple_links": 14706,
+      "last_modified": "2026-10-09 13:42",
+      "top_types": {
+        ".js": 110266504,
+        ".map": 108926999,
+        ".node": 106633728,
+        ".exe": 69913952,
+        ".dll": 18948096
+      }
+    },
+    "experiments/yolo-dataset": {
+      "files": 23,
+      "apparent_bytes": 448167581,
+      "physical_bytes": 448167581,
+      "reclaimable_bytes": 448167581,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:12",
+      "top_types": {
+        ".npz": 445421308,
+        ".jpg": 2314080,
+        ".html": 247040,
+        ".png": 77549,
+        ".json": 73023
+      }
+    },
+    "experiments/task-e/full-training-config-a-200-s42/weights": {
+      "files": 42,
+      "apparent_bytes": 441389484,
+      "physical_bytes": 441389484,
+      "reclaimable_bytes": 441389484,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 22:10",
+      "top_types": {
+        ".pt": 441389484
+      }
+    },
+    "dataset/processed/curated-dataset-v1/annotations": {
+      "files": 4,
+      "apparent_bytes": 250790541,
+      "physical_bytes": 250790541,
+      "reclaimable_bytes": 250790541,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 16:57",
+      "top_types": {
+        ".csv": 209315209,
+        ".json": 41475332
+      }
+    },
+    "dataset/processed/curated-dataset-v1.1/annotations": {
+      "files": 4,
+      "apparent_bytes": 250727286,
+      "physical_bytes": 250727286,
+      "reclaimable_bytes": 250727286,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:05",
+      "top_types": {
+        ".csv": 209276024,
+        ".json": 41451262
+      }
+    },
+    "experiments/task-e/full-training-config-a-200-s42/ignore_aware_val": {
+      "files": 20294,
+      "apparent_bytes": 231435900,
+      "physical_bytes": 231435900,
+      "reclaimable_bytes": 231435900,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 22:40",
+      "top_types": {
+        ".txt": 231435900
+      }
+    },
+    "experiments/annotation-validation": {
+      "files": 564,
+      "apparent_bytes": 169427500,
+      "physical_bytes": 169427500,
+      "reclaimable_bytes": 169427500,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 16:05",
+      "top_types": {
+        ".jpg": 168557487,
+        ".csv": 588588,
+        ".png": 106836,
+        ".html": 80069,
+        ".json": 74363
+      }
+    },
+    "dataset/polar-sim-source": {
+      "files": 7972,
+      "apparent_bytes": 154337884,
+      "physical_bytes": 154337884,
+      "reclaimable_bytes": 154337884,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:51",
+      "top_types": {
+        ".txt": 154095581,
+        "(none)": 211993,
+        ".cpp": 20604,
+        ".md": 7916,
+        ".py": 1790
+      }
+    },
+    "polar-sim-source/SegmentationLabels": {
+      "files": 3977,
+      "apparent_bytes": 149316181,
+      "physical_bytes": 149316181,
+      "reclaimable_bytes": 149316181,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:47",
+      "top_types": {
+        ".txt": 149316181
+      }
+    },
+    "(root files)": {
+      "files": 8,
+      "apparent_bytes": 77869686,
+      "physical_bytes": 77869686,
+      "reclaimable_bytes": 77869686,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:47",
+      "top_types": {
+        ".zip": 77839875,
+        ".ps1": 17702,
+        ".md": 9598,
+        "(none)": 1605,
+        ".cff": 906
+      }
+    },
+    "experiments/dataset-cleaning": {
+      "files": 34,
+      "apparent_bytes": 58150646,
+      "physical_bytes": 58150646,
+      "reclaimable_bytes": 58150646,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 16:58",
+      "top_types": {
+        ".csv": 45953633,
+        ".jpg": 12091113,
+        ".json": 90968,
+        ".md": 14167,
+        ".log": 765
+      }
+    },
+    "experiments/dataset-cleaning-v1.1": {
+      "files": 29,
+      "apparent_bytes": 58113101,
+      "physical_bytes": 58113101,
+      "reclaimable_bytes": 58113101,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:06",
+      "top_types": {
+        ".csv": 45931510,
+        ".jpg": 12089482,
+        ".json": 91344,
+        ".log": 765
+      }
+    },
+    "dataset/artificial-lunar/real_moon_images": {
+      "files": 74,
+      "apparent_bytes": 47576635,
+      "physical_bytes": 47576635,
+      "reclaimable_bytes": 47576635,
+      "files_with_multiple_links": 0,
+      "last_modified": "2025-10-04 19:26",
+      "top_types": {
+        ".png": 47567846,
+        ".csv": 8789
+      }
+    },
+    "experiments/task-e/benchmark-e1a-001/weights": {
+      "files": 3,
+      "apparent_bytes": 21664967,
+      "physical_bytes": 21664967,
+      "reclaimable_bytes": 21664967,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:46",
+      "top_types": {
+        ".pt": 21664967
+      }
+    },
+    "experiments/task-e/smoke-test-001/weights": {
+      "files": 3,
+      "apparent_bytes": 21631303,
+      "physical_bytes": 21631303,
+      "reclaimable_bytes": 21631303,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:32",
+      "top_types": {
+        ".pt": 21631303
+      }
+    },
+    "experiments/dataset-exploration": {
+      "files": 37,
+      "apparent_bytes": 21201154,
+      "physical_bytes": 21201154,
+      "reclaimable_bytes": 21201154,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 15:29",
+      "top_types": {
+        ".png": 20113260,
+        ".json": 1062716,
+        ".md": 22649,
+        ".log": 2529
+      }
+    },
+    "experiments/task-e/full-training-config-a-200-s42": {
+      "files": 41,
+      "apparent_bytes": 18053568,
+      "physical_bytes": 18053568,
+      "reclaimable_bytes": 18053568,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:08",
+      "top_types": {
+        ".jpg": 7034279,
+        ".log": 4533260,
+        ".csv": 2668491,
+        ".sha256": 2638698,
+        ".png": 825253
+      }
+    },
+    "experiments/task-e/smoke-test-001/ignore_aware_val": {
+      "files": 923,
+      "apparent_bytes": 13933627,
+      "physical_bytes": 13933627,
+      "reclaimable_bytes": 13933627,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:33",
+      "top_types": {
+        ".txt": 13933627
+      }
+    },
+    "experiments/task-f/test-evaluation-001": {
+      "files": 933,
+      "apparent_bytes": 11822654,
+      "physical_bytes": 11822654,
+      "reclaimable_bytes": 11822654,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:16",
+      "top_types": {
+        ".txt": 9768320,
+        ".jpg": 1797783,
+        ".png": 105719,
+        ".sha256": 99620,
+        ".csv": 30312
+      }
+    },
+    "dataset/processed/yolo-rock-v1.1/manifests": {
+      "files": 6,
+      "apparent_bytes": 10651050,
+      "physical_bytes": 10651050,
+      "reclaimable_bytes": 10651050,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:10",
+      "top_types": {
+        ".json": 8456480,
+        ".csv": 2194570
+      }
+    },
+    "experiments/task-f/model-selection-001": {
+      "files": 31,
+      "apparent_bytes": 9989259,
+      "physical_bytes": 9989259,
+      "reclaimable_bytes": 9989259,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:07",
+      "top_types": {
+        ".pt": 5484122,
+        ".jpg": 4246470,
+        ".png": 159140,
+        ".json": 30530,
+        ".csv": 30520
+      }
+    },
+    "experiments/remediation": {
+      "files": 27,
+      "apparent_bytes": 6845690,
+      "physical_bytes": 6845690,
+      "reclaimable_bytes": 6845690,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:16",
+      "top_types": {
+        ".jpg": 6127873,
+        ".csv": 545619,
+        ".png": 102504,
+        ".json": 34054,
+        ".md": 29909
+      }
+    },
+    "experiments/task-e/benchmark-e1a-001": {
+      "files": 33,
+      "apparent_bytes": 6256876,
+      "physical_bytes": 6256876,
+      "reclaimable_bytes": 6256876,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:51",
+      "top_types": {
+        ".jpg": 5445891,
+        ".png": 702704,
+        ".log": 40624,
+        ".csv": 29585,
+        ".md": 16637
+      }
+    },
+    "backend": {
+      "files": 7,
+      "apparent_bytes": 5713212,
+      "physical_bytes": 5713212,
+      "reclaimable_bytes": 5713212,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:47",
+      "top_types": {
+        ".pt": 5613764,
+        ".lock": 97003,
+        ".md": 1666,
+        ".toml": 580,
+        "(none)": 114
+      }
+    },
+    "weights": {
+      "files": 1,
+      "apparent_bytes": 5544453,
+      "physical_bytes": 5544453,
+      "reclaimable_bytes": 5544453,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:25",
+      "top_types": {
+        ".pt": 5544453
+      }
+    },
+    "models": {
+      "files": 2,
+      "apparent_bytes": 5487138,
+      "physical_bytes": 5487138,
+      "reclaimable_bytes": 5487138,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:46",
+      "top_types": {
+        ".pt": 5484122,
+        ".md": 3016
+      }
+    },
+    "dataset/processed/yolo-rock-v1/manifests": {
+      "files": 5,
+      "apparent_bytes": 5287162,
+      "physical_bytes": 5287162,
+      "reclaimable_bytes": 5287162,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 18:17",
+      "top_types": {
+        ".json": 3066236,
+        ".csv": 2220926
+      }
+    },
+    "polar-sim-source/Labels": {
+      "files": 3991,
+      "apparent_bytes": 4984224,
+      "physical_bytes": 4984224,
+      "reclaimable_bytes": 4984224,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:47",
+      "top_types": {
+        ".txt": 4779400,
+        "(none)": 204824
+      }
+    },
+    "experiments/task-e/smoke-test-001": {
+      "files": 29,
+      "apparent_bytes": 3914974,
+      "physical_bytes": 3914974,
+      "reclaimable_bytes": 3914974,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:37",
+      "top_types": {
+        ".jpg": 2952921,
+        ".png": 779061,
+        ".log": 144004,
+        ".json": 13767,
+        ".md": 11496
+      }
+    },
+    "dataset/processed/curated-dataset-v1.1/manifests": {
+      "files": 3,
+      "apparent_bytes": 2873889,
+      "physical_bytes": 2873889,
+      "reclaimable_bytes": 2873889,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:05",
+      "top_types": {
+        ".csv": 2873889
+      }
+    },
+    "dataset/processed/curated-dataset-v1/manifests": {
+      "files": 3,
+      "apparent_bytes": 2873859,
+      "physical_bytes": 2873859,
+      "reclaimable_bytes": 2873859,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 16:57",
+      "top_types": {
+        ".csv": 2873859
+      }
+    },
+    "experiments/yolo-dataset-v1.1": {
+      "files": 14,
+      "apparent_bytes": 2782208,
+      "physical_bytes": 2782208,
+      "reclaimable_bytes": 2782208,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:10",
+      "top_types": {
+        ".jpg": 2411561,
+        ".html": 259562,
+        ".png": 77548,
+        ".json": 29879,
+        ".csv": 2075
+      }
+    },
+    "artifacts": {
+      "files": 68,
+      "apparent_bytes": 2683058,
+      "physical_bytes": 2683058,
+      "reclaimable_bytes": 2683058,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:34",
+      "top_types": {
+        ".png": 1560539,
+        ".json": 671890,
+        ".md": 161152,
+        ".jsonl": 141417,
+        ".sha256": 102612
+      }
+    },
+    "data": {
+      "files": 4,
+      "apparent_bytes": 2022676,
+      "physical_bytes": 2022676,
+      "reclaimable_bytes": 2022676,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:46",
+      "top_types": {
+        ".csv": 2021233,
+        ".md": 969,
+        ".yaml": 474
+      }
+    },
+    "dataset/processed/yolo-rock-v1/labels": {
+      "files": 1840,
+      "apparent_bytes": 1968742,
+      "physical_bytes": 1968742,
+      "reclaimable_bytes": 1968742,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 18:16",
+      "top_types": {
+        ".txt": 1968742
+      }
+    },
+    "dataset/processed/yolo-rock-v1.1/labels": {
+      "files": 1840,
+      "apparent_bytes": 1968742,
+      "physical_bytes": 1968742,
+      "reclaimable_bytes": 987506,
+      "files_with_multiple_links": 923,
+      "last_modified": "2026-10-09 20:09",
+      "top_types": {
+        ".txt": 1968742
+      }
+    },
+    "notebooks": {
+      "files": 8,
+      "apparent_bytes": 1720782,
+      "physical_bytes": 1720782,
+      "reclaimable_bytes": 1720782,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:41",
+      "top_types": {
+        ".ipynb": 1720782
+      }
+    },
+    "experiments/task-e/smoke-test-001/inference": {
+      "files": 10,
+      "apparent_bytes": 1272091,
+      "physical_bytes": 1272091,
+      "reclaimable_bytes": 1272091,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:33",
+      "top_types": {
+        ".jpg": 1272091
+      }
+    },
+    "backend/analysis": {
+      "files": 92,
+      "apparent_bytes": 1087403,
+      "physical_bytes": 1087403,
+      "reclaimable_bytes": 1087403,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:16",
+      "top_types": {
+        ".pyc": 686656,
+        ".py": 396130,
+        ".md": 4617
+      }
+    },
+    "experiments/task-e/full-training-config-a-200-s42/analysis": {
+      "files": 5,
+      "apparent_bytes": 862898,
+      "physical_bytes": 862898,
+      "reclaimable_bytes": 862898,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 22:11",
+      "top_types": {
+        ".png": 841783,
+        ".csv": 15175,
+        ".json": 5940
+      }
+    },
+    "experiments/task-e/smoke-test-001/aborted_attempt_1": {
+      "files": 13,
+      "apparent_bytes": 654775,
+      "physical_bytes": 654775,
+      "reclaimable_bytes": 654775,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:30",
+      "top_types": {
+        ".jpg": 585655,
+        ".log": 55257,
+        ".json": 6744,
+        ".csv": 4841,
+        ".yaml": 1915
+      }
+    },
+    "experiments/task-e/benchmark-e1a-001/inference": {
+      "files": 4,
+      "apparent_bytes": 492477,
+      "physical_bytes": 492477,
+      "reclaimable_bytes": 492477,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:48",
+      "top_types": {
+        ".jpg": 492477
+      }
+    },
+    "frontend/apps": {
+      "files": 66,
+      "apparent_bytes": 413055,
+      "physical_bytes": 413055,
+      "reclaimable_bytes": 413055,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:42",
+      "top_types": {
+        ".woff": 268264,
+        ".ico": 51862,
+        ".svg": 29444,
+        "(none)": 19482,
+        ".ps1": 14202
+      }
+    },
+    "backend/training": {
+      "files": 23,
+      "apparent_bytes": 275616,
+      "physical_bytes": 275616,
+      "reclaimable_bytes": 275616,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:13",
+      "top_types": {
+        ".pyc": 169833,
+        ".py": 94711,
+        ".ipynb": 7622,
+        ".yaml": 3450
+      }
+    },
+    "scripts": {
+      "files": 10,
+      "apparent_bytes": 169837,
+      "physical_bytes": 169837,
+      "reclaimable_bytes": 169837,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:48",
+      "top_types": {
+        ".py": 89819,
+        ".pyc": 80018
+      }
+    },
+    "docs": {
+      "files": 16,
+      "apparent_bytes": 148478,
+      "physical_bytes": 148478,
+      "reclaimable_bytes": 148478,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:49",
+      "top_types": {
+        ".json": 92214,
+        ".md": 56264
+      }
+    },
+    "experiments/task-e": {
+      "files": 2,
+      "apparent_bytes": 142610,
+      "physical_bytes": 142610,
+      "reclaimable_bytes": 142610,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 22:11",
+      "top_types": {
+        ".jsonl": 141996,
+        ".json": 614
+      }
+    },
+    "frontend": {
+      "files": 8,
+      "apparent_bytes": 88241,
+      "physical_bytes": 88241,
+      "reclaimable_bytes": 88241,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:42",
+      "top_types": {
+        ".yaml": 80870,
+        ".md": 6052,
+        ".json": 882,
+        "(none)": 437
+      }
+    },
+    "src": {
+      "files": 28,
+      "apparent_bytes": 74044,
+      "physical_bytes": 74044,
+      "reclaimable_bytes": 74044,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:41",
+      "top_types": {
+        ".pyc": 47496,
+        ".py": 26548
+      }
+    },
+    "dataset/processed/curated-dataset-v1.1/metadata": {
+      "files": 4,
+      "apparent_bytes": 73827,
+      "physical_bytes": 73827,
+      "reclaimable_bytes": 73827,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:06",
+      "top_types": {
+        ".json": 73827
+      }
+    },
+    "dataset/processed/curated-dataset-v1/metadata": {
+      "files": 4,
+      "apparent_bytes": 73824,
+      "physical_bytes": 73824,
+      "reclaimable_bytes": 73824,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 16:57",
+      "top_types": {
+        ".json": 73824
+      }
+    },
+    "backend/tests": {
+      "files": 10,
+      "apparent_bytes": 72288,
+      "physical_bytes": 72288,
+      "reclaimable_bytes": 72288,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 21:01",
+      "top_types": {
+        ".pyc": 48949,
+        ".py": 23339
+      }
+    },
+    "experiments/dataset-audit": {
+      "files": 3,
+      "apparent_bytes": 41856,
+      "physical_bytes": 41856,
+      "reclaimable_bytes": 41856,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:52",
+      "top_types": {
+        ".json": 25152,
+        ".log": 15638,
+        ".txt": 1066
+      }
+    },
+    "polar-sim-source": {
+      "files": 4,
+      "apparent_bytes": 37479,
+      "physical_bytes": 37479,
+      "reclaimable_bytes": 37479,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:47",
+      "top_types": {
+        ".cpp": 20604,
+        ".md": 7916,
+        "(none)": 7169,
+        ".py": 1790
+      }
+    },
+    "frontend/packages": {
+      "files": 33,
+      "apparent_bytes": 36953,
+      "physical_bytes": 36953,
+      "reclaimable_bytes": 36953,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 13:42",
+      "top_types": {
+        "(none)": 14198,
+        ".ps1": 10812,
+        ".cmd": 5682,
+        ".json": 2594,
+        ".js": 2306
+      }
+    },
+    "tests": {
+      "files": 14,
+      "apparent_bytes": 36459,
+      "physical_bytes": 36459,
+      "reclaimable_bytes": 36459,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:43",
+      "top_types": {
+        ".pyc": 24928,
+        ".py": 11531
+      }
+    },
+    "dataset/processed": {
+      "files": 1,
+      "apparent_bytes": 3942,
+      "physical_bytes": 3942,
+      "reclaimable_bytes": 3942,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:12",
+      "top_types": {
+        ".json": 3942
+      }
+    },
+    "future": {
+      "files": 1,
+      "apparent_bytes": 2211,
+      "physical_bytes": 2211,
+      "reclaimable_bytes": 2211,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 23:46",
+      "top_types": {
+        ".md": 2211
+      }
+    },
+    "dataset/processed/yolo-rock-v1.1": {
+      "files": 3,
+      "apparent_bytes": 1183,
+      "physical_bytes": 1183,
+      "reclaimable_bytes": 1183,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 20:10",
+      "top_types": {
+        ".md": 637,
+        ".yaml": 546
+      }
+    },
+    "dataset/processed/yolo-rock-v1": {
+      "files": 3,
+      "apparent_bytes": 1179,
+      "physical_bytes": 1179,
+      "reclaimable_bytes": 1179,
+      "files_with_multiple_links": 0,
+      "last_modified": "2026-10-09 18:17",
+      "top_types": {
+        ".md": 637,
+        ".yaml": 542
+      }
+    }
+  }
+}

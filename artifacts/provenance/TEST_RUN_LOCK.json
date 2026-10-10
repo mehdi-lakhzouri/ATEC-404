@@ -1,0 +1,7 @@
+{
+  "started": "2026-10-09T23:14:06",
+  "frozen_config_sha256": "efdc5802cbc3a4f0aad75eb34cc7d4bae6ae0d8010bfb9303defc6da63b44bf4",
+  "model_sha256": "413d0481a728a310f5b919d069676ee5ddd2091e81b4b663831e1e977a0752eb",
+  "note": "once-only test evaluation; this lock prevents a second run",
+  "finished": "2026-10-09T23:15:17"
+}

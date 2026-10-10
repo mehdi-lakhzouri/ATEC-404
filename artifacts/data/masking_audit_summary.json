@@ -1,0 +1,151 @@
+{
+  "cap_tradeoff": {
+    "0.05": {
+      "scenes_dropped": 1991,
+      "scenes_kept": 5362,
+      "valid_boxes_dropped": 80175,
+      "valid_boxes_kept": 129255
+    },
+    "0.1": {
+      "scenes_dropped": 644,
+      "scenes_kept": 6709,
+      "valid_boxes_dropped": 24077,
+      "valid_boxes_kept": 185353
+    },
+    "0.15": {
+      "scenes_dropped": 207,
+      "scenes_kept": 7146,
+      "valid_boxes_dropped": 6920,
+      "valid_boxes_kept": 202510
+    },
+    "0.2": {
+      "scenes_dropped": 72,
+      "scenes_kept": 7281,
+      "valid_boxes_dropped": 2077,
+      "valid_boxes_kept": 207353
+    },
+    "0.25": {
+      "scenes_dropped": 23,
+      "scenes_kept": 7330,
+      "valid_boxes_dropped": 834,
+      "valid_boxes_kept": 208596
+    },
+    "1.0": {
+      "scenes_dropped": 0,
+      "scenes_kept": 7353,
+      "valid_boxes_dropped": 0,
+      "valid_boxes_kept": 209430
+    }
+  },
+  "changed_pixels_inside_valid_boxes_total": 0,
+  "changed_pixels_outside_mask_total": 0,
+  "erased_large_review_boxes_total": 21553,
+  "erased_merge_flagged_review_boxes_total": 38246,
+  "erased_review_boxes_total": 149975,
+  "foreground_masked_fraction": {
+    "count": 7353,
+    "max": 0.727413,
+    "mean": 0.054451,
+    "median": 0.029201,
+    "min": 0.0,
+    "p01": 0.0,
+    "p05": 0.0,
+    "p25": 0.001667,
+    "p75": 0.0802,
+    "p95": 0.198967,
+    "p99": 0.304949,
+    "std": 0.070049
+  },
+  "images_masked_fraction_ge": {
+    "0.05": 1992,
+    "0.1": 645,
+    "0.15": 207,
+    "0.2": 72,
+    "0.25": 23
+  },
+  "images_texture_ratio_lt_0.5": 6866,
+  "images_with_erased_large_review_box": 5044,
+  "masked_fraction": {
+    "count": 7353,
+    "max": 0.446056,
+    "mean": 0.037708,
+    "median": 0.023877,
+    "min": 0.0,
+    "p01": 0.0,
+    "p05": 0.0,
+    "p25": 0.005703,
+    "p75": 0.053984,
+    "p95": 0.123569,
+    "p99": 0.197815,
+    "std": 0.043766
+  },
+  "notes": "changed-inside-VALID counts pixels inside VALID boxes (no margin); the 2-px protection margin means this must be 0. texture ratio = mean |Laplacian| of the filled pixels / of the original pixels at the same place (1 = same texture, low = smear); images whose original masked area is nearly flat (mean |Laplacian| < 2) are excluded from the ratio.",
+  "prototype_noise_matched_fill": {
+    "frames": [
+      {
+        "frame_id": 977,
+        "masked_fraction": 0.2932,
+        "texture_ratio_noise_matched": 0.755,
+        "texture_ratio_telea": 0.064
+      },
+      {
+        "frame_id": 8894,
+        "masked_fraction": 0.16,
+        "texture_ratio_noise_matched": 0.625,
+        "texture_ratio_telea": 0.094
+      },
+      {
+        "frame_id": 4205,
+        "masked_fraction": 0.0587,
+        "texture_ratio_noise_matched": 0.784,
+        "texture_ratio_telea": 0.103
+      },
+      {
+        "frame_id": 7449,
+        "masked_fraction": 0.0714,
+        "texture_ratio_noise_matched": 1.912,
+        "texture_ratio_telea": 0.337
+      },
+      {
+        "frame_id": 7488,
+        "masked_fraction": 0.0812,
+        "texture_ratio_noise_matched": 0.87,
+        "texture_ratio_telea": 0.101
+      },
+      {
+        "frame_id": 1128,
+        "masked_fraction": 0.4461,
+        "texture_ratio_noise_matched": 0.915,
+        "texture_ratio_telea": 0.081
+      },
+      {
+        "frame_id": 5368,
+        "masked_fraction": 0.3971,
+        "texture_ratio_noise_matched": 0.952,
+        "texture_ratio_telea": 0.101
+      },
+      {
+        "frame_id": 532,
+        "masked_fraction": 0.375,
+        "texture_ratio_noise_matched": 0.884,
+        "texture_ratio_telea": 0.087
+      }
+    ],
+    "status": "PROTOTYPE ONLY - not applied to any dataset"
+  },
+  "texture_ratio_fill_vs_original": {
+    "count": 6877,
+    "max": 1.695238,
+    "mean": 0.116434,
+    "median": 0.10671,
+    "min": 0.045957,
+    "p01": 0.06835,
+    "p05": 0.078192,
+    "p25": 0.094216,
+    "p75": 0.124743,
+    "p95": 0.182001,
+    "p99": 0.300928,
+    "std": 0.048224
+  },
+  "train_images": 7353
+}

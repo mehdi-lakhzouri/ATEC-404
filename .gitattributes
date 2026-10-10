@@ -1,0 +1,13 @@
+# Normalise text to LF in the repository; keep binary artifacts byte-exact (their SHA-256 values are recorded).
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.pt binary
+*.png binary
+*.jpg binary
+*.npz binary
+*.ipynb text eol=lf
+*.sha256 text eol=lf
+# Published copies must stay byte-identical to their recorded hashes
+artifacts/** -text
+data/manifests/** -text
+models/** -text

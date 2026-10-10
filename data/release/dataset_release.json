@@ -1,0 +1,56 @@
+{
+  "release": "yolo-rock-v1.1-configA",
+  "dataset_version": "yolo-rock-v1.1",
+  "configuration": "A (conservative, 1,903 training scenes)",
+  "status": "NOT PUBLISHED - no archive built, no host configured",
+  "blocked_by": [
+    "Redistribution licence of the Artificial Lunar Landscape renders (the images are re-encoded renders) not confirmed",
+    "Owner approval of the hosting platform and of the dataset licence/terms text"
+  ],
+  "contents": {
+    "train (Config A) images+labels": 1903,
+    "val images+labels": 923,
+    "test images+labels": 917,
+    "manifests": [
+      "manifests/split_manifest.csv",
+      "manifests/eval_ignore_regions.json",
+      "manifests/eval_ignore_regions_subthreshold_PROPOSED.json",
+      "manifests/dataset_status.json"
+    ]
+  },
+  "excluded": [
+    "original source datasets",
+    "Config B (masked) training images",
+    "curated CSV annotations",
+    "experiment outputs"
+  ],
+  "files": 7490,
+  "uncompressed_bytes": 1819160143,
+  "uncompressed_bytes_by_part": {
+    "train_config_A": 920270670,
+    "val": 447627704,
+    "test": 440784056,
+    "manifests": 10477713
+  },
+  "expected_archive_bytes_note": "PNG data is already compressed: a ZIP (store or deflate) is about the uncompressed size",
+  "file_manifest": "data/release/yolo-rock-v1.1-configA.files.sha256",
+  "file_manifest_sha256": "4e117ee34c035f6a6b6b81450cc36a29d9c1a691d5d4dcdb130d5ef9ec44b63f",
+  "archives": [],
+  "registry_proof": {
+    "labels_tree": {
+      "files": 11096,
+      "sha256": "e2a4b406b05e797eb8b55f8ba9a5a7fa060026d908afba00709daf4f034ab3bf",
+      "matches_registry": true
+    },
+    "images_tree": {
+      "files": 11096,
+      "sha256": "1f58b56fcbfa41c29c1e30f4f5122e517e5846df12f4f317719ca62e7a86ffbb",
+      "matches_registry": true
+    },
+    "split_manifest_matches_registry": true
+  },
+  "annotation_policy": "S2-H/1.1 (VALID boxes only; REVIEW regions provided as evaluation ignore regions)",
+  "label_status": "PROVISIONAL - automated, not human-verified",
+  "provenance": "Derived from the Artificial Lunar Landscape dataset (Kaggle) by backend/analysis/dataset_cleaning and yolo_dataset",
+  "generated": "2026-10-10T00:00:43"
+}

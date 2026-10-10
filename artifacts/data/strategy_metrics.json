@@ -1,0 +1,1659 @@
+{
+  "config": {
+    "csv_convention": "x0 = X - 0.5, y0 = Y - 0.5, x1 = x0 + Length, y1 = y0 + Height",
+    "match_iou": 0.5,
+    "primary_variant": "V1_cyan",
+    "proposed_min_area_px": 50,
+    "seed": 20261009
+  },
+  "figures": [
+    "s1_vs_s2_counts.png",
+    "nasa_rock_box_visibility_by_exposure.png"
+  ],
+  "full_dataset_automated": {
+    "anomalous_frames": 573,
+    "candidate_subset": {
+      "csv_boxes": 17685,
+      "frames": 9193
+    },
+    "csv_generation_rule": {
+      "hypothesis": "CSV = strict-blue components of ground mask with width and height >= 21 px (plus manual/other edits)",
+      "matched_component_min_w_h_area": [
+        16,
+        12,
+        57
+      ],
+      "unmatched_components": 68560,
+      "unmatched_with_w_and_h_ge_21": 2130,
+      "unmatched_with_w_or_h_lt_21": 66430
+    },
+    "csv_rows": 18867,
+    "frames_ok": 9766,
+    "ground_palette_mode_frames": 48,
+    "s2": {
+      "all_frames": {
+        "apparent_size_overlap": {
+          "csv_boxes_with_bbox_area_lt_1000px": 4643,
+          "csv_median_box_area_px": 1833.0,
+          "frames": 9766,
+          "note": "green = physically small/medium rocks; many appear as large in the image as CSV 'large' rocks",
+          "small_components_bbox_area_ge_csv_median_box_area": 30226,
+          "small_components_with_w_and_h_ge_21px": 80663
+        },
+        "csv_boxes": 18867,
+        "frames": 9766,
+        "large_area_bins": {
+          "10-25": 16154,
+          "100-200": 12267,
+          "1000-inf": 9192,
+          "200-1000": 18403,
+          "25-50": 13788,
+          "50-100": 14122
+        },
+        "large_component_area_px": {
+          "count": 83926,
+          "max": 292795.0,
+          "mean": 899.504325,
+          "median": 89.0,
+          "min": 10.0,
+          "p01": 10.0,
+          "p05": 12.0,
+          "p25": 32.0,
+          "p75": 312.0,
+          "p95": 2664.0,
+          "p99": 15895.0,
+          "std": 5710.159911
+        },
+        "min_area_100": {
+          "additional_large_without_csv_per_image": {
+            "count": 9766,
+            "max": 111.0,
+            "mean": 2.482183,
+            "median": 2.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 1.0,
+            "p75": 4.0,
+            "p95": 7.0,
+            "p99": 10.0,
+            "std": 2.663156
+          },
+          "additional_relative_to_s1_boxes": 14.839137,
+          "additional_small_medium_per_image": {
+            "count": 9766,
+            "max": 105.0,
+            "mean": 26.185644,
+            "median": 24.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 7.0,
+            "p75": 42.0,
+            "p95": 62.0,
+            "p99": 73.0,
+            "std": 20.452235
+          },
+          "additional_total": 279970,
+          "additional_visibility_proxy_counts": {
+            "dark": 11258,
+            "low_contrast": 255,
+            "no_surround": 185,
+            "ok": 268272
+          },
+          "frames_with_zero_csv_but_ge1_additional": 3214,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9766,
+            "max": 191.0,
+            "mean": 30.599734,
+            "median": 28.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 1.0,
+            "p25": 10.0,
+            "p75": 48.0,
+            "p95": 71.0,
+            "p99": 86.0,
+            "std": 22.964063
+          }
+        },
+        "min_area_200": {
+          "additional_large_without_csv_per_image": {
+            "count": 9766,
+            "max": 34.0,
+            "mean": 1.238276,
+            "median": 1.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 0.0,
+            "p75": 2.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "std": 1.51085
+          },
+          "additional_relative_to_s1_boxes": 8.622516,
+          "additional_small_medium_per_image": {
+            "count": 9766,
+            "max": 66.0,
+            "mean": 15.419619,
+            "median": 13.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 4.0,
+            "p75": 25.0,
+            "p95": 39.0,
+            "p99": 49.0,
+            "std": 12.966656
+          },
+          "additional_total": 162681,
+          "additional_visibility_proxy_counts": {
+            "dark": 6524,
+            "low_contrast": 87,
+            "no_surround": 89,
+            "ok": 155981
+          },
+          "frames_with_zero_csv_but_ge1_additional": 2912,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9766,
+            "max": 95.0,
+            "mean": 18.589801,
+            "median": 16.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 5.0,
+            "p75": 29.0,
+            "p95": 46.0,
+            "p99": 58.0,
+            "std": 15.113147
+          }
+        },
+        "min_area_25": {
+          "additional_large_without_csv_per_image": {
+            "count": 9766,
+            "max": 338.0,
+            "mean": 5.339341,
+            "median": 4.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 2.0,
+            "p75": 7.0,
+            "p95": 13.0,
+            "p99": 18.0,
+            "std": 6.984971
+          },
+          "additional_relative_to_s1_boxes": 33.694228,
+          "additional_small_medium_per_image": {
+            "count": 9766,
+            "max": 207.0,
+            "mean": 59.754761,
+            "median": 59.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 1.0,
+            "p25": 22.0,
+            "p75": 93.0,
+            "p95": 128.0,
+            "p99": 152.0,
+            "std": 41.645963
+          },
+          "additional_total": 635709,
+          "additional_visibility_proxy_counts": {
+            "dark": 26470,
+            "low_contrast": 1761,
+            "no_surround": 497,
+            "ok": 606981
+          },
+          "frames_with_zero_csv_but_ge1_additional": 3456,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9766,
+            "max": 484.0,
+            "mean": 67.026009,
+            "median": 66.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 4.0,
+            "p25": 27.0,
+            "p75": 102.0,
+            "p95": 141.0,
+            "p99": 167.35,
+            "std": 45.216279
+          }
+        },
+        "min_area_50": {
+          "additional_large_without_csv_per_image": {
+            "count": 9766,
+            "max": 270.0,
+            "mean": 3.927504,
+            "median": 3.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 1.0,
+            "p75": 6.0,
+            "p95": 10.0,
+            "p99": 14.0,
+            "std": 5.0104
+          },
+          "additional_relative_to_s1_boxes": 23.252769,
+          "additional_small_medium_per_image": {
+            "count": 9766,
+            "max": 145.0,
+            "mean": 40.994675,
+            "median": 39.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 13.0,
+            "p75": 64.75,
+            "p95": 91.0,
+            "p99": 108.0,
+            "std": 30.049147
+          },
+          "additional_total": 438710,
+          "additional_visibility_proxy_counts": {
+            "dark": 17909,
+            "low_contrast": 714,
+            "no_surround": 317,
+            "ok": 419770
+          },
+          "frames_with_zero_csv_but_ge1_additional": 3380,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9766,
+            "max": 374.0,
+            "mean": 46.854086,
+            "median": 45.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 2.0,
+            "p25": 17.0,
+            "p75": 72.0,
+            "p95": 102.0,
+            "p99": 122.0,
+            "std": 33.123301
+          }
+        },
+        "small_area_bins": {
+          "10-25": 296249,
+          "100-200": 105141,
+          "1000-inf": 29857,
+          "200-1000": 120731,
+          "25-50": 183211,
+          "50-100": 144625
+        },
+        "small_box_h_px": {
+          "count": 879814,
+          "max": 435.0,
+          "mean": 9.824961,
+          "median": 6.0,
+          "min": 1.0,
+          "p01": 2.0,
+          "p05": 3.0,
+          "p25": 4.0,
+          "p75": 11.0,
+          "p95": 29.0,
+          "p99": 56.0,
+          "std": 10.814454
+        },
+        "small_box_w_px": {
+          "count": 879814,
+          "max": 490.0,
+          "mean": 17.848353,
+          "median": 12.0,
+          "min": 1.0,
+          "p01": 4.0,
+          "p05": 5.0,
+          "p25": 8.0,
+          "p75": 21.0,
+          "p95": 50.0,
+          "p99": 85.0,
+          "std": 16.712584
+        },
+        "small_component_area_px": {
+          "count": 879814,
+          "max": 56160.0,
+          "mean": 176.145472,
+          "median": 42.0,
+          "min": 10.0,
+          "p01": 10.0,
+          "p05": 11.0,
+          "p25": 19.0,
+          "p75": 123.0,
+          "p95": 720.0,
+          "p99": 2348.0,
+          "std": 539.702892
+        }
+      },
+      "by_condition_candidate_subset": {
+        "dark_frac_non_sky_ge_0.2": {
+          "csv_boxes_per_frame": 2.360049,
+          "frames": 811,
+          "small_ge_min_area_per_frame": 42.811344,
+          "small_visibility_proxy": {
+            "dark": 4979,
+            "low_contrast": 2,
+            "no_surround": 29,
+            "ok": 29710
+          }
+        },
+        "dark_frac_non_sky_lt_0.2": {
+          "csv_boxes_per_frame": 1.881532,
+          "frames": 8382,
+          "small_ge_min_area_per_frame": 41.10952,
+          "small_visibility_proxy": {
+            "dark": 1656,
+            "low_contrast": 77,
+            "no_surround": 260,
+            "ok": 342587
+          }
+        },
+        "render_mean_ge_60": {
+          "csv_boxes_per_frame": 1.907602,
+          "frames": 8366,
+          "small_ge_min_area_per_frame": 41.250777,
+          "small_visibility_proxy": {
+            "dark": 2528,
+            "low_contrast": 78,
+            "no_surround": 273,
+            "ok": 342225
+          }
+        },
+        "render_mean_lt_60": {
+          "csv_boxes_per_frame": 2.087062,
+          "frames": 827,
+          "small_ge_min_area_per_frame": 41.349456,
+          "small_visibility_proxy": {
+            "dark": 4107,
+            "low_contrast": 1,
+            "no_surround": 16,
+            "ok": 30072
+          }
+        }
+      },
+      "candidate_subset": {
+        "apparent_size_overlap": {
+          "csv_boxes_with_bbox_area_lt_1000px": 4320,
+          "csv_median_box_area_px": 1836.0,
+          "frames": 9193,
+          "note": "green = physically small/medium rocks; many appear as large in the image as CSV 'large' rocks",
+          "small_components_bbox_area_ge_csv_median_box_area": 28519,
+          "small_components_with_w_and_h_ge_21px": 76168
+        },
+        "csv_boxes": 17685,
+        "frames": 9193,
+        "large_area_bins": {
+          "10-25": 14756,
+          "100-200": 11510,
+          "1000-inf": 8662,
+          "200-1000": 17410,
+          "25-50": 12442,
+          "50-100": 12790
+        },
+        "large_component_area_px": {
+          "count": 77570,
+          "max": 292795.0,
+          "mean": 900.899832,
+          "median": 93.0,
+          "min": 10.0,
+          "p01": 10.0,
+          "p05": 12.0,
+          "p25": 32.0,
+          "p75": 322.0,
+          "p95": 2709.0,
+          "p99": 15878.93,
+          "std": 5595.02817
+        },
+        "min_area_100": {
+          "additional_large_without_csv_per_image": {
+            "count": 9193,
+            "max": 14.0,
+            "mean": 2.484934,
+            "median": 2.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 1.0,
+            "p75": 4.0,
+            "p95": 7.0,
+            "p99": 10.0,
+            "std": 2.317977
+          },
+          "additional_relative_to_s1_boxes": 14.996947,
+          "additional_small_medium_per_image": {
+            "count": 9193,
+            "max": 105.0,
+            "mean": 26.365387,
+            "median": 24.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 7.0,
+            "p75": 42.0,
+            "p95": 62.0,
+            "p99": 73.0,
+            "std": 20.512719
+          },
+          "additional_total": 265221,
+          "additional_visibility_proxy_counts": {
+            "dark": 4334,
+            "low_contrast": 26,
+            "no_surround": 180,
+            "ok": 260681
+          },
+          "frames_with_zero_csv_but_ge1_additional": 3006,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9193,
+            "max": 116.0,
+            "mean": 30.774067,
+            "median": 28.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 1.0,
+            "p25": 10.0,
+            "p75": 48.0,
+            "p95": 71.0,
+            "p99": 86.0,
+            "std": 22.916678
+          }
+        },
+        "min_area_200": {
+          "additional_large_without_csv_per_image": {
+            "count": 9193,
+            "max": 11.0,
+            "mean": 1.244425,
+            "median": 1.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 0.0,
+            "p75": 2.0,
+            "p95": 4.0,
+            "p99": 6.0,
+            "std": 1.461712
+          },
+          "additional_relative_to_s1_boxes": 8.719197,
+          "additional_small_medium_per_image": {
+            "count": 9193,
+            "max": 66.0,
+            "mean": 15.529098,
+            "median": 13.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 4.0,
+            "p75": 25.0,
+            "p95": 39.0,
+            "p99": 49.0,
+            "std": 13.017641
+          },
+          "additional_total": 154199,
+          "additional_visibility_proxy_counts": {
+            "dark": 2614,
+            "low_contrast": 10,
+            "no_surround": 88,
+            "ok": 151487
+          },
+          "frames_with_zero_csv_but_ge1_additional": 2717,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9193,
+            "max": 83.0,
+            "mean": 18.69727,
+            "median": 16.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 5.0,
+            "p75": 29.0,
+            "p95": 47.0,
+            "p99": 58.0,
+            "std": 15.111308
+          }
+        },
+        "min_area_25": {
+          "additional_large_without_csv_per_image": {
+            "count": 9193,
+            "max": 28.0,
+            "mean": 5.229087,
+            "median": 4.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 2.0,
+            "p75": 8.0,
+            "p95": 13.0,
+            "p99": 17.0,
+            "std": 4.062113
+          },
+          "additional_relative_to_s1_boxes": 33.968504,
+          "additional_small_medium_per_image": {
+            "count": 9193,
+            "max": 207.0,
+            "mean": 60.117698,
+            "median": 59.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 1.0,
+            "p25": 23.0,
+            "p75": 93.0,
+            "p95": 128.0,
+            "p99": 152.0,
+            "std": 41.693487
+          },
+          "additional_total": 600733,
+          "additional_visibility_proxy_counts": {
+            "dark": 9995,
+            "low_contrast": 433,
+            "no_surround": 459,
+            "ok": 589846
+          },
+          "frames_with_zero_csv_but_ge1_additional": 3230,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9193,
+            "max": 231.0,
+            "mean": 67.270532,
+            "median": 66.0,
+            "min": 0.0,
+            "p01": 1.0,
+            "p05": 4.0,
+            "p25": 28.0,
+            "p75": 102.0,
+            "p95": 141.0,
+            "p99": 166.08,
+            "std": 44.702846
+          }
+        },
+        "min_area_50": {
+          "additional_large_without_csv_per_image": {
+            "count": 9193,
+            "max": 23.0,
+            "mean": 3.875666,
+            "median": 3.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 1.0,
+            "p75": 6.0,
+            "p95": 10.0,
+            "p99": 13.0,
+            "std": 3.216048
+          },
+          "additional_relative_to_s1_boxes": 23.4622,
+          "additional_small_medium_per_image": {
+            "count": 9193,
+            "max": 145.0,
+            "mean": 41.259654,
+            "median": 40.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 0.0,
+            "p25": 13.0,
+            "p75": 65.0,
+            "p95": 91.0,
+            "p99": 108.0,
+            "std": 30.113299
+          },
+          "additional_total": 414929,
+          "additional_visibility_proxy_counts": {
+            "dark": 6836,
+            "low_contrast": 85,
+            "no_surround": 296,
+            "ok": 407712
+          },
+          "frames_with_zero_csv_but_ge1_additional": 3160,
+          "s2_total_boxes_per_image(csv+additional)": {
+            "count": 9193,
+            "max": 158.0,
+            "mean": 47.059067,
+            "median": 45.0,
+            "min": 0.0,
+            "p01": 0.0,
+            "p05": 2.0,
+            "p25": 17.0,
+            "p75": 73.0,
+            "p95": 103.0,
+            "p99": 121.0,
+            "std": 32.821867
+          }
+        },
+        "small_area_bins": {
+          "10-25": 280067,
+          "100-200": 99618,
+          "1000-inf": 28281,
+          "200-1000": 114478,
+          "25-50": 173362,
+          "50-100": 136923
+        },
+        "small_box_h_px": {
+          "count": 832729,
+          "max": 284.0,
+          "mean": 9.795418,
+          "median": 6.0,
+          "min": 1.0,
+          "p01": 2.0,
+          "p05": 3.0,
+          "p25": 4.0,
+          "p75": 11.0,
+          "p95": 29.0,
+          "p99": 56.0,
+          "std": 10.723028
+        },
+        "small_box_w_px": {
+          "count": 832729,
+          "max": 430.0,
+          "mean": 17.879568,
+          "median": 12.0,
+          "min": 1.0,
+          "p01": 4.0,
+          "p05": 5.0,
+          "p25": 8.0,
+          "p75": 21.0,
+          "p95": 50.0,
+          "p99": 85.0,
+          "std": 16.688087
+        },
+        "small_component_area_px": {
+          "count": 832729,
+          "max": 38118.0,
+          "mean": 175.773007,
+          "median": 42.0,
+          "min": 10.0,
+          "p01": 10.0,
+          "p05": 11.0,
+          "p25": 19.0,
+          "p75": 123.0,
+          "p95": 721.0,
+          "p99": 2340.0,
+          "std": 529.941399
+        }
+      },
+      "hybrid_policy_H_candidate_subset": {
+        "blue_small_large_rocks_per_image": {
+          "count": 9193,
+          "max": 23.0,
+          "mean": 3.705754,
+          "median": 3.0,
+          "min": 0.0,
+          "p01": 0.0,
+          "p05": 0.0,
+          "p25": 1.0,
+          "p75": 5.0,
+          "p95": 10.0,
+          "p99": 13.0,
+          "std": 3.110235
+        },
+        "csv_per_image": {
+          "count": 9193,
+          "max": 16.0,
+          "mean": 1.923746,
+          "median": 1.0,
+          "min": 0.0,
+          "p01": 0.0,
+          "p05": 0.0,
+          "p25": 0.0,
+          "p75": 3.0,
+          "p95": 7.0,
+          "p99": 10.0,
+          "std": 2.327797
+        },
+        "definition": "CSV boxes + blue comps 50..999px not >=50% inside a CSV box (proxy ok) + green comps >= 50px (proxy ok); variant V1_cyan",
+        "frames_with_zero_boxes": 159,
+        "green_per_image": {
+          "count": 9193,
+          "max": 144.0,
+          "mean": 40.497879,
+          "median": 39.0,
+          "min": 0.0,
+          "p01": 0.0,
+          "p05": 0.0,
+          "p25": 13.0,
+          "p75": 64.0,
+          "p95": 90.0,
+          "p99": 106.0,
+          "std": 29.691877
+        },
+        "total_boxes": 424049,
+        "total_per_image": {
+          "count": 9193,
+          "max": 157.0,
+          "mean": 46.12738,
+          "median": 44.0,
+          "min": 0.0,
+          "p01": 0.0,
+          "p05": 2.0,
+          "p25": 17.0,
+          "p75": 71.0,
+          "p95": 100.4,
+          "p99": 118.0,
+          "std": 32.247165
+        }
+      }
+    },
+    "uncertain_summary": {
+      "auto_class_definitions": {
+        "box_covers_mask_pixels_other": "joint bbox of blue/cyan pixels in the box covers >=50% of it with >=20% fill, none of the above",
+        "fragmented_mask_components": ">=2 strict-blue components (>=25px) lie >=80% inside the box and their joint bbox covers >=50% of it",
+        "mask_component_extends_beyond_box": "a strict-blue component bbox contains >=90% of the box and is >=1.5x larger (box covers part of a larger/merged mask region)",
+        "matched_after_cyan_assignment": "matched at IoU>=0.5 once cyan edge pixels count as large rock (V1_cyan)",
+        "no_large_rock_pixels_in_box": "<2% of box pixels are blue/cyan in the ground mask",
+        "note": "automated mechanism triage only; whether the box is a correct label is decided by visual review",
+        "partial_mask_support": "everything else"
+      },
+      "border_touching": 472,
+      "by_anomaly_list": {
+        "cam_anomaly": 140,
+        "ground_facing": 3,
+        "mismatch": 92,
+        "none": 2884,
+        "shadow": 58
+      },
+      "by_auto_class": {
+        "box_covers_mask_pixels_other": 41,
+        "fragmented_mask_components": 54,
+        "mask_component_extends_beyond_box": 3034,
+        "matched_after_cyan_assignment": 12,
+        "no_large_rock_pixels_in_box": 32,
+        "partial_mask_support": 4
+      },
+      "by_auto_class_candidate_subset": {
+        "box_covers_mask_pixels_other": 25,
+        "fragmented_mask_components": 28,
+        "mask_component_extends_beyond_box": 2821,
+        "matched_after_cyan_assignment": 10
+      },
+      "total": 3177
+    },
+    "variants": {
+      "V0_strict": {
+        "all_frames": {
+          "components_covering_ge2_csv_centres": 1810,
+          "csv_boxes": 18867,
+          "csv_boxes_split_into_ge2_components": 543,
+          "large_components_ge25px": 67746,
+          "match_rate": 0.831611,
+          "matched_iou_ge_0.5": 15690
+        },
+        "candidate_subset": {
+          "components_covering_ge2_csv_centres": 1705,
+          "csv_boxes": 17685,
+          "csv_boxes_split_into_ge2_components": 477,
+          "large_components_ge25px": 62921,
+          "match_rate": 0.836924,
+          "matched_iou_ge_0.5": 14801
+        },
+        "description": "pure blue / pure green pixels, no morphology (Task A rule)"
+      },
+      "V1_cyan": {
+        "all_frames": {
+          "components_covering_ge2_csv_centres": 1852,
+          "csv_boxes": 18867,
+          "csv_boxes_split_into_ge2_components": 402,
+          "large_components_ge25px": 67772,
+          "match_rate": 0.828325,
+          "matched_iou_ge_0.5": 15628
+        },
+        "candidate_subset": {
+          "components_covering_ge2_csv_centres": 1744,
+          "csv_boxes": 17685,
+          "csv_boxes_split_into_ge2_components": 350,
+          "large_components_ge25px": 62814,
+          "match_rate": 0.833644,
+          "matched_iou_ge_0.5": 14743
+        },
+        "description": "cyan edge pixels assigned to large rock, no morphology"
+      },
+      "V2_cyan_close3": {
+        "all_frames": {
+          "components_covering_ge2_csv_centres": 2012,
+          "csv_boxes": 18867,
+          "csv_boxes_split_into_ge2_components": 301,
+          "large_components_ge25px": 65221,
+          "match_rate": 0.794827,
+          "matched_iou_ge_0.5": 14996
+        },
+        "candidate_subset": {
+          "components_covering_ge2_csv_centres": 1898,
+          "csv_boxes": 17685,
+          "csv_boxes_split_into_ge2_components": 260,
+          "large_components_ge25px": 60632,
+          "match_rate": 0.800848,
+          "matched_iou_ge_0.5": 14163
+        },
+        "description": "V1 + 3x3 closing per class before labelling"
+      }
+    }
+  },
+  "nasa_exposure_automated": {
+    "by_exposure": {
+      "0016": {
+        "not_identifiable": 0.0431,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.0539,
+        "visible_only_enhanced": 0.9031
+      },
+      "0032": {
+        "not_identifiable": 0.0232,
+        "rock_boxes": 863,
+        "visible_fixed_linear": 0.2607,
+        "visible_only_enhanced": 0.7161
+      },
+      "0064": {
+        "not_identifiable": 0.0139,
+        "rock_boxes": 864,
+        "visible_fixed_linear": 0.7014,
+        "visible_only_enhanced": 0.2847
+      },
+      "0128": {
+        "not_identifiable": 0.0081,
+        "rock_boxes": 864,
+        "visible_fixed_linear": 0.9236,
+        "visible_only_enhanced": 0.0683
+      },
+      "0256": {
+        "not_identifiable": 0.0058,
+        "rock_boxes": 863,
+        "visible_fixed_linear": 0.9618,
+        "visible_only_enhanced": 0.0324
+      },
+      "0512": {
+        "not_identifiable": 0.0046,
+        "rock_boxes": 864,
+        "visible_fixed_linear": 0.978,
+        "visible_only_enhanced": 0.0174
+      },
+      "1024": {
+        "not_identifiable": 0.007,
+        "rock_boxes": 856,
+        "visible_fixed_linear": 0.9883,
+        "visible_only_enhanced": 0.0047
+      },
+      "2048": {
+        "not_identifiable": 0.0241,
+        "rock_boxes": 332,
+        "visible_fixed_linear": 0.9066,
+        "visible_only_enhanced": 0.0693
+      },
+      "4096": {
+        "rock_boxes": 33,
+        "visible_fixed_linear": 0.5152,
+        "visible_only_enhanced": 0.4848
+      },
+      "8192": {
+        "rock_boxes": 33,
+        "visible_fixed_linear": 0.8788,
+        "visible_only_enhanced": 0.1212
+      }
+    },
+    "by_terrain_exposure": {
+      "01_0016": {
+        "not_identifiable": 0.0431,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.0539,
+        "visible_only_enhanced": 0.9031
+      },
+      "01_0032": {
+        "not_identifiable": 0.0323,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.2531,
+        "visible_only_enhanced": 0.7145
+      },
+      "01_0064": {
+        "not_identifiable": 0.0215,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.711,
+        "visible_only_enhanced": 0.2675
+      },
+      "01_0128": {
+        "not_identifiable": 0.0126,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.9066,
+        "visible_only_enhanced": 0.0808
+      },
+      "01_0256": {
+        "not_identifiable": 0.009,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.9515,
+        "visible_only_enhanced": 0.0395
+      },
+      "01_0512": {
+        "not_identifiable": 0.0072,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.9695,
+        "visible_only_enhanced": 0.0233
+      },
+      "01_1024": {
+        "not_identifiable": 0.0072,
+        "rock_boxes": 557,
+        "visible_fixed_linear": 0.9856,
+        "visible_only_enhanced": 0.0072
+      },
+      "11_0032": {
+        "not_identifiable": 0.0065,
+        "rock_boxes": 306,
+        "visible_fixed_linear": 0.2745,
+        "visible_only_enhanced": 0.719
+      },
+      "11_0064": {
+        "rock_boxes": 307,
+        "visible_fixed_linear": 0.684,
+        "visible_only_enhanced": 0.316
+      },
+      "11_0128": {
+        "rock_boxes": 307,
+        "visible_fixed_linear": 0.9544,
+        "visible_only_enhanced": 0.0456
+      },
+      "11_0256": {
+        "rock_boxes": 306,
+        "visible_fixed_linear": 0.9804,
+        "visible_only_enhanced": 0.0196
+      },
+      "11_0512": {
+        "rock_boxes": 307,
+        "visible_fixed_linear": 0.9935,
+        "visible_only_enhanced": 0.0065
+      },
+      "11_1024": {
+        "not_identifiable": 0.0067,
+        "rock_boxes": 299,
+        "visible_fixed_linear": 0.9933
+      },
+      "11_2048": {
+        "not_identifiable": 0.0241,
+        "rock_boxes": 332,
+        "visible_fixed_linear": 0.9066,
+        "visible_only_enhanced": 0.0693
+      },
+      "11_4096": {
+        "rock_boxes": 33,
+        "visible_fixed_linear": 0.5152,
+        "visible_only_enhanced": 0.4848
+      },
+      "11_8192": {
+        "rock_boxes": 33,
+        "visible_fixed_linear": 0.8788,
+        "visible_only_enhanced": 0.1212
+      }
+    },
+    "policy": {
+      "excluded": "brackets without a labelled 512-2048 ms image (NoSun light-off sets are all dark)",
+      "rock_box_visibility_in_selection": {
+        "not_identifiable": 0.0045,
+        "rock_boxes": 889,
+        "visible_fixed_linear": 0.9651,
+        "visible_only_enhanced": 0.0304
+      },
+      "rule": "for each (terrain, position, light, sun, camera) bracket with a detection label, take the 512/1024/2048 ms image with the largest fraction of pixels in 600..3800 (Task A well_exposed_frac); ties -> shorter exposure",
+      "selected_by_terrain": {
+        "01": 40,
+        "11": 52
+      },
+      "selected_exposures": {
+        "0512": 22,
+        "1024": 51,
+        "2048": 19
+      },
+      "selected_image_list": [
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_180/CamL_249672326_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_180/CamR_249672326_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_270/CamL_249803009_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_270/CamR_249803009_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_30/CamL_249923897_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_30/CamR_249975688_0512.png",
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_350/CamL_250053882_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_350/CamR_250053882_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_180/CamL_250243317_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_180/CamR_250243317_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_270/CamL_250369349_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_270/CamR_250369349_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_30/CamL_250532805_0512.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_30/CamR_250495367_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_350/CamL_250615240_1024.png",
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_350/CamR_250615240_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_180/CamL_250786838_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_180/CamR_250786838_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_270/CamL_250873247_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_270/CamR_250873247_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_30/CamL_251009370_0512.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_30/CamR_251009370_0512.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_350/CamL_251117297_0512.png",
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_350/CamR_251117297_0512.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_180/CamL_251246612_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_180/CamR_251246612_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_270/CamL_251344500_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_270/CamR_251344500_1024.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_30/CamL_251465001_0512.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_30/CamR_251465001_0512.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_350/CamL_251566480_0512.png",
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_350/CamR_251566480_0512.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_180/CamL_251680224_1024.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_180/CamR_251680224_1024.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_270/CamL_251797260_1024.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_270/CamR_251797260_1024.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_30/CamL_251905136_1024.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_30/CamR_251905136_1024.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_350/CamL_252017380_1024.png",
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_350/CamR_252017380_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_180/CamL_281274739_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_180/CamR_281274739_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_270/CamL_281406653_2048.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_270/CamR_281406653_2048.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_30/CamL_281524146_0512.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_30/CamR_281524146_0512.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_350/CamL_281596652_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_350/CamR_281596652_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/NoSun/CamL_281718610_2048.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/NoSun/CamR_281718610_2048.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_180/CamL_281793869_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_180/CamR_281793869_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_270/CamL_281924018_2048.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_270/CamR_281924018_2048.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_30/CamL_282067136_0512.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_30/CamR_282067136_0512.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_350/CamL_282156056_1024.png",
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_350/CamR_282156056_1024.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_180/CamL_282344424_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_180/CamR_282344424_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_270/CamL_282429395_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_270/CamR_282429395_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_30/CamL_282523835_0512.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_30/CamR_282523835_0512.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_350/CamL_282620924_0512.png",
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_350/CamR_282620924_0512.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_180/CamL_282811780_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_180/CamR_282811780_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_270/CamL_282925088_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_270/CamR_282925088_2048.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_30/CamL_283036143_0512.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_30/CamR_283036143_0512.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_350/CamL_283143647_0512.png",
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_350/CamR_283143647_0512.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_180/CamL_283277285_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_180/CamR_283277285_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_270/CamL_283394075_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_270/CamR_283394075_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_30/CamL_283496642_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_30/CamR_283496642_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_350/CamL_283617262_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_350/CamR_283617262_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/NoSun/CamL_283732639_2048.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/NoSun/CamR_283732639_2048.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_180/CamL_283842800_2048.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_180/CamR_283842800_2048.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_270/CamL_283925119_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_270/CamR_283925119_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_30/CamL_284045162_2048.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_30/CamR_284032494_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_350/CamL_284141497_1024.png",
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_350/CamR_284141497_1024.png"
+      ],
+      "selected_images": 92
+    },
+    "rock_boxes_evaluated": 6129,
+    "visualisation": {
+      "auto_visibility_rule": "visible_fixed_linear: p95-p5 inside box >= 12 grey levels in fixed view; visible_only_enhanced: same in enhanced view AND raw p95-p5 >= 6 x sigma_noise (sigma from MAD of horizontal pixel differences); else not_identifiable. This is a contrast proxy; a box with texture but no rock would also pass.",
+      "enhanced": "per-image percentile stretch (0.5, 99.5) then gamma 0.4545",
+      "fixed_linear": "raw >> 4 (= /16), clip 0..255"
+    }
+  },
+  "sampled_review": {
+    "candidates": {
+      "additional_candidates_by_min_area": {
+        "additional_ge_100px": {
+          "counts": {
+            "AMBIGUOUS": 13,
+            "MERGED": 16,
+            "NOT_VISIBLE": 2,
+            "VISIBLE_ROCK": 36
+          },
+          "pass": 36,
+          "pass_rate": 0.5373,
+          "reviewed": 67
+        },
+        "additional_ge_200px": {
+          "counts": {
+            "AMBIGUOUS": 8,
+            "MERGED": 16,
+            "NOT_VISIBLE": 1,
+            "VISIBLE_ROCK": 23
+          },
+          "pass": 23,
+          "pass_rate": 0.4792,
+          "reviewed": 48
+        },
+        "additional_ge_25px": {
+          "counts": {
+            "AMBIGUOUS": 27,
+            "MERGED": 16,
+            "NOT_VISIBLE": 5,
+            "VISIBLE_ROCK": 58
+          },
+          "pass": 58,
+          "pass_rate": 0.5472,
+          "reviewed": 106
+        },
+        "additional_ge_50px": {
+          "counts": {
+            "AMBIGUOUS": 18,
+            "MERGED": 16,
+            "NOT_VISIBLE": 2,
+            "VISIBLE_ROCK": 50
+          },
+          "pass": 50,
+          "pass_rate": 0.5814,
+          "reviewed": 86
+        }
+      },
+      "by_stratum": {
+        "large_matched_25-inf": {
+          "counts": {
+            "VISIBLE_ROCK": 8
+          },
+          "pass": 8,
+          "pass_rate": 1.0,
+          "reviewed": 8
+        },
+        "large_new_1000-inf": {
+          "counts": {
+            "MERGED": 9,
+            "VISIBLE_ROCK": 1
+          },
+          "pass": 1,
+          "pass_rate": 0.1,
+          "reviewed": 10
+        },
+        "large_new_200-1000": {
+          "counts": {
+            "AMBIGUOUS": 4,
+            "VISIBLE_ROCK": 6
+          },
+          "pass": 6,
+          "pass_rate": 0.6,
+          "reviewed": 10
+        },
+        "large_new_25-200": {
+          "counts": {
+            "AMBIGUOUS": 3,
+            "VISIBLE_ROCK": 7
+          },
+          "pass": 7,
+          "pass_rate": 0.7,
+          "reviewed": 10
+        },
+        "small_100-200": {
+          "counts": {
+            "AMBIGUOUS": 5,
+            "NOT_VISIBLE": 1,
+            "VISIBLE_ROCK": 10
+          },
+          "pass": 10,
+          "pass_rate": 0.625,
+          "reviewed": 16
+        },
+        "small_1000-inf": {
+          "counts": {
+            "AMBIGUOUS": 2,
+            "MERGED": 2,
+            "VISIBLE_ROCK": 8
+          },
+          "pass": 8,
+          "pass_rate": 0.6667,
+          "reviewed": 12
+        },
+        "small_200-1000": {
+          "counts": {
+            "AMBIGUOUS": 2,
+            "MERGED": 5,
+            "NOT_VISIBLE": 1,
+            "VISIBLE_ROCK": 8
+          },
+          "pass": 8,
+          "pass_rate": 0.5,
+          "reviewed": 16
+        },
+        "small_25-50": {
+          "counts": {
+            "AMBIGUOUS": 8,
+            "NOT_VISIBLE": 3,
+            "VISIBLE_ROCK": 5
+          },
+          "pass": 5,
+          "pass_rate": 0.3125,
+          "reviewed": 16
+        },
+        "small_50-100": {
+          "counts": {
+            "AMBIGUOUS": 3,
+            "VISIBLE_ROCK": 13
+          },
+          "pass": 13,
+          "pass_rate": 0.8125,
+          "reviewed": 16
+        }
+      },
+      "by_visibility_proxy": {
+        "dark": {
+          "counts": {
+            "NOT_VISIBLE": 3
+          },
+          "pass": 0,
+          "pass_rate": 0.0,
+          "reviewed": 3
+        },
+        "ok": {
+          "counts": {
+            "AMBIGUOUS": 27,
+            "MERGED": 16,
+            "NOT_VISIBLE": 2,
+            "VISIBLE_ROCK": 66
+          },
+          "pass": 66,
+          "pass_rate": 0.5946,
+          "reviewed": 111
+        }
+      },
+      "definition": "pass = VISIBLE_ROCK (a distinct rock visible in the render at native resolution, box tight within ~2px). Denominator = reviewed candidates in the stratum. Strata are NOT proportional to population; do not average them.",
+      "split_merge_artifact_counts": {
+        "AMBIGUOUS": 27,
+        "MERGED": 16,
+        "NOT_VISIBLE": 5,
+        "VISIBLE_ROCK": 66
+      }
+    },
+    "exposure": {
+      "0016": {
+        "ONLY_ENHANCED": 1
+      },
+      "0032": {
+        "ONLY_ENHANCED": 2
+      },
+      "0064": {
+        "ONLY_ENHANCED": 2
+      },
+      "0128": {
+        "ONLY_ENHANCED": 1,
+        "VISIBLE": 1
+      },
+      "0256": {
+        "VISIBLE": 2
+      },
+      "0512": {
+        "VISIBLE": 2
+      },
+      "1024": {
+        "CLIPPED_PARTLY": 1,
+        "VISIBLE": 1
+      },
+      "2048": {
+        "CLIPPED_PARTLY": 1
+      }
+    },
+    "reviewer": "AI assistant visual assessment (NOT human validation)",
+    "scenes": {
+      "anomaly_listed": {
+        "preferred": {
+          "neither": 10
+        },
+        "s1_misses_visible_rocks": {
+          "no": 4,
+          "partial": 3,
+          "yes": 3
+        },
+        "s2_artifacts": {
+          "no": 2,
+          "yes": 8
+        },
+        "s2_merges": {
+          "no": 8,
+          "yes": 2
+        },
+        "s2_recovers": {
+          "no": 5,
+          "partial": 5
+        },
+        "s2_splits": {
+          "no": 10
+        },
+        "s2_tight": {
+          "mostly": 1,
+          "no": 9
+        },
+        "scenes_assessed": 10,
+        "small_rocks_visible": {
+          "no": 4,
+          "partial": 3,
+          "yes": 3
+        }
+      },
+      "candidate_subset": {
+        "preferred": {
+          "S1": 3,
+          "S1_for_large": 4,
+          "S2": 42,
+          "equal": 13
+        },
+        "s1_misses_visible_rocks": {
+          "no": 8,
+          "partial": 13,
+          "yes": 41
+        },
+        "s2_artifacts": {
+          "no": 52,
+          "yes": 10
+        },
+        "s2_merges": {
+          "no": 44,
+          "yes": 18
+        },
+        "s2_recovers": {
+          "na": 5,
+          "partial": 12,
+          "yes": 45
+        },
+        "s2_splits": {
+          "no": 62
+        },
+        "s2_tight": {
+          "mostly": 55,
+          "no": 2,
+          "yes": 5
+        },
+        "scenes_assessed": 62,
+        "small_rocks_visible": {
+          "no": 5,
+          "partial": 17,
+          "yes": 40
+        }
+      }
+    },
+    "terrain06": {
+      "APPARENTLY_ROCK_FREE": 8,
+      "ROCK_LIKE_OR_AMBIGUOUS": 2,
+      "UNUSABLE": 8
+    },
+    "uncertain_boxes": {
+      "_all": {
+        "ANNOTATION_ERROR": 7,
+        "FRAME_MISMATCH": 6,
+        "UNDETERMINED": 16,
+        "VALID_MATCHER_FAILED": 12,
+        "VALID_ROCK_IMPERFECT_MASK": 5
+      },
+      "clean_border": {
+        "UNDETERMINED": 2,
+        "VALID_MATCHER_FAILED": 3,
+        "VALID_ROCK_IMPERFECT_MASK": 1
+      },
+      "clean_extends_beyond_box": {
+        "UNDETERMINED": 4,
+        "VALID_MATCHER_FAILED": 3,
+        "VALID_ROCK_IMPERFECT_MASK": 1
+      },
+      "clean_fragmented": {
+        "ANNOTATION_ERROR": 1,
+        "UNDETERMINED": 2,
+        "VALID_MATCHER_FAILED": 4,
+        "VALID_ROCK_IMPERFECT_MASK": 1
+      },
+      "clean_other_mechanism": {
+        "ANNOTATION_ERROR": 1,
+        "UNDETERMINED": 2,
+        "VALID_MATCHER_FAILED": 2,
+        "VALID_ROCK_IMPERFECT_MASK": 1
+      },
+      "list_cam_anomaly": {
+        "ANNOTATION_ERROR": 5,
+        "VALID_ROCK_IMPERFECT_MASK": 1
+      },
+      "list_mismatch": {
+        "FRAME_MISMATCH": 6
+      },
+      "list_shadow": {
+        "UNDETERMINED": 6
+      }
+    }
+  },
+  "sampling": {
+    "by_primary_category": {
+      "border_objects": 6,
+      "exact_duplicate_pair": 6,
+      "heavy_shadow_non_listed": 6,
+      "high_density_small_rocks": 8,
+      "list_cam_anomaly": 5,
+      "list_ground_facing": 4,
+      "list_mismatch": 6,
+      "list_shadow": 6,
+      "multiple_large_rocks": 8,
+      "one_large_rock": 8,
+      "random_non_anomalous": 14,
+      "small_near_large": 6,
+      "suspected_fragmentation": 6,
+      "touching_or_overlapping": 6,
+      "uncertain_csv_match": 8,
+      "very_dark": 6,
+      "zero_csv_boxes": 8
+    },
+    "candidate_subset_scenes": 88,
+    "scenes": 117
+  },
+  "terrain06_inputs": {
+    "detection_label_folder_exists": false,
+    "segmentation_files": [
+      {
+        "image": "Terrain06_Smooth/PosA_1500_Loff/Sun_180/CamL_265161747_0512.png",
+        "label": "SegmentationLabels/terrain06/labels/06_A_off_180_L_0512.txt",
+        "polygons_per_class": {
+          "0": 2,
+          "1": 1
+        }
+      },
+      {
+        "image": "Terrain06_Smooth/PosA_1500_Loff/Sun_180/CamR_265144958_0256.png",
+        "label": "SegmentationLabels/terrain06/labels/06_A_off_180_R_0256.txt",
+        "polygons_per_class": {
+          "0": 2,
+          "1": 1
+        }
+      },
+      {
+        "image": "Terrain06_Smooth/PosB_4000_Lon/Sun_180/CamR_266711301_1024.png",
+        "label": "SegmentationLabels/terrain06/labels/06_B_on_180_R_1024.txt",
+        "polygons_per_class": {
+          "0": 2,
+          "1": 1
+        }
+      },
+      {
+        "image": "Terrain06_Smooth/PosB_4000_Lon/Sun_270/CamL_266817565_1024.png",
+        "label": "SegmentationLabels/terrain06/labels/06_B_on_270_L_1024.txt",
+        "polygons_per_class": {
+          "0": 2,
+          "1": 1
+        }
+      },
+      {
+        "image": "Terrain06_Smooth/PosC_1500_Lon/Sun_30/CamL_268009194_1024.png",
+        "label": "SegmentationLabels/terrain06/labels/06_C_on_30_L_1024.txt",
+        "polygons_per_class": {
+          "0": 2,
+          "1": 1
+        }
+      },
+      {
+        "image": "Terrain06_Smooth/PosC_1500_Lon/Sun_30/CamR_268009194_1024.png",
+        "label": "SegmentationLabels/terrain06/labels/06_C_on_30_R_1024.txt",
+        "polygons_per_class": {
+          "0": 2,
+          "1": 1
+        }
+      }
+    ],
+    "selected_images": [
+      {
+        "camera": "L",
+        "condition": "sunlit_30",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosA_L_sunlit_30_CamL_265404231_0512.jpg",
+        "exposure": "0512",
+        "image": "Terrain06_Smooth/PosA_1500_Loff/Sun_30/CamL_265404231_0512.png",
+        "position": "A",
+        "well_exposed_frac": 0.69617
+      },
+      {
+        "camera": "L",
+        "condition": "rover_light_only",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosA_L_rover_light_only_CamL_265638120_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosA_1500_Lon/NoSun/CamL_265638120_8192.png",
+        "position": "A",
+        "well_exposed_frac": 0.206166
+      },
+      {
+        "camera": "L",
+        "condition": "low_light_no_sun_no_light",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosA_L_low_light_no_sun_no_light_CamL_265073920_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosA_1500_Loff/NoSun/CamL_265073920_8192.png",
+        "position": "A",
+        "well_exposed_frac": 3e-06
+      },
+      {
+        "camera": "R",
+        "condition": "sunlit_30",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosA_R_sunlit_30_CamR_265404231_0512.jpg",
+        "exposure": "0512",
+        "image": "Terrain06_Smooth/PosA_1500_Loff/Sun_30/CamR_265404231_0512.png",
+        "position": "A",
+        "well_exposed_frac": 0.708841
+      },
+      {
+        "camera": "R",
+        "condition": "rover_light_only",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosA_R_rover_light_only_CamR_265638120_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosA_1500_Lon/NoSun/CamR_265638120_8192.png",
+        "position": "A",
+        "well_exposed_frac": 0.215446
+      },
+      {
+        "camera": "R",
+        "condition": "low_light_no_sun_no_light",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosA_R_low_light_no_sun_no_light_CamR_265073920_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosA_1500_Loff/NoSun/CamR_265073920_8192.png",
+        "position": "A",
+        "well_exposed_frac": 8e-06
+      },
+      {
+        "camera": "L",
+        "condition": "sunlit_30",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosB_L_sunlit_30_CamL_266454134_0512.jpg",
+        "exposure": "0512",
+        "image": "Terrain06_Smooth/PosB_4000_Loff/Sun_30/CamL_266454134_0512.png",
+        "position": "B",
+        "well_exposed_frac": 0.453133
+      },
+      {
+        "camera": "L",
+        "condition": "rover_light_only",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosB_L_rover_light_only_CamL_266658981_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosB_4000_Lon/NoSun/CamL_266658981_8192.png",
+        "position": "B",
+        "well_exposed_frac": 0.210926
+      },
+      {
+        "camera": "L",
+        "condition": "low_light_no_sun_no_light",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosB_L_low_light_no_sun_no_light_CamL_266203207_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosB_4000_Loff/NoSun/CamL_266203207_8192.png",
+        "position": "B",
+        "well_exposed_frac": 5e-06
+      },
+      {
+        "camera": "R",
+        "condition": "sunlit_30",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosB_R_sunlit_30_CamR_266454134_0512.jpg",
+        "exposure": "0512",
+        "image": "Terrain06_Smooth/PosB_4000_Loff/Sun_30/CamR_266454134_0512.png",
+        "position": "B",
+        "well_exposed_frac": 0.501882
+      },
+      {
+        "camera": "R",
+        "condition": "rover_light_only",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosB_R_rover_light_only_CamR_266658981_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosB_4000_Lon/NoSun/CamR_266658981_8192.png",
+        "position": "B",
+        "well_exposed_frac": 0.209008
+      },
+      {
+        "camera": "R",
+        "condition": "low_light_no_sun_no_light",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosB_R_low_light_no_sun_no_light_CamR_266203207_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosB_4000_Loff/NoSun/CamR_266203207_8192.png",
+        "position": "B",
+        "well_exposed_frac": 1.2e-05
+      },
+      {
+        "camera": "L",
+        "condition": "sunlit_30",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosC_L_sunlit_30_CamL_267407617_1024.jpg",
+        "exposure": "1024",
+        "image": "Terrain06_Smooth/PosC_1500_Loff/Sun_30/CamL_267407617_1024.png",
+        "position": "C",
+        "well_exposed_frac": 0.536376
+      },
+      {
+        "camera": "L",
+        "condition": "rover_light_only",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosC_L_rover_light_only_CamL_267692791_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosC_1500_Lon/NoSun/CamL_267692791_8192.png",
+        "position": "C",
+        "well_exposed_frac": 0.186523
+      },
+      {
+        "camera": "L",
+        "condition": "low_light_no_sun_no_light",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosC_L_low_light_no_sun_no_light_CamL_267134708_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosC_1500_Loff/NoSun/CamL_267134708_8192.png",
+        "position": "C",
+        "well_exposed_frac": 3e-06
+      },
+      {
+        "camera": "R",
+        "condition": "sunlit_30",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosC_R_sunlit_30_CamR_267407617_1024.jpg",
+        "exposure": "1024",
+        "image": "Terrain06_Smooth/PosC_1500_Loff/Sun_30/CamR_267407617_1024.png",
+        "position": "C",
+        "well_exposed_frac": 0.514201
+      },
+      {
+        "camera": "R",
+        "condition": "rover_light_only",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosC_R_rover_light_only_CamR_267692791_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosC_1500_Lon/NoSun/CamR_267692791_8192.png",
+        "position": "C",
+        "well_exposed_frac": 0.193882
+      },
+      {
+        "camera": "R",
+        "condition": "low_light_no_sun_no_light",
+        "enhanced_full_res": "nasa_terrain06/full/T06_PosC_R_low_light_no_sun_no_light_CamR_267134708_8192.jpg",
+        "exposure": "8192",
+        "image": "Terrain06_Smooth/PosC_1500_Loff/NoSun/CamR_267134708_8192.png",
+        "position": "C",
+        "well_exposed_frac": 7e-06
+      }
+    ],
+    "terrain06_nasa_images_total": 444
+  }
+}

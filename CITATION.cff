@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite it as below. Results are provisional (automated, not human-verified labels)."
+title: "Artemis-X: AI perception for lunar rock detection (YOLO11n, ignore-aware evaluation)"
+type: software
+authors:
+  - given-names: "Mahdi"
+    family-names: "Lakhzouri"
+version: "0.1.0"
+date-released: "2026-10-09"
+keywords:
+  - lunar rover
+  - rock detection
+  - YOLO11
+  - object detection
+  - annotation noise
+  - ignore-aware evaluation
+# license: not yet chosen by the owner
+references:
+  - type: software
+    title: "Ultralytics YOLO"
+    authors:
+      - name: "Ultralytics"
+    url: "https://github.com/ultralytics/ultralytics"
+    license: AGPL-3.0
+  - type: dataset
+    title: "POLAR-Sim"
+    authors:
+      - name: "Simulation-Based Engineering Lab, University of Wisconsin-Madison"
+    url: "https://github.com/uwsbel/POLAR-Sim"
+    license: CC0-1.0

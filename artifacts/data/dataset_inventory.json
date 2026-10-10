@@ -1,0 +1,569 @@
+{
+  "archive_vs_extracted": {
+    "artificial-lunar/archive.zip": {
+      "members": 29378,
+      "members_missing_examples": [],
+      "members_missing_on_disk": 0,
+      "members_size_mismatch": 0,
+      "readable": true,
+      "size_mismatch_examples": []
+    },
+    "nasa-polar/Terrain01_LargeOnly.zip": {
+      "members": 340,
+      "members_missing_examples": [],
+      "members_missing_on_disk": 0,
+      "members_size_mismatch": 0,
+      "readable": true,
+      "size_mismatch_examples": []
+    },
+    "nasa-polar/Terrain06_Smooth.zip": {
+      "members": 448,
+      "members_missing_examples": [],
+      "members_missing_on_disk": 0,
+      "members_size_mismatch": 0,
+      "readable": true,
+      "size_mismatch_examples": []
+    },
+    "nasa-polar/Terrain11_FreshCrater.zip": {
+      "members": 448,
+      "members_missing_examples": [],
+      "members_missing_on_disk": 0,
+      "members_size_mismatch": 0,
+      "readable": true,
+      "size_mismatch_examples": []
+    }
+  },
+  "dataset_root": "dataset",
+  "datasets": {
+    "artificial-lunar": {
+      "bytes_excluding_git": 10828789948,
+      "directories": {
+        ".": {
+          ".csv": 1,
+          ".txt": 5,
+          ".zip": 1
+        },
+        "images/clean": {
+          ".png": 9766
+        },
+        "images/ground": {
+          ".png": 9766
+        },
+        "images/render": {
+          ".png": 9766
+        },
+        "real_moon_images": {
+          ".csv": 2,
+          ".png": 72
+        }
+      },
+      "expected_role": "Artificial Lunar Landscape (Kaggle, synthetic renders + masks)",
+      "extensions": {
+        ".csv": {
+          "bytes": 434154,
+          "files": 3
+        },
+        ".png": {
+          "bytes": 5437815036,
+          "files": 29370
+        },
+        ".txt": {
+          "bytes": 3865,
+          "files": 5
+        },
+        ".zip": {
+          "bytes": 5390536893,
+          "files": 1
+        }
+      },
+      "files_excluding_git": 29379,
+      "gib_excluding_git": 10.085,
+      "git_metadata": {
+        "bytes": 0,
+        "files": 0
+      },
+      "is_empty": false,
+      "zero_byte_files": []
+    },
+    "nasa-polar": {
+      "bytes_excluding_git": 6349482566,
+      "directories": {
+        ".": {
+          ".zip": 3
+        },
+        "Terrain01_LargeOnly": {
+          ".calibration": 1
+        },
+        "Terrain01_LargeOnly/GroundTruth_ascii": {
+          ".xyz": 3
+        },
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Lon/NoSun": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosA_1500_Lon/Sun_350": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Loff/NoSun": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Lon/NoSun": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosB_4000_Lon/Sun_350": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosC_1500_Loff/NoSun": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain01_LargeOnly/PosC_1500_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain06_Smooth": {
+          ".calibration": 1
+        },
+        "Terrain06_Smooth/GroundTruth_ascii": {
+          ".xyz": 3
+        },
+        "Terrain06_Smooth/PosA_1500_Loff/NoSun": {
+          ".png": 18
+        },
+        "Terrain06_Smooth/PosA_1500_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosA_1500_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosA_1500_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosA_1500_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosA_1500_Lon/NoSun": {
+          ".png": 18
+        },
+        "Terrain06_Smooth/PosA_1500_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosA_1500_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosA_1500_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosA_1500_Lon/Sun_350": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Loff/NoSun": {
+          ".png": 18
+        },
+        "Terrain06_Smooth/PosB_4000_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Lon/NoSun": {
+          ".png": 18
+        },
+        "Terrain06_Smooth/PosB_4000_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosB_4000_Lon/Sun_350": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Loff/NoSun": {
+          ".png": 18
+        },
+        "Terrain06_Smooth/PosC_1500_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Lon/NoSun": {
+          ".png": 18
+        },
+        "Terrain06_Smooth/PosC_1500_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain06_Smooth/PosC_1500_Lon/Sun_350": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater": {
+          ".calibration": 1
+        },
+        "Terrain11_FreshCrater/GroundTruth_ascii": {
+          ".xyz": 3
+        },
+        "Terrain11_FreshCrater/PosA_1500_Loff/NoSun": {
+          ".png": 18
+        },
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosA_1500_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosA_1500_Lon/NoSun": {
+          ".png": 18
+        },
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosA_1500_Lon/Sun_350": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Loff/NoSun": {
+          ".png": 18
+        },
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Lon/NoSun": {
+          ".png": 18
+        },
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosB_4000_Lon/Sun_350": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Loff/NoSun": {
+          ".png": 18
+        },
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_180": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_270": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_30": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Loff/Sun_350": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Lon/NoSun": {
+          ".png": 18
+        },
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_180": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_270": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_30": {
+          ".png": 14
+        },
+        "Terrain11_FreshCrater/PosC_1500_Lon/Sun_350": {
+          ".png": 14
+        }
+      },
+      "expected_role": "NASA POLAR stereo (real HDR-bracketed images, LiDAR ground truth)",
+      "extensions": {
+        ".calibration": {
+          "bytes": 1867,
+          "files": 3
+        },
+        ".png": {
+          "bytes": 2360628143,
+          "files": 1224
+        },
+        ".xyz": {
+          "bytes": 1365883991,
+          "files": 9
+        },
+        ".zip": {
+          "bytes": 2622968565,
+          "files": 3
+        }
+      },
+      "files_excluding_git": 1239,
+      "gib_excluding_git": 5.913,
+      "git_metadata": {
+        "bytes": 0,
+        "files": 0
+      },
+      "is_empty": false,
+      "zero_byte_files": []
+    },
+    "polar-sim": {
+      "bytes_excluding_git": 0,
+      "directories": {},
+      "expected_role": "not referenced by the task brief",
+      "extensions": {},
+      "files_excluding_git": 0,
+      "gib_excluding_git": 0.0,
+      "git_metadata": {
+        "bytes": 0,
+        "files": 0
+      },
+      "is_empty": true,
+      "zero_byte_files": []
+    },
+    "polar-sim-source": {
+      "bytes_excluding_git": 154337884,
+      "directories": {
+        ".": {
+          ".cpp": 1,
+          ".md": 1,
+          ".py": 1,
+          "<none>": 1
+        },
+        "Labels/Terrain01": {
+          ".txt": 281
+        },
+        "Labels/Terrain02": {
+          ".txt": 344
+        },
+        "Labels/Terrain03": {
+          ".txt": 351
+        },
+        "Labels/Terrain04": {
+          ".txt": 419,
+          "<none>": 1
+        },
+        "Labels/Terrain05": {
+          ".txt": 349
+        },
+        "Labels/Terrain07": {
+          ".txt": 355
+        },
+        "Labels/Terrain08": {
+          ".txt": 354,
+          "<none>": 1
+        },
+        "Labels/Terrain09": {
+          ".txt": 374,
+          "<none>": 1
+        },
+        "Labels/Terrain10": {
+          ".txt": 358,
+          "<none>": 1
+        },
+        "Labels/Terrain11": {
+          ".txt": 350,
+          "<none>": 1
+        },
+        "Labels/Terrain12": {
+          ".txt": 351,
+          "<none>": 1
+        },
+        "Labels/Terrain13": {
+          ".txt": 99
+        },
+        "SegmentationLabels/terrain01/labels": {
+          ".txt": 182
+        },
+        "SegmentationLabels/terrain02/labels": {
+          ".txt": 336
+        },
+        "SegmentationLabels/terrain03/labels": {
+          ".txt": 208
+        },
+        "SegmentationLabels/terrain04/labels": {
+          ".txt": 357
+        },
+        "SegmentationLabels/terrain05/labels": {
+          ".txt": 408
+        },
+        "SegmentationLabels/terrain06/labels": {
+          ".txt": 6
+        },
+        "SegmentationLabels/terrain07/labels": {
+          ".txt": 413
+        },
+        "SegmentationLabels/terrain08/labels": {
+          ".txt": 409
+        },
+        "SegmentationLabels/terrain09/labels": {
+          ".txt": 396
+        },
+        "SegmentationLabels/terrain10/labels": {
+          ".txt": 373
+        },
+        "SegmentationLabels/terrain11/labels": {
+          ".txt": 407
+        },
+        "SegmentationLabels/terrain12/labels": {
+          ".txt": 384
+        },
+        "SegmentationLabels/terrain13/labels": {
+          ".txt": 98
+        }
+      },
+      "expected_role": "POLAR-Sim annotation repository (YOLO boxes + polygons)",
+      "extensions": {
+        ".cpp": {
+          "bytes": 20604,
+          "files": 1
+        },
+        ".md": {
+          "bytes": 7916,
+          "files": 1
+        },
+        ".py": {
+          "bytes": 1790,
+          "files": 1
+        },
+        ".txt": {
+          "bytes": 154095581,
+          "files": 7962
+        },
+        "<none>": {
+          "bytes": 211993,
+          "files": 7
+        }
+      },
+      "files_excluding_git": 7972,
+      "gib_excluding_git": 0.144,
+      "git_metadata": {
+        "bytes": 494104952,
+        "files": 180
+      },
+      "is_empty": false,
+      "zero_byte_files": [
+        "Labels/Terrain11/11_A_on_180_L_1024.txt"
+      ]
+    },
+    "processed": {
+      "bytes_excluding_git": 0,
+      "directories": {},
+      "expected_role": "not referenced by the task brief",
+      "extensions": {},
+      "files_excluding_git": 0,
+      "gib_excluding_git": 0.0,
+      "git_metadata": {
+        "bytes": 0,
+        "files": 0
+      },
+      "is_empty": true,
+      "zero_byte_files": []
+    }
+  },
+  "duplicate_polar_sim_checkout": {
+    "files": 7972,
+    "identical_by_path_and_size": true,
+    "only_in_dataset_copy": [],
+    "only_in_root_copy": [],
+    "path": "polar-sim-source",
+    "size_differences": []
+  },
+  "missing_expected_datasets": [],
+  "other_entries": {},
+  "source_fingerprint": {
+    "data": {
+      "bytes": 17332610398,
+      "files": 38590,
+      "sha256": "fecca0cf45c9a9c063afd284e8267e74d9a767f5923228f23698ee49376ff72d"
+    },
+    "including_git_metadata": {
+      "bytes": 17826715350,
+      "files": 38770,
+      "sha256": "760e0b7b2702fa86a77f5261470b5d6ab6f32c02b450d861b863512f4605759d"
+    }
+  }
+}

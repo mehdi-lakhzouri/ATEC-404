@@ -1,0 +1,22 @@
+{
+  "recorded": "2026-10-09T23:42:16",
+  "files": {
+    "experiments/task-f/model-selection-001/model/artemis_rock_yolo11n_e1c_s42.pt": "413d0481a728a310f5b919d069676ee5ddd2091e81b4b663831e1e977a0752eb",
+    "experiments/task-f/model-selection-001/FROZEN_MODEL_CONFIG.json": "efdc5802cbc3a4f0aad75eb34cc7d4bae6ae0d8010bfb9303defc6da63b44bf4",
+    "experiments/task-f/model-selection-001/CHECKSUMS.sha256": "7dd84aa90fa24b40a12ba7bc7ec678a30382cdc772c0ed3e5055097b2b7611c5",
+    "experiments/task-f/test-evaluation-001/TEST_RUN_LOCK.json": "8bf83421e2d2dde546e82242fbb8ac8ea154c85555c2dfe197dc84e160567333",
+    "experiments/task-f/test-evaluation-001/test_results.json": "a3d6d6088fc8fa2e60db4a89b42e016341ad19163f2e2c91e558680357bce2c8",
+    "experiments/task-f/test-evaluation-001/CHECKSUMS.sha256": "20675ad362ef58a06090c087f0503251f41eb16452b2bd69cf924d3a67de8c81",
+    "experiments/task-e/full-training-config-a-200-s42/weights/best.pt": "413d0481a728a310f5b919d069676ee5ddd2091e81b4b663831e1e977a0752eb",
+    "experiments/task-e/full-training-config-a-200-s42/results.csv": "25c030b08c79d59a28b7af6cea9bcb1d050d60c39d460dd7a543bbcae81dca62",
+    "experiments/task-e/full-training-config-a-200-s42/CHECKSUMS.sha256": "16a3325572c7c6cfb27ee7278fa6fafc562a0a0336754647718e81ff71872871",
+    "experiments/task-e/runs_registry.jsonl": "b61340a5beab30cf3a906086a4788e314f697ce46bbe8b6016a964bd2ef9aba3",
+    "dataset/processed/VERSIONS.json": "da2333f388f38de109dbf80ed3f83645828e172ddd541465fc9c7f46d84778d1",
+    "dataset/processed/yolo-rock-v1.1/manifests/split_manifest.csv": "3274dcd2290b59946e9a367ac572388d133b5a663da0444666ea7c32b9dd6576",
+    "dataset/processed/yolo-rock-v1.1/manifests/eval_ignore_regions.json": "8468458f5f2158fa685df836d114b10645539040e53c6d20c3fd60b929d2af8b",
+    "dataset/processed/yolo-rock-v1.1/data_A.yaml": "fc5f0fdcc8fd4cf0ea1dfa18b61e41e9d28ee08467ff05022f3e9fb6c49deb68",
+    "backend/uv.lock": "e5fa9a1123f2351385a19f25121315e1f30470120909234d262b2a18a7b7a3cf",
+    "backend/pyproject.toml": "7d13221ae0a4197b365a96ee40380b080b6a9b551d6dfab1eba98f6d121e57f6",
+    "backend/yolo11n.pt": "0ebbc80d4a7680d14987a577cd21342b65ecfd94632bd9a8da63ae6417644ee1"
+  }
+}

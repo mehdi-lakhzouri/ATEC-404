@@ -1,0 +1,70 @@
+# Task E experiment plan - YOLO11n fine-tuning, Config A vs Config B (PREPARED, NOT RUN).
+# Training is refused by training/train.py unless ARTEMIS_TRAINING_AUTHORIZED=1 and --authorized are both given.
+
+dataset:
+  name: yolo-rock-v1.1                      # PROVISIONAL, not frozen; labels are automated S2-H VALID boxes
+  root: dataset/processed/yolo-rock-v1.1
+  data_yaml: {A: data_A.yaml, B: data_B.yaml}
+  manifest: manifests/split_manifest.csv    # its sha256 is recorded in every run
+  eval_ignore_regions:
+    - manifests/eval_ignore_regions.json                         # REVIEW_REQUIRED boxes (policy)
+    - manifests/eval_ignore_regions_subthreshold_PROPOSED.json   # out-of-scope rocks (proposal, needs approval)
+
+model:
+  weights: yolo11n.pt                       # one-time download required (not on disk); pin its sha256 in the run registry
+  task: detect
+
+common_hyperparameters:                     # identical for A and B
+  imgsz: 736                                # >= native 720 px width: no downscaling (median rock box side 12 px)
+  batch: 16                                 # conservative for 8 GB (YOLO11n @736, AMP); OOM fallback 8 - never 'auto' (non-reproducible)
+  workers: 4                                # Windows dataloader; RAM 32 GB
+  cache: false
+  amp: true
+  optimizer: SGD
+  lr0: 0.01
+  momentum: 0.937
+  weight_decay: 0.0005
+  warmup_epochs: 3
+  cos_lr: true
+  deterministic: true                       # torch deterministic algorithms (warn_only); cuDNN nondeterminism may remain
+  single_cls: false                         # E.1a: true made Ultralytics rename the class to "item"; dataset is already single-class {0: rock}
+  rect: false
+  patience: 0                               # 0 disables early stopping -> both configs get exactly the planned budget
+  save_period: 5                            # checkpoints every 5 epochs for resume + ignore-aware checkpoint selection
+  plots: true
+  # augmentation: renders are grayscale; no colour jitter; keep sky up
+  hsv_h: 0.0
+  hsv_s: 0.0
+  hsv_v: 0.3
+  fliplr: 0.5
+  flipud: 0.0
+  mosaic: 1.0
+  close_mosaic: 10
+
+seeds: [0, 1, 2]                            # >= 3 seeds per arm; report mean and spread
+
+budgets:
+  # primary comparison: equal optimiser steps (A has 1,903 train images, B 7,353)
+  equal_steps:
+    target_iterations: 23000                # ~50 epochs of B at batch 16
+    epochs: {A: 193, B: 50}                 # ceil(23000 * 16 / n_train)
+  # secondary: equal epochs (B sees ~3.9x more images)
+  equal_epochs:
+    epochs: {A: 50, B: 50}
+
+arms:
+  - {id: A_steps, config: A, budget: equal_steps}
+  - {id: B_steps, config: B, budget: equal_steps}
+  - {id: A_epochs, config: A, budget: equal_epochs}
+  # B_epochs == B_steps
+
+model_selection: >
+  Ultralytics picks best.pt with its own val, which counts REVIEW-region detections as false positives.
+  Select checkpoints instead with the ignore-aware evaluator on val (training/evaluate.py) over the save_period
+  checkpoints and last.pt; test is evaluated once per arm, after selection.
+
+evaluation:
+  primary: ignore-aware AP50 on val/test (analysis.evaluation.ignore_eval), REVIEW + sub-threshold ignore regions
+  secondary: [AP50-95, size-binned AP50 (small <400, medium 400-2500, large >=2500 px^2), recall@0.25]
+  reference_only: Ultralytics val mAP (marked PROVISIONAL - no ignore support)
+  real_domain: NASA POLAR 92-image subset - blocked until the 12-bit -> 8-bit conversion is approved

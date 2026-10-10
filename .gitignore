@@ -1,0 +1,70 @@
+# ---- Artemis-X: what must never reach Git ----------------------------------------------------------------------
+
+# Local datasets (about 17 GB; redistribution licence unconfirmed) and full experiment outputs (checkpoints, predictions,
+# hard-link views). Their publishable evidence is exported to artifacts/, data/manifests/ and models/ by
+# scripts/export_artifacts.py.
+/dataset/
+/experiments/
+/polar-sim-source/
+
+# Machine-specific data YAML written by scripts/download_dataset.py
+/data/local/
+
+# Unmodified Turborepo starter (future Mission Control) - kept locally, not part of the scientific delivery
+/frontend/
+
+# Archives and stray model downloads
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+/weights/
+/backend/yolo11n.pt
+/backend/yolo*.pt
+*.pt
+!/models/artemis_rock_yolo11n.pt
+
+# Python environments and caches
+.venv/
+.venv-*/
+__pycache__/
+*.py[oc]
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Ultralytics / Torch run outputs and caches
+runs/
+*.cache
+wandb/
+
+# Node (frontend scaffold)
+node_modules/
+.next/
+.turbo/
+
+# Logs, local configuration, secrets
+*.log
+.env
+.env.*
+*.key
+*.pem
+secrets*.json
+
+# Editors and OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# Audit scratch (raw scan contains machine-specific file listings)
+/docs/audits/raw/storage_scan.json
+
+# Legacy one-off PowerShell helpers (kept locally; see docs/audits/CLEANUP_DRY_RUN.md)
+/audit-artemis.ps1
+/collect_taskd_review_images.ps1

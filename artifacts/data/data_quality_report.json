@@ -1,0 +1,778 @@
+{
+  "issues": [
+    {
+      "dataset": "artificial-lunar",
+      "evidence": {
+        "blue_components_without_csv_box": 112994,
+        "blue_components_without_csv_box_by_area": {
+          "200_to_999px": 10929,
+          "50_to_199px": 26324,
+          "ge_1000px": 882,
+          "lt_50px": 74859
+        },
+        "csv_boxes": 18867,
+        "csv_match_rate_to_blue_components": 0.831611,
+        "frames_without_csv_box": 3558,
+        "green_small_rock_components_ge50px_per_frame_median": 39.0
+      },
+      "evidence_status": "verified",
+      "id": "AL-01",
+      "impact": "Training YOLO on the CSV alone teaches the model that visible medium/small rocks are background (label noise as false negatives).",
+      "recommendation": "Define the target class explicitly as 'large rock' OR derive boxes from mask connected components (clean/ground) in Task C; decide in Task B after visual review.",
+      "severity": "HIGH",
+      "title": "bounding_boxes.csv annotates only large (blue-mask) rocks"
+    },
+    {
+      "dataset": "nasa-polar",
+      "evidence": {
+        "effective_bit_depth": 12,
+        "global_max": 4094.0,
+        "mode_size_dtype": {
+          "I;16|[1936, 1216]|uint16|ch=1": 1224
+        }
+      },
+      "evidence_status": "verified",
+      "id": "NP-01",
+      "impact": "Ultralytics/OpenCV default loaders will mis-scale (or 8-bit truncate) these images; the synthetic training data is 8-bit RGB.",
+      "recommendation": "Add an explicit, documented 12-bit->8-bit conversion (fixed scale or per-image percentile) before inference; evaluate it in Task C.",
+      "severity": "HIGH",
+      "title": "Images are 12-bit single-channel data in 16-bit PNG containers"
+    },
+    {
+      "dataset": "nasa-polar",
+      "evidence": {
+        "distinct_camera_viewpoints": {
+          "Terrain01_LargeOnly": 6,
+          "Terrain06_Smooth": 6,
+          "Terrain11_FreshCrater": 6
+        },
+        "images": {
+          "Terrain01_LargeOnly": 336,
+          "Terrain06_Smooth": 444,
+          "Terrain11_FreshCrater": 444
+        },
+        "median_corr_adjacent_exposures": {
+          "Terrain01_LargeOnly": 0.994838,
+          "Terrain06_Smooth": 0.992402,
+          "Terrain11_FreshCrater": 0.992067
+        }
+      },
+      "evidence_status": "verified",
+      "id": "NP-02",
+      "impact": "Metrics computed over all 1,224 images are dominated by a handful of viewpoints; random splits leak scenes.",
+      "recommendation": "Evaluate per (terrain, position) group; pick one well-exposed exposure per bracket (or report per-exposure); never split a bracket.",
+      "severity": "HIGH",
+      "title": "Heavy redundancy: 7-8 exposure brackets x stereo x lighting of only 3 camera positions per terrain"
+    },
+    {
+      "dataset": "polar-sim",
+      "evidence": {
+        "label_reuse": {
+          "brackets_all_files_identical": 73,
+          "brackets_rock_boxes_distinct_sets": {
+            "count": 581,
+            "max": 4.0,
+            "mean": 1.079174,
+            "median": 1.0,
+            "min": 1.0,
+            "p01": 1.0,
+            "p05": 1.0,
+            "p25": 1.0,
+            "p75": 1.0,
+            "p95": 2.0,
+            "p99": 3.0,
+            "std": 0.322314
+          },
+          "brackets_rock_boxes_identical_all_exposures": 543,
+          "brackets_with_distinct_files": 508,
+          "brackets_with_ge2_label_files": 581,
+          "distinct_contents_per_bracket": {
+            "count": 581,
+            "max": 6.0,
+            "mean": 1.95525,
+            "median": 2.0,
+            "min": 1.0,
+            "p01": 1.0,
+            "p05": 1.0,
+            "p25": 2.0,
+            "p75": 2.0,
+            "p95": 3.0,
+            "p99": 3.2,
+            "std": 0.492345
+          },
+          "note": "rock boxes compared at 1e-4 normalised precision; shadows may differ between exposures"
+        },
+        "rock_boxes_mean_by_exposure": {
+          "0016": 13.925,
+          "0032": 17.771963,
+          "0064": 17.809346,
+          "0128": 17.820561,
+          "0256": 17.820561,
+          "0512": 17.796642,
+          "1024": 17.792208,
+          "1028": 28.0,
+          "2048": 18.011407,
+          "4096": 16.266667,
+          "8192": 16.266667
+        }
+      },
+      "evidence_status": "verified",
+      "id": "PS-05",
+      "impact": "Very dark exposures (16-64 ms; <1% well-exposed pixels) carry the same boxes as bright ones, so rocks may be invisible inside their boxes: detection recall on those frames measures exposure, not the model.",
+      "recommendation": "Evaluate on one well-exposed exposure per bracket (512-2048 ms); report dark-exposure results separately if at all.",
+      "severity": "HIGH",
+      "title": "Rock boxes re-used across exposures of a bracket (93% of brackets have identical rock boxes at every exposure)"
+    },
+    {
+      "dataset": "artificial-lunar",
+      "evidence": {
+        "count": 3177,
+        "examples": [
+          {
+            "csv_line": 10,
+            "frame": 11
+          },
+          {
+            "csv_line": 13,
+            "frame": 13
+          },
+          {
+            "csv_line": 17,
+            "frame": 15
+          },
+          {
+            "csv_line": 20,
+            "frame": 16
+          },
+          {
+            "csv_line": 44,
+            "frame": 36
+          },
+          {
+            "csv_line": 45,
+            "frame": 36
+          },
+          {
+            "csv_line": 46,
+            "frame": 36
+          },
+          {
+            "csv_line": 48,
+            "frame": 36
+          },
+          {
+            "csv_line": 49,
+            "frame": 36
+          },
+          {
+            "csv_line": 58,
+            "frame": 41
+          }
+        ],
+        "frames": 1577
+      },
+      "evidence_status": "partially verified (visual sample)",
+      "id": "AL-02",
+      "impact": "In the sampled cases (frames 11, 13, 15) the boxes are correct: anti-aliased edges fragment the ground-mask component so IoU drops. Other cases (anomaly frames) are genuinely wrong. The split is not quantified.",
+      "recommendation": "Keep flagged as uncertain; Task B reviews a sample stratified by anomaly-list membership; do not auto-fix.",
+      "severity": "MEDIUM",
+      "title": "CSV boxes without a matching blue-mask component (IoU<0.5)"
+    },
+    {
+      "dataset": "artificial-lunar",
+      "evidence": {
+        "cam_anomaly_IDs.txt": 19,
+        "ground_facing_IDs.txt": 50,
+        "mismatch_IDs.txt": 278,
+        "shadow_IDs.txt": 226,
+        "top200_largerocks_IDs.txt": 200,
+        "union_excluding_top200": 573
+      },
+      "evidence_status": "verified on 4 sampled frames per list + per-list metrics; not exhaustively",
+      "id": "AL-04",
+      "impact": "Visual review: mismatch = render geometry differs from masks (boxes off-target); cam_anomaly = corrupted masks (sky labelled as rock, rock as sky); shadow = rocks boxed inside fully black shadow; ground_facing = camera on the ground, no scene.",
+      "recommendation": "Exclude the union of cam_anomaly, mismatch, shadow and ground_facing frames from training/validation; keep a tagged copy of shadow frames for a separate hard-case evaluation. top200_largerocks is a selection list, not a defect list.",
+      "severity": "MEDIUM",
+      "title": "Author-provided anomaly lists flag frames with known render/label problems"
+    },
+    {
+      "dataset": "analysis",
+      "evidence": {
+        "count": 5,
+        "examples": [
+          {
+            "error": "duplicate key (first file in sorted order kept as canonical)",
+            "path": "SegmentationLabels/terrain08/labels/09_A_off_no_R_0032.txt",
+            "stage": "polar_sim.seg"
+          },
+          {
+            "error": "duplicate key (first file in sorted order kept as canonical)",
+            "path": "SegmentationLabels/terrain09/labels/09_A_off_no_R_0032.txt",
+            "stage": "polar_sim.seg"
+          },
+          {
+            "error": "duplicate key (first file in sorted order kept as canonical)",
+            "path": "SegmentationLabels/terrain11/labels/09_A_off_no_R_0032.txt",
+            "stage": "polar_sim.seg"
+          },
+          {
+            "error": "duplicate key (first file in sorted order kept as canonical)",
+            "path": "SegmentationLabels/terrain11/labels/11_B_off_no_L_2048.txt",
+            "stage": "polar_sim.seg"
+          },
+          {
+            "error": "duplicate key (first file in sorted order kept as canonical)",
+            "path": "SegmentationLabels/terrain11/labels/11_C_off_no_L_2048.txt",
+            "stage": "polar_sim.seg"
+          }
+        ]
+      },
+      "evidence_status": "verified",
+      "id": "HK-03",
+      "impact": "Some files could not be read or parsed.",
+      "recommendation": "See logs/run.log.",
+      "severity": "MEDIUM",
+      "title": "Errors logged during analysis"
+    },
+    {
+      "dataset": "nasa-polar+polar-sim",
+      "evidence": {
+        "by_exposure": {
+          "0016": 8,
+          "0032": 80,
+          "0064": 80,
+          "0128": 80,
+          "0256": 80,
+          "0512": 80,
+          "1024": 80,
+          "2048": 69,
+          "4096": 20,
+          "8192": 20
+        },
+        "no_label_file": 597
+      },
+      "evidence_status": "verified",
+      "id": "MT-01",
+      "impact": "README says unlabelled photos have nothing visible; that is not verified and dark images may still contain rocks.",
+      "recommendation": "Exclude images without label files from detection metrics (or treat as 'unknown'), do not count as negatives.",
+      "severity": "MEDIUM",
+      "title": "NASA images without a detection label file"
+    },
+    {
+      "dataset": "nasa-polar",
+      "evidence": {
+        "Terrain01_LargeOnly": {
+          "PosA.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 0.808509,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 4591336,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          },
+          "PosB.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 1.0,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 742550,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          },
+          "PosC.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 0.813119,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 4452571,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          }
+        },
+        "Terrain06_Smooth": {
+          "PosA.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 0.8143,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 4429317,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          },
+          "PosB.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 0.996652,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 821438,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          },
+          "PosC.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 0.854403,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 3376614,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          }
+        },
+        "Terrain11_FreshCrater": {
+          "PosA.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 0.841081,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 4116713,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          },
+          "PosB.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 1.0,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 701456,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          },
+          "PosC.xyz": {
+            "in_image_frac": {
+              "cam_to_lidar inverted: Xc = R^T (X - t)": 0.871491,
+              "lidar_to_cam: Xc = R X + t": 0.0
+            },
+            "rows": 3665280,
+            "selected_transform": "cam_to_lidar inverted: Xc = R^T (X - t)"
+          }
+        }
+      },
+      "evidence_status": "verified by projection test; exact semantic of first two / last xyz columns unresolved",
+      "id": "NP-04",
+      "impact": "Using the extrinsics literally (Xc = R X + t) projects 0% of points into the image; spatial evaluation would silently fail.",
+      "recommendation": "Use Xc = R^T (X - t); add lens distortion when producing per-pixel depth; validate visually (samples/nasa_lidar_projection_*.png).",
+      "severity": "MEDIUM",
+      "title": "LiDAR ground truth only per position (3 point clouds per terrain); CAM_LIDAR_* must be applied inverted"
+    },
+    {
+      "dataset": "polar-sim",
+      "evidence": {
+        "file_kind_counts": {
+          "canonical": 3872,
+          "metadata_classes": 12,
+          "system_or_non_txt": 6,
+          "variant_copy": 101
+        },
+        "variant_copy_files": 101,
+        "variants_differing_from_canonical": 6
+      },
+      "evidence_status": "verified",
+      "id": "PS-01",
+      "impact": "Naive globbing double-counts or parses metadata as annotations (cause of the earlier audit warnings).",
+      "recommendation": "Whitelist by the canonical filename regex; never glob *.txt.",
+      "severity": "MEDIUM",
+      "title": "Stray non-canonical label files (copies / 'good' variants / metadata / .DS_Store)"
+    },
+    {
+      "dataset": "polar-sim",
+      "evidence": {
+        "files": [
+          "Labels/Terrain09/09_B_off_180_R_0032.txt"
+        ],
+        "files_with_issues": 1,
+        "issue_type_counts": {
+          "non_numeric_token": 1
+        }
+      },
+      "evidence_status": "verified",
+      "id": "PS-02",
+      "impact": "Conversion would crash or create invalid targets.",
+      "recommendation": "Skip-and-log these lines in Task C; do not repair in place.",
+      "severity": "MEDIUM",
+      "title": "Malformed / invalid detection label lines"
+    },
+    {
+      "dataset": "polar-sim",
+      "evidence": {
+        "detection_terrain_folders": [
+          "Terrain01",
+          "Terrain02",
+          "Terrain03",
+          "Terrain04",
+          "Terrain05",
+          "Terrain07",
+          "Terrain08",
+          "Terrain09",
+          "Terrain10",
+          "Terrain11",
+          "Terrain12",
+          "Terrain13"
+        ],
+        "seg_files_terrain06": 6
+      },
+      "evidence_status": "inferred",
+      "id": "PS-04",
+      "impact": "Terrain06 can only be used as a negative/false-positive test if 'no rocks' is confirmed visually (POLAR-Sim demo code sets rock_num=0 for terrain 6).",
+      "recommendation": "Treat Terrain06 as an unverified negative set until Task B visual review.",
+      "severity": "MEDIUM",
+      "title": "No detection labels for Terrain 06 (smooth)"
+    },
+    {
+      "dataset": "artificial-lunar",
+      "evidence": {
+        "exact_duplicates": 0,
+        "invalid_counts": {
+          "frame_not_in_image_set": 0,
+          "negative_xy": 0,
+          "non_integer_w_h": 0,
+          "nonpositive_w_or_h": 0,
+          "x_out_of_bounds": 0,
+          "xy_not_half_pixel": 0,
+          "y_out_of_bounds": 0
+        },
+        "near_duplicates_iou_gt_0.8": 0,
+        "tiny_boxes": 0
+      },
+      "evidence_status": "verified",
+      "id": "AL-03",
+      "impact": "Out-of-bounds or degenerate boxes break YOLO conversion or produce clipped targets.",
+      "recommendation": "Clip-and-flag (not silently fix) during conversion; keep a list of affected lines.",
+      "severity": "LOW",
+      "title": "Geometric validity of CSV boxes"
+    },
+    {
+      "dataset": "artificial-lunar",
+      "evidence": {
+        "examples": [
+          {
+            "image": "PCAM1.png",
+            "image_wh": [
+              777,
+              571
+            ],
+            "mask_wh": [
+              776,
+              568
+            ]
+          },
+          {
+            "image": "TCAM1.png",
+            "image_wh": [
+              2352,
+              1728
+            ],
+            "mask_wh": [
+              777,
+              571
+            ]
+          },
+          {
+            "image": "TCAM2.png",
+            "image_wh": [
+              2352,
+              1728
+            ],
+            "mask_wh": [
+              777,
+              571
+            ]
+          },
+          {
+            "image": "TCAM3.png",
+            "image_wh": [
+              2352,
+              1728
+            ],
+            "mask_wh": [
+              777,
+              571
+            ]
+          },
+          {
+            "image": "TCAM4.png",
+            "image_wh": [
+              2352,
+              1728
+            ],
+            "mask_wh": [
+              777,
+              571
+            ]
+          }
+        ],
+        "mismatches": 6
+      },
+      "evidence_status": "verified",
+      "id": "AL-05",
+      "impact": "Pixel-wise comparison with masks needs resizing/cropping; PCAM CSV boxes refer to image coordinates.",
+      "recommendation": "Only use the real-moon set for qualitative / small-scale box evaluation; document the resize policy.",
+      "severity": "LOW",
+      "title": "Real-moon images and their masks differ in size"
+    },
+    {
+      "dataset": "artificial-lunar",
+      "evidence": {
+        "examples": [
+          [
+            1,
+            6658,
+            0
+          ],
+          [
+            9,
+            362,
+            3
+          ],
+          [
+            9,
+            976,
+            1
+          ],
+          [
+            9,
+            1324,
+            1
+          ],
+          [
+            9,
+            1353,
+            2
+          ],
+          [
+            9,
+            2566,
+            3
+          ],
+          [
+            9,
+            3284,
+            3
+          ],
+          [
+            9,
+            3779,
+            2
+          ],
+          [
+            9,
+            4029,
+            3
+          ],
+          [
+            9,
+            4826,
+            3
+          ]
+        ],
+        "pairs": 376
+      },
+      "evidence_status": "verified",
+      "id": "AL-06",
+      "impact": "Possible train/val leakage.",
+      "recommendation": "Assign near-duplicate groups to the same split.",
+      "severity": "LOW",
+      "title": "Near-duplicate renders"
+    },
+    {
+      "dataset": "repository",
+      "evidence": {
+        "identical_by_path_and_size": true,
+        "path": "polar-sim-source"
+      },
+      "evidence_status": "verified",
+      "id": "HK-01",
+      "impact": "Two sources of truth; scripts may point to different copies.",
+      "recommendation": "Use dataset/polar-sim-source only; remove the root copy after team agreement.",
+      "severity": "LOW",
+      "title": "Second POLAR-Sim checkout at project root"
+    },
+    {
+      "dataset": "repository",
+      "evidence": {
+        "dirs": [
+          "polar-sim",
+          "processed"
+        ]
+      },
+      "evidence_status": "verified",
+      "id": "HK-02",
+      "impact": "Possible confusion about where processed data lives.",
+      "recommendation": "Reserve dataset/processed for Task C outputs; keep it out of source fingerprints.",
+      "severity": "LOW",
+      "title": "Empty dataset directories"
+    },
+    {
+      "dataset": "nasa-polar",
+      "evidence": {
+        "Terrain01_LargeOnly": [
+          "PosC_Lon"
+        ]
+      },
+      "evidence_status": "verified",
+      "id": "NP-03",
+      "impact": "Unbalanced lighting coverage per terrain.",
+      "recommendation": "Report per-condition metrics; do not compare raw totals across terrains.",
+      "severity": "LOW",
+      "title": "Incomplete acquisition folders"
+    },
+    {
+      "dataset": "polar-sim",
+      "evidence": {
+        "files_with_issues": 28,
+        "issue_type_counts": {
+          "degenerate_area_lt_1px": 28
+        }
+      },
+      "evidence_status": "verified",
+      "id": "PS-03",
+      "impact": "Degenerate polygons produce empty masks.",
+      "recommendation": "Filter by area/vertex count when rasterising.",
+      "severity": "LOW",
+      "title": "Invalid / degenerate segmentation polygons"
+    },
+    {
+      "dataset": "polar-sim",
+      "evidence": {
+        "duplicate_keys": [
+          {
+            "duplicates": [
+              "SegmentationLabels/terrain08/labels/09_A_off_no_R_0032.txt",
+              "SegmentationLabels/terrain09/labels/09_A_off_no_R_0032.txt",
+              "SegmentationLabels/terrain11/labels/09_A_off_no_R_0032.txt"
+            ],
+            "identical_to_kept": [
+              false,
+              false,
+              false
+            ],
+            "kept": "SegmentationLabels/terrain07/labels/09_A_off_no_R_0032.txt",
+            "key": "09_A_off_no_R_0032"
+          },
+          {
+            "duplicates": [
+              "SegmentationLabels/terrain11/labels/11_B_off_no_L_2048.txt"
+            ],
+            "identical_to_kept": [
+              false
+            ],
+            "kept": "SegmentationLabels/terrain07/labels/11_B_off_no_L_2048.txt",
+            "key": "11_B_off_no_L_2048"
+          },
+          {
+            "duplicates": [
+              "SegmentationLabels/terrain11/labels/11_C_off_no_L_2048.txt"
+            ],
+            "identical_to_kept": [
+              false
+            ],
+            "kept": "SegmentationLabels/terrain07/labels/11_C_off_no_L_2048.txt",
+            "key": "11_C_off_no_L_2048"
+          }
+        ],
+        "misfiled": [
+          "SegmentationLabels/terrain07/labels/09_A_off_no_R_0032.txt",
+          "SegmentationLabels/terrain07/labels/11_B_off_no_L_2048.txt",
+          "SegmentationLabels/terrain07/labels/11_C_off_no_L_2048.txt",
+          "SegmentationLabels/terrain08/labels/09_A_off_no_R_0032.txt",
+          "SegmentationLabels/terrain11/labels/09_A_off_no_R_0032.txt"
+        ]
+      },
+      "evidence_status": "verified",
+      "id": "PS-06",
+      "impact": "Folder-based globbing assigns labels to the wrong terrain.",
+      "recommendation": "Key by filename, not folder; treat conflicting duplicates as ambiguous.",
+      "severity": "LOW",
+      "title": "Segmentation files duplicated or stored in another terrain's folder"
+    }
+  ],
+  "logged_errors": [
+    {
+      "error": "duplicate key (first file in sorted order kept as canonical)",
+      "path": "SegmentationLabels/terrain08/labels/09_A_off_no_R_0032.txt",
+      "stage": "polar_sim.seg"
+    },
+    {
+      "error": "duplicate key (first file in sorted order kept as canonical)",
+      "path": "SegmentationLabels/terrain09/labels/09_A_off_no_R_0032.txt",
+      "stage": "polar_sim.seg"
+    },
+    {
+      "error": "duplicate key (first file in sorted order kept as canonical)",
+      "path": "SegmentationLabels/terrain11/labels/09_A_off_no_R_0032.txt",
+      "stage": "polar_sim.seg"
+    },
+    {
+      "error": "duplicate key (first file in sorted order kept as canonical)",
+      "path": "SegmentationLabels/terrain11/labels/11_B_off_no_L_2048.txt",
+      "stage": "polar_sim.seg"
+    },
+    {
+      "error": "duplicate key (first file in sorted order kept as canonical)",
+      "path": "SegmentationLabels/terrain11/labels/11_C_off_no_L_2048.txt",
+      "stage": "polar_sim.seg"
+    }
+  ],
+  "outputs": {
+    "figures": [
+      "al_anomaly_list_metrics.png",
+      "al_bbox_distributions.png",
+      "al_bbox_wh_and_centres.png",
+      "al_objects_per_frame.png",
+      "al_render_intensity_and_sky.png",
+      "nasa_exposure_response.png",
+      "nasa_image_counts.png",
+      "nasa_lighting_conditions.png",
+      "polarsim_box_distributions.png",
+      "polarsim_class_distribution.png"
+    ],
+    "samples": [
+      "al_heavy_shadow.png",
+      "al_list_cam_anomaly.png",
+      "al_list_ground_facing.png",
+      "al_list_mismatch.png",
+      "al_list_shadow.png",
+      "al_list_top200_largerocks.png",
+      "al_problematic_annotations.png",
+      "al_random_frames.png",
+      "al_real_moon_images.png",
+      "al_small_and_large_boxes.png",
+      "match_detection_overlays.png",
+      "match_segmentation_overlays.png",
+      "nasa_Terrain01_LargeOnly.png",
+      "nasa_Terrain06_Smooth.png",
+      "nasa_Terrain11_FreshCrater.png",
+      "nasa_exposure_bracket.png",
+      "nasa_lidar_projection_Terrain01_LargeOnly.png",
+      "nasa_lidar_projection_Terrain06_Smooth.png",
+      "nasa_lidar_projection_Terrain11_FreshCrater.png"
+    ]
+  },
+  "severity_counts": {
+    "CRITICAL": 0,
+    "HIGH": 4,
+    "LOW": 8,
+    "MEDIUM": 8
+  },
+  "source_integrity": {
+    "fingerprint_after": {
+      "data": {
+        "bytes": 17332610398,
+        "files": 38590,
+        "sha256": "fecca0cf45c9a9c063afd284e8267e74d9a767f5923228f23698ee49376ff72d"
+      },
+      "including_git_metadata": {
+        "bytes": 17826715350,
+        "files": 38770,
+        "sha256": "760e0b7b2702fa86a77f5261470b5d6ab6f32c02b450d861b863512f4605759d"
+      }
+    },
+    "fingerprint_before": {
+      "data": {
+        "bytes": 17332610398,
+        "files": 38590,
+        "sha256": "fecca0cf45c9a9c063afd284e8267e74d9a767f5923228f23698ee49376ff72d"
+      },
+      "including_git_metadata": {
+        "bytes": 17826715350,
+        "files": 38770,
+        "sha256": "760e0b7b2702fa86a77f5261470b5d6ab6f32c02b450d861b863512f4605759d"
+      }
+    },
+    "git_metadata_unchanged": true,
+    "method": "sha256 over (relative path, size, mtime_ns) of every file under dataset/; 'data' excludes .git/ internals, which IDE git tooling may touch",
+    "unchanged": true
+  }
+}

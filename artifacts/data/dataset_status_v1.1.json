@@ -1,0 +1,159 @@
+{
+  "approved_for_training": false,
+  "dataset": "yolo-rock-v1.1",
+  "errors": [],
+  "export_checks": {
+    "config_B_changed_pixels_outside_mask": 0,
+    "duplicate_label_pairs_iou_gt_0.9": 0,
+    "export_time_exclusions": 0,
+    "label_count_mismatch": 0,
+    "label_line_examples": [],
+    "label_lines_invalid": 0,
+    "max_roundtrip_error_px": 0.00048,
+    "test": {
+      "every_image_has_label": true,
+      "image_sizes": [
+        [
+          720,
+          480
+        ]
+      ],
+      "images": 917,
+      "labels": 917,
+      "match_expected": true
+    },
+    "train_A": {
+      "every_image_has_label": true,
+      "image_sizes": [
+        [
+          720,
+          480
+        ]
+      ],
+      "images": 1903,
+      "labels": 1903,
+      "match_expected": true
+    },
+    "train_B": {
+      "every_image_has_label": true,
+      "image_sizes": [
+        [
+          720,
+          480
+        ]
+      ],
+      "images": 7353,
+      "labels": 7353,
+      "match_expected": true
+    },
+    "ultralytics_verifier": {
+      "A_test": {
+        "boxes": 25987,
+        "corrupt": 0,
+        "empty_labels": 28,
+        "images": 917,
+        "label_paths_resolve_into_export": true,
+        "labels_found": 917,
+        "labels_missing": 0,
+        "messages": []
+      },
+      "A_train": {
+        "boxes": 50060,
+        "corrupt": 0,
+        "empty_labels": 128,
+        "images": 1903,
+        "label_paths_resolve_into_export": true,
+        "labels_found": 1903,
+        "labels_missing": 0,
+        "messages": []
+      },
+      "A_val": {
+        "boxes": 25822,
+        "corrupt": 0,
+        "empty_labels": 29,
+        "images": 923,
+        "label_paths_resolve_into_export": true,
+        "labels_found": 923,
+        "labels_missing": 0,
+        "messages": []
+      },
+      "B_test": "same files as config A",
+      "B_train": {
+        "boxes": 209430,
+        "corrupt": 0,
+        "empty_labels": 224,
+        "images": 7353,
+        "label_paths_resolve_into_export": true,
+        "labels_found": 7353,
+        "labels_missing": 0,
+        "messages": []
+      },
+      "B_val": "same files as config A",
+      "ultralytics_version": "8.4.174"
+    },
+    "unmasked_copies_byte_identical_to_source": true,
+    "unmasked_copies_checked": 3743,
+    "val": {
+      "every_image_has_label": true,
+      "image_sizes": [
+        [
+          720,
+          480
+        ]
+      ],
+      "images": 923,
+      "labels": 923,
+      "match_expected": true
+    }
+  },
+  "export_time_exclusions": 0,
+  "figures": [
+    "split_strata.png",
+    "split_box_distributions.png"
+  ],
+  "frozen": false,
+  "human_review": {
+    "decisions": {
+      "NOT_REVIEWED": 36
+    },
+    "files": [],
+    "policy": "UNDECIDED",
+    "rejected_files": [],
+    "scenes_reviewed": 0
+  },
+  "integrity": {
+    "curated_input": "dataset/processed/curated-dataset-v1.1",
+    "previous_export_fingerprint": {
+      "files": 44421,
+      "sha256": "90e3ddb7825596e0ac4023b53e8531f8021a5a253406e5229a887cbf05a3c35e"
+    },
+    "previous_export_unchanged": true,
+    "source_fingerprint": {
+      "bytes": 17332610398,
+      "files": 38590,
+      "scope": "dataset/ excluding .git internals and dataset/processed",
+      "sha256": "fecca0cf45c9a9c063afd284e8267e74d9a767f5923228f23698ee49376ff72d"
+    },
+    "source_unchanged": true,
+    "task_c_artifacts_unchanged": true,
+    "task_c_fingerprint": {
+      "files": 39,
+      "sha256": "08cadb0291487dd250660758a907c236bc2b0fd4689ebef37f94a2a1c44056f1"
+    }
+  },
+  "previews": [
+    "labels_val.jpg",
+    "labels_test.jpg",
+    "labels_config_A_train.jpg",
+    "labels_config_B_train.jpg",
+    "config_B_before_after.jpg"
+  ],
+  "reason": "awaiting human review decisions and REVIEW-handling policy approval",
+  "storage": {
+    "copies_linked": 3743,
+    "copies_written": 0,
+    "masked_linked": 7345,
+    "masked_written": 8
+  },
+  "task_c_validation_all_pass": true
+}

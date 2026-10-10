@@ -1,0 +1,78 @@
+{
+  "author": "AI assistant (automated evidence + assistant visual review; not human-validated)",
+  "findings": [
+    {
+      "evidence": "Nearby green (small-class) rocks of 60-100 px are unboxed while 21-px distant blue rocks are boxed (frames 0676, 2875, 4044, 8894); 28,519 green components larger than the median CSV box in the candidate subset.",
+      "id": "B-01",
+      "impact": "A detector trained on S1 must learn physical size from appearance; visible near obstacles become background.",
+      "severity": "HIGH",
+      "status": "verified on full dataset (counts) + assistant visual review",
+      "title": "CSV 'large rock' is a renderer size class, not an apparent-size class"
+    },
+    {
+      "evidence": "9/10 reviewed blue components >=1000 px without CSV box are merged groups; 16/86 additional candidates >=50 px merged; CSV unmatched boxes in 0742, 0977, 3933 caused by merges.",
+      "id": "B-02",
+      "impact": "Mask-derived boxes cannot replace CSV instance boxes for large rocks; green boxes need a splitting step.",
+      "severity": "HIGH",
+      "status": "assistant visual review",
+      "title": "Semantic mask merges touching rocks of the same class"
+    },
+    {
+      "evidence": "Green 25-50 px: 5/16 visible; 8 ambiguous, 3 not visible.",
+      "id": "B-03",
+      "impact": "Labels below ~50 px add noise.",
+      "severity": "MEDIUM",
+      "status": "assistant visual review",
+      "title": "Small mask components are often not visible rocks"
+    },
+    {
+      "evidence": "CSV boxes over black regions in non-listed frames 4191, 5409, 7220, 6133; S2 dark filter rejects most but not all.",
+      "id": "B-04",
+      "impact": "Unlearnable targets; affects both S1 and S2.",
+      "severity": "MEDIUM",
+      "status": "assistant visual review",
+      "title": "Labels on rocks hidden in black shadow outside the shadow list"
+    },
+    {
+      "evidence": "3,034 cover part of a larger merged mask component; clean-strata review: 16/28 valid, 2 errors, 10 undetermined; anomaly strata: errors/mismatch.",
+      "id": "B-05",
+      "impact": "Do not drop them wholesale; excluding anomaly frames removes most real errors.",
+      "severity": "MEDIUM",
+      "status": "automated triage + assistant review",
+      "title": "3,177 'uncertain' CSV boxes are mostly a matching artefact, not label errors"
+    },
+    {
+      "evidence": "V2 match 0.801 vs V0 0.837; merged components 1,898 vs 1,705.",
+      "id": "B-06",
+      "impact": "Use V1_cyan, no closing.",
+      "severity": "MEDIUM",
+      "status": "verified (full dataset)",
+      "title": "Morphological closing worsens S2"
+    },
+    {
+      "evidence": "18 images: 8 apparently rock-free, 2 rock-like/ambiguous (PosC sunlit), 8 unusable; PosB dominated by lamp tripod.",
+      "id": "B-07",
+      "impact": "Exclude from quantitative false-positive rate; use qualitatively only.",
+      "severity": "MEDIUM",
+      "status": "assistant visual review",
+      "title": "Terrain06 is not a verified negative set"
+    },
+    {
+      "evidence": "Fixed >>4 view: 5% of rock boxes visible at 16 ms, 26% at 32 ms, >92% at 128-1024 ms; enhanced view recovers dark frames; 1024-2048 ms clips sunlit rocks.",
+      "id": "B-08",
+      "impact": "Evaluation must fix exposure selection and conversion; dark frames are not fair false negatives with fixed conversion.",
+      "severity": "MEDIUM",
+      "status": "automated proxy + assistant review of 2 brackets",
+      "title": "NASA label visibility depends on exposure and 12->8-bit conversion"
+    },
+    {
+      "evidence": "ground_palette_mode_frames = 48",
+      "id": "B-09",
+      "impact": "Must convert to RGB before colour tests (done in this pipeline).",
+      "severity": "LOW",
+      "status": "verified",
+      "title": "48 ground masks are palette-mode PNGs"
+    }
+  ],
+  "logged_errors": []
+}
