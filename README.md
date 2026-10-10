@@ -11,8 +11,8 @@ pipeline.
 | | Status |
 |---|---|
 | **Completed** | Dataset research and cleaning · annotation policy · leakage-free YOLO dataset · YOLO11n training (200 epochs) · validation-only model selection · once-only locked test evaluation · reproducible notebooks |
-| **In progress** | **Webots simulator v0.1** (`artemis-webots/`): Koala rover with a Python controller, scripted motion, forward RGB camera and aligned depth sensor. Automated headless tests and the owner's interactive GUI check pass. YOLO is **not** integrated with Webots yet. See [docs/WEBOTS_R1_R2_REPORT.md](docs/WEBOTS_R1_R2_REPORT.md) |
-| **Planned** (not implemented) | YOLO on simulated camera frames · spatial localisation of detections · navigation / obstacle avoidance · Mission Control dashboard |
+| **In progress** | **Webots simulator v0.1** (`artemis-webots/`): Koala rover with a Python controller, scripted motion, forward RGB camera and aligned depth sensor. Automated headless tests and the owner's interactive GUI check pass. **R3 (implemented, under review):** the frozen YOLO11n runs in a separate local inference server on Webots camera frames, with depth-based localisation of the visible surface. Limited exploratory domain-gap evaluation on 40 paired captures: recall 0.72 / 0.60, precision 1.00 / 0.71 (sphere baseline / Poly Haven rocks). A 9-zone test course with 39 CC0 rock scans, craters and two sun angles, plus a scripted 9-stop tour on wheel odometry. Simulator-only, not a real-world result. See [docs/WEBOTS_R1_R2_REPORT.md](docs/WEBOTS_R1_R2_REPORT.md), [docs/WEBOTS_R3_YOLO_REPORT.md](docs/WEBOTS_R3_YOLO_REPORT.md) and [docs/ROVER_BEHAVIOUR.md](docs/ROVER_BEHAVIOUR.md) |
+| **Planned** (not implemented) | Navigation / obstacle avoidance · Mission Control dashboard |
 
 ## Problem
 

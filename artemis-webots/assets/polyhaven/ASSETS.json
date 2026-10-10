@@ -1,0 +1,628 @@
+{
+ "source": "Poly Haven (https://polyhaven.com)",
+ "license": "CC0 1.0 Universal (https://polyhaven.com/license)",
+ "fetched": "2026-10-10",
+ "assets": {
+  "moon_rock_01": {
+   "type": "model",
+   "authors": {
+    "Greg Zaal": "Photography",
+    "Rico Cilliers": "Photography",
+    "Jenelle van Heerden": "Processing",
+    "Dario Barresi": "Processing"
+   },
+   "polycount": 18668,
+   "native_extent_m_xyz": [
+    0.2123,
+    0.1117,
+    0.0753
+   ],
+   "triangles": 18668,
+   "vertices": 10505,
+   "files": [
+    {
+     "file": "moon_rock_01/moon_rock_01_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/moon_rock_01/moon_rock_01_1k.gltf",
+     "bytes": 7088,
+     "md5": "86c6b4f7792f9600ae33cb3b4d42bb20",
+     "sha256": "004cc353fa0c29572a9ba40535f3716c297466fdf2c650d36deaf9e27eed5ce7"
+    },
+    {
+     "file": "moon_rock_01/textures/moon_rock_01_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_01/moon_rock_01_nor_gl_1k.jpg",
+     "bytes": 645714,
+     "md5": "5d222c1e40b180e8f376d72aec26703a",
+     "sha256": "0b58d5009e7b317698eaff224bcf01c912c11ffc52203a728940e5e46a7494e9"
+    },
+    {
+     "file": "moon_rock_01/textures/moon_rock_01_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_01/moon_rock_01_diff_1k.jpg",
+     "bytes": 276354,
+     "md5": "4cd48b9b451eef5f35c7be91deca6ead",
+     "sha256": "1cdcb7dea183431326751abc03d30f89f1c51e99ce5b851401d51bd38f606c0b"
+    },
+    {
+     "file": "moon_rock_01/textures/moon_rock_01_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_01/moon_rock_01_arm_1k.jpg",
+     "bytes": 330395,
+     "md5": "f04ce87fb751ced28add48ad9eb50d0f",
+     "sha256": "168cbef24f61a6602068d634f858a297bfa7b3675a43be6230e0daf2e8953cf9"
+    },
+    {
+     "file": "moon_rock_01/moon_rock_01.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/moon_rock_01/moon_rock_01.bin",
+     "bytes": 448168,
+     "md5": "5dc30dc1be5e8dd5fff64dd824cad828",
+     "sha256": "c6671327046efd27ab1a97c4c716412f209a063184e65f0376e3be6583e8f52a"
+    }
+   ],
+   "converted": [
+    "moon_rock_01/moon_rock_01.obj",
+    "moon_rock_01/moon_rock_01_mesh.json"
+   ],
+   "derived": null,
+   "decimated_from_triangles": null,
+   "textures_used": {
+    "baseColorMap": "moon_rock_01/textures/moon_rock_01_diff_1k.jpg",
+    "normalMap": "moon_rock_01/textures/moon_rock_01_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "moon_rock_01/textures/moon_rock_01_arm_1k.jpg"
+   }
+  },
+  "moon_rock_02": {
+   "type": "model",
+   "authors": {
+    "Rico Cilliers": "Photography",
+    "Greg Zaal": "Photography",
+    "Jenelle van Heerden": "Processing"
+   },
+   "polycount": 6194,
+   "native_extent_m_xyz": [
+    0.2465,
+    0.2513,
+    0.2019
+   ],
+   "triangles": 3304,
+   "vertices": 1847,
+   "files": [
+    {
+     "file": "moon_rock_02/moon_rock_02_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/moon_rock_02/moon_rock_02_1k.gltf",
+     "bytes": 2782,
+     "md5": "2237fe252e6a0f4ae26617f749a5c7b6",
+     "sha256": "fada2419ab6de440c24081bf06545f37c41c3d4f8bb57fc4d1ba45bdb35baf5d"
+    },
+    {
+     "file": "moon_rock_02/textures/moon_rock_02_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_02/moon_rock_02_nor_gl_1k.jpg",
+     "bytes": 675121,
+     "md5": "3adf62ed6ca7cd2431f27649dbcb7ad6",
+     "sha256": "6c7a4c51e89ee1b66b243a8341e8491bcc5a9151c30feee5b35e19742106f872"
+    },
+    {
+     "file": "moon_rock_02/textures/moon_rock_02_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_02/moon_rock_02_diff_1k.jpg",
+     "bytes": 394361,
+     "md5": "48a8ec745b864870d38bd69bcf498b8f",
+     "sha256": "2df7bedcd0f169d76f37af52768c2a674019b6c6b812492a47c230726cff96ad"
+    },
+    {
+     "file": "moon_rock_02/textures/moon_rock_02_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_02/moon_rock_02_arm_1k.jpg",
+     "bytes": 366382,
+     "md5": "a99f416adc4a059b2db7c3aa72e8fe92",
+     "sha256": "4b87eaca9c57ecb145b26033cfb9fbb03191b67777458e4e699eaca823cca0e2"
+    },
+    {
+     "file": "moon_rock_02/moon_rock_02.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/moon_rock_02/moon_rock_02.bin",
+     "bytes": 78928,
+     "md5": "42490de969f582a69518a40e17fe3f53",
+     "sha256": "3ba6af10eebb46347e4e0c9d3e2a836d1328525d9d47e82b798a13d9ca2b216f"
+    }
+   ],
+   "converted": [
+    "moon_rock_02/moon_rock_02.obj",
+    "moon_rock_02/moon_rock_02_mesh.json"
+   ],
+   "derived": null,
+   "decimated_from_triangles": null,
+   "textures_used": {
+    "baseColorMap": "moon_rock_02/textures/moon_rock_02_diff_1k.jpg",
+    "normalMap": "moon_rock_02/textures/moon_rock_02_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "moon_rock_02/textures/moon_rock_02_arm_1k.jpg"
+   }
+  },
+  "moon_rock_03": {
+   "type": "model",
+   "authors": {
+    "Greg Zaal": "Photography",
+    "Rico Cilliers": "Photography",
+    "Jenelle van Heerden": "Processing"
+   },
+   "polycount": 10492,
+   "native_extent_m_xyz": [
+    0.112,
+    0.0861,
+    0.0582
+   ],
+   "triangles": 5598,
+   "vertices": 3046,
+   "files": [
+    {
+     "file": "moon_rock_03/moon_rock_03_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/moon_rock_03/moon_rock_03_1k.gltf",
+     "bytes": 2789,
+     "md5": "147dd843eeb4dd7fb661e26befca7f62",
+     "sha256": "aee7860497473cba4d06038abaa37e6da675cc97a4e7fa2fdee28ebf8844eea1"
+    },
+    {
+     "file": "moon_rock_03/textures/moon_rock_03_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_03/moon_rock_03_nor_gl_1k.jpg",
+     "bytes": 686128,
+     "md5": "4d5d635dfcaab32267d845e3c6140fa2",
+     "sha256": "b5ace21b213a3c76ba6e0fabd37a9150ef4b525214fb5eba17546ec480f14bf7"
+    },
+    {
+     "file": "moon_rock_03/textures/moon_rock_03_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_03/moon_rock_03_diff_1k.jpg",
+     "bytes": 299288,
+     "md5": "c8c1e94c7004977fe2b8cde7ebf472d5",
+     "sha256": "ab94cec085c5e6c5db832f7c69c504bfefcffce0a0c2215f592ebcbbaa12862b"
+    },
+    {
+     "file": "moon_rock_03/textures/moon_rock_03_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_03/moon_rock_03_arm_1k.jpg",
+     "bytes": 349061,
+     "md5": "96d560db01b47fa5b3572b5f5a2515fd",
+     "sha256": "748403657a81b7c38c2cf8ddce22d8f41212a33a41520a92df79ba31c9b229dc"
+    },
+    {
+     "file": "moon_rock_03/moon_rock_03.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/moon_rock_03/moon_rock_03.bin",
+     "bytes": 131060,
+     "md5": "6d0b79c8e72e2340c0e8be38e78267e2",
+     "sha256": "b9e79d1c12719515f48b8e27ddf692f9e2076ad4eafd1cf4a4d12d1bcc6d85df"
+    }
+   ],
+   "converted": [
+    "moon_rock_03/moon_rock_03.obj",
+    "moon_rock_03/moon_rock_03_mesh.json"
+   ],
+   "derived": null,
+   "decimated_from_triangles": null,
+   "textures_used": {
+    "baseColorMap": "moon_rock_03/textures/moon_rock_03_diff_1k.jpg",
+    "normalMap": "moon_rock_03/textures/moon_rock_03_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "moon_rock_03/textures/moon_rock_03_arm_1k.jpg"
+   }
+  },
+  "moon_rock_04": {
+   "type": "model",
+   "authors": {
+    "Greg Zaal": "Photography",
+    "Rico Cilliers": "Photography",
+    "Jenelle van Heerden": "Processing"
+   },
+   "polycount": 14316,
+   "native_extent_m_xyz": [
+    0.1198,
+    0.1738,
+    0.0538
+   ],
+   "triangles": 7636,
+   "vertices": 4067,
+   "files": [
+    {
+     "file": "moon_rock_04/moon_rock_04_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/moon_rock_04/moon_rock_04_1k.gltf",
+     "bytes": 2786,
+     "md5": "852de791bb2ad6a1944f5ec3ce5495fb",
+     "sha256": "09f7f305fd3e3711a4d52712bdb2e935cfcf669c30965827f089b57d81930d0f"
+    },
+    {
+     "file": "moon_rock_04/textures/moon_rock_04_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_04/moon_rock_04_nor_gl_1k.jpg",
+     "bytes": 666275,
+     "md5": "919ca87d5ed303400177b7ebfcbf7e84",
+     "sha256": "a62082b898900550d273a9af0207ed7bf3d1fcb2e742a21361216af5e2e86bf3"
+    },
+    {
+     "file": "moon_rock_04/textures/moon_rock_04_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_04/moon_rock_04_diff_1k.jpg",
+     "bytes": 325832,
+     "md5": "6e089f9753ce77b6127ea65e0c0d951b",
+     "sha256": "4d94c93aa585555d7aedc579b7bdd160a38b5ee47ef96a1e6c20a9134aaee2ba"
+    },
+    {
+     "file": "moon_rock_04/textures/moon_rock_04_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_04/moon_rock_04_arm_1k.jpg",
+     "bytes": 361429,
+     "md5": "4b362aad21f63f293d03f6628576d473",
+     "sha256": "9b0f994f4e0a8b815a6fa017a07ec4e7b4bb1dfa66fee9851a1fe11ec22f966b"
+    },
+    {
+     "file": "moon_rock_04/moon_rock_04.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/moon_rock_04/moon_rock_04.bin",
+     "bytes": 175960,
+     "md5": "3f57979362dbc345bf7d36f79f94246a",
+     "sha256": "561664fd5fcac47a00012f050af4e427c8357f156497189f063d67e38a64ce5e"
+    }
+   ],
+   "converted": [
+    "moon_rock_04/moon_rock_04.obj",
+    "moon_rock_04/moon_rock_04_mesh.json"
+   ],
+   "derived": null,
+   "decimated_from_triangles": null,
+   "textures_used": {
+    "baseColorMap": "moon_rock_04/textures/moon_rock_04_diff_1k.jpg",
+    "normalMap": "moon_rock_04/textures/moon_rock_04_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "moon_rock_04/textures/moon_rock_04_arm_1k.jpg"
+   }
+  },
+  "moon_rock_05": {
+   "type": "model",
+   "authors": {
+    "Greg Zaal": "Photography",
+    "Rico Cilliers": "Photography",
+    "Jenelle van Heerden": "Processing"
+   },
+   "polycount": 18466,
+   "native_extent_m_xyz": [
+    0.0717,
+    0.0811,
+    0.0734
+   ],
+   "triangles": 9850,
+   "vertices": 5246,
+   "files": [
+    {
+     "file": "moon_rock_05/moon_rock_05_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/moon_rock_05/moon_rock_05_1k.gltf",
+     "bytes": 2789,
+     "md5": "44e295290c047f0024d856e75e18ff6a",
+     "sha256": "f41052a54dd51d6c4e7c0b26556ea80798cf566bd9797c7c0529960b86cc0be2"
+    },
+    {
+     "file": "moon_rock_05/textures/moon_rock_05_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_05/moon_rock_05_nor_gl_1k.jpg",
+     "bytes": 659695,
+     "md5": "d879a760c613e48cbf74a7654fb1f327",
+     "sha256": "6b0b85bbade95df9ecfd2f5fb1576a3da8c98824a1c1ceea7ce2c48f6068a1d6"
+    },
+    {
+     "file": "moon_rock_05/textures/moon_rock_05_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_05/moon_rock_05_diff_1k.jpg",
+     "bytes": 288046,
+     "md5": "87b98ba77cef7cfa31b9174d91ccb86d",
+     "sha256": "0be388345c96c3f0da59ba69cac23a4579a7804e34e46f6a9f130b73db45a216"
+    },
+    {
+     "file": "moon_rock_05/textures/moon_rock_05_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_05/moon_rock_05_arm_1k.jpg",
+     "bytes": 353183,
+     "md5": "057f49510fee9337610a5b90a7d68ac1",
+     "sha256": "7697d7612515f5f96aae196d769e44d458084afcfd91a260379a877d06ec5dc3"
+    },
+    {
+     "file": "moon_rock_05/moon_rock_05.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/moon_rock_05/moon_rock_05.bin",
+     "bytes": 226972,
+     "md5": "c8a01ca26ae5c4692a4ed2af8693233c",
+     "sha256": "15fd7e9cc1a2636c432a5f7cf3112dcf60bca059068db0f18e212e693c7af07e"
+    }
+   ],
+   "converted": [
+    "moon_rock_05/moon_rock_05.obj",
+    "moon_rock_05/moon_rock_05_mesh.json"
+   ],
+   "derived": null,
+   "decimated_from_triangles": null,
+   "textures_used": {
+    "baseColorMap": "moon_rock_05/textures/moon_rock_05_diff_1k.jpg",
+    "normalMap": "moon_rock_05/textures/moon_rock_05_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "moon_rock_05/textures/moon_rock_05_arm_1k.jpg"
+   }
+  },
+  "moon_rock_06": {
+   "type": "model",
+   "authors": {
+    "Greg Zaal": "Photography",
+    "Jenelle van Heerden": "Processing",
+    "Rico Cilliers": "Photography"
+   },
+   "polycount": 12974,
+   "native_extent_m_xyz": [
+    0.0857,
+    0.0918,
+    0.055
+   ],
+   "triangles": 6920,
+   "vertices": 3861,
+   "files": [
+    {
+     "file": "moon_rock_06/moon_rock_06_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/moon_rock_06/moon_rock_06_1k.gltf",
+     "bytes": 2790,
+     "md5": "64167a15b24a13e34ecbd2c8ff291d02",
+     "sha256": "8761f36dc8a800d326dcabb826a15b39d07aa8f3663ef4b591c79f8d2016e320"
+    },
+    {
+     "file": "moon_rock_06/textures/moon_rock_06_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_06/moon_rock_06_nor_gl_1k.jpg",
+     "bytes": 628363,
+     "md5": "d47508bca4c6cf2841f7fe6856c38ae0",
+     "sha256": "bc5c052a09b6a79a897a5d0021fe478be19170c76802aa0b315d3dbba8a10f73"
+    },
+    {
+     "file": "moon_rock_06/textures/moon_rock_06_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_06/moon_rock_06_diff_1k.jpg",
+     "bytes": 339277,
+     "md5": "e7bc15e1e5938816e27f477a6bd1ce9d",
+     "sha256": "2b70037d05ee05df98893d60adf4e63795a5e5922b4562ff03c3fb659e3b9498"
+    },
+    {
+     "file": "moon_rock_06/textures/moon_rock_06_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_06/moon_rock_06_arm_1k.jpg",
+     "bytes": 345311,
+     "md5": "c28ae98b58119a29d8bfbc51cbb2722d",
+     "sha256": "1955fd2613d0e2d0a7edffa6f5ce1d25eec8394f7ed484a3daaa46d3a29dc6f3"
+    },
+    {
+     "file": "moon_rock_06/moon_rock_06.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/moon_rock_06/moon_rock_06.bin",
+     "bytes": 165072,
+     "md5": "7c194d53c9d2bf0e541e3e23bfa8fb5f",
+     "sha256": "41885795c796e492cc8158fe8ada1ac2cf0d0b91cbcb9bf6f473b81cabfd7418"
+    }
+   ],
+   "converted": [
+    "moon_rock_06/moon_rock_06.obj",
+    "moon_rock_06/moon_rock_06_mesh.json"
+   ],
+   "derived": null,
+   "decimated_from_triangles": null,
+   "textures_used": {
+    "baseColorMap": "moon_rock_06/textures/moon_rock_06_diff_1k.jpg",
+    "normalMap": "moon_rock_06/textures/moon_rock_06_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "moon_rock_06/textures/moon_rock_06_arm_1k.jpg"
+   }
+  },
+  "moon_rock_07": {
+   "type": "model",
+   "authors": {
+    "Greg Zaal": "Photography",
+    "Rico Cilliers": "Photography",
+    "Jenelle van Heerden": "Processing"
+   },
+   "polycount": 12786,
+   "native_extent_m_xyz": [
+    0.0968,
+    0.0738,
+    0.0603
+   ],
+   "triangles": 6820,
+   "vertices": 3789,
+   "files": [
+    {
+     "file": "moon_rock_07/moon_rock_07_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/moon_rock_07/moon_rock_07_1k.gltf",
+     "bytes": 2787,
+     "md5": "45dc7ff2046866c694d368d1d1c4ab1a",
+     "sha256": "5aec6881f1c76cfd57a9c58c356bf2bf69c5acb80705246fc5df63dde9fc906e"
+    },
+    {
+     "file": "moon_rock_07/textures/moon_rock_07_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_07/moon_rock_07_nor_gl_1k.jpg",
+     "bytes": 587027,
+     "md5": "ff759a1bda795163ad60b55399792d91",
+     "sha256": "c5c40bd39c605ac2128bfa17d869868c73dad9af830fcda5be0f84ea83cebea6"
+    },
+    {
+     "file": "moon_rock_07/textures/moon_rock_07_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_07/moon_rock_07_diff_1k.jpg",
+     "bytes": 318944,
+     "md5": "442dbbeaa3761ceabcf37bccdfbc489c",
+     "sha256": "ea0228898a9ee7cbca4392aa385d5998f6769adcc70b3d778ccde4b944029617"
+    },
+    {
+     "file": "moon_rock_07/textures/moon_rock_07_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/moon_rock_07/moon_rock_07_arm_1k.jpg",
+     "bytes": 311598,
+     "md5": "78c3a1b3e80e9169509e1d390bafae92",
+     "sha256": "b3e39d8b88a181960c6b950c9f7642addbec3793aeda319e577d5154d9ec4be3"
+    },
+    {
+     "file": "moon_rock_07/moon_rock_07.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/moon_rock_07/moon_rock_07.bin",
+     "bytes": 162168,
+     "md5": "bf2b814936128390ce41ddfce82f55bd",
+     "sha256": "86d82068bc2d7f65cf653e9e591cd14b40e3ef893924dba46a8c9747269f1e14"
+    }
+   ],
+   "converted": [
+    "moon_rock_07/moon_rock_07.obj",
+    "moon_rock_07/moon_rock_07_mesh.json"
+   ],
+   "derived": null,
+   "decimated_from_triangles": null,
+   "textures_used": {
+    "baseColorMap": "moon_rock_07/textures/moon_rock_07_diff_1k.jpg",
+    "normalMap": "moon_rock_07/textures/moon_rock_07_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "moon_rock_07/textures/moon_rock_07_arm_1k.jpg"
+   }
+  },
+  "namaqualand_boulder_04": {
+   "type": "model",
+   "authors": {
+    "Jenelle van Heerden": "All"
+   },
+   "polycount": 110746,
+   "native_extent_m_xyz": [
+    2.5082,
+    2.4856,
+    1.8876
+   ],
+   "triangles": 20000,
+   "vertices": 9882,
+   "files": [
+    {
+     "file": "namaqualand_boulder_04/namaqualand_boulder_04_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/namaqualand_boulder_04/namaqualand_boulder_04_1k.gltf",
+     "bytes": 2818,
+     "md5": "7cc9f708bf5792f89af6638465cac3b4",
+     "sha256": "04c858a3bdb22873efa988633e0c0d9d1468055f34c94d47742f75165a192078"
+    },
+    {
+     "file": "namaqualand_boulder_04/textures/namaqualand_boulder_04_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_arm_1k.jpg",
+     "bytes": 600523,
+     "md5": "03f2b36ad3349fc1768dbd20c9b07403",
+     "sha256": "b9556284b65a603cee0c282f1a13f1642ac64cd586db14caa065e7322ec95db2"
+    },
+    {
+     "file": "namaqualand_boulder_04/textures/namaqualand_boulder_04_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_diff_1k.jpg",
+     "bytes": 886013,
+     "md5": "0ef2c0fe9eaca715efad500c13ce140c",
+     "sha256": "1673e031ebcf5015206fec10bec676e55b049705b01fcef6bb2b2fb79e8de54c"
+    },
+    {
+     "file": "namaqualand_boulder_04/textures/namaqualand_boulder_04_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_04/namaqualand_boulder_04_nor_gl_1k.jpg",
+     "bytes": 906782,
+     "md5": "e642a0c62a3b33adf953a7832f9231ae",
+     "sha256": "a7042070d6e369c80d818b7e787b977bf84c1f78b0c83e3ecf690ac2fa17d291"
+    },
+    {
+     "file": "namaqualand_boulder_04/namaqualand_boulder_04.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/namaqualand_boulder_04/namaqualand_boulder_04.bin",
+     "bytes": 1319676,
+     "md5": "bd83376dfe39432568dc13a8fb738953",
+     "sha256": "99ba28ddc8da9ba24e1a419e69ed05f14c4b483bf06268a8a77495545985318a"
+    }
+   ],
+   "converted": [
+    "namaqualand_boulder_04/namaqualand_boulder_04.obj",
+    "namaqualand_boulder_04/namaqualand_boulder_04_mesh.json"
+   ],
+   "derived": {
+    "file": "namaqualand_boulder_04/textures/namaqualand_boulder_04_diff_1k_lunar.jpg",
+    "from": "namaqualand_boulder_04/textures/namaqualand_boulder_04_diff_1k.jpg",
+    "operation": "greyscale + autocontrast(1%) + linear 40+0.75*v (derivative of a CC0 texture)",
+    "sha256": "62e5ba5f92db75b8b89ef7edf27e3f84593c18a2f90b67077f39b19295ab0225"
+   },
+   "decimated_from_triangles": 59066,
+   "textures_used": {
+    "baseColorMap": "namaqualand_boulder_04/textures/namaqualand_boulder_04_diff_1k_lunar.jpg",
+    "normalMap": "namaqualand_boulder_04/textures/namaqualand_boulder_04_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "namaqualand_boulder_04/textures/namaqualand_boulder_04_arm_1k.jpg"
+   }
+  },
+  "namaqualand_boulder_05": {
+   "type": "model",
+   "authors": {
+    "Jenelle van Heerden": "modeling",
+    "Dario Barresi": "Photography"
+   },
+   "polycount": 117622,
+   "native_extent_m_xyz": [
+    1.3588,
+    0.7423,
+    0.5299
+   ],
+   "triangles": 19999,
+   "vertices": 9750,
+   "files": [
+    {
+     "file": "namaqualand_boulder_05/namaqualand_boulder_05_1k.gltf",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/namaqualand_boulder_05/namaqualand_boulder_05_1k.gltf",
+     "bytes": 2872,
+     "md5": "93b2f39714f9b4d19197335eb22d9283",
+     "sha256": "f8e5fd8fd981e889d621ba4e53170a52c47cd3053b8748ee7025ed1083f36a5f"
+    },
+    {
+     "file": "namaqualand_boulder_05/textures/namaqualand_boulder_05_arm_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_05/namaqualand_boulder_05_arm_1k.jpg",
+     "bytes": 713844,
+     "md5": "aa40bbddb8be6e13b0e6cba68c99b3e0",
+     "sha256": "1466c8467188f54c2fb655b05f9e1d0a9a93a366f3cd45878bcf6905487c5f3e"
+    },
+    {
+     "file": "namaqualand_boulder_05/textures/namaqualand_boulder_05_nor_gl_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_05/namaqualand_boulder_05_nor_gl_1k.jpg",
+     "bytes": 1099873,
+     "md5": "0337869f7d21c538f307792a927c8db2",
+     "sha256": "027359a8a79febee925cc29af3106cc12bdeed5bc91cb26f1d88f589c77f448d"
+    },
+    {
+     "file": "namaqualand_boulder_05/namaqualand_boulder_05.bin",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/namaqualand_boulder_05/namaqualand_boulder_05.bin",
+     "bytes": 2015628,
+     "md5": "64bca194605dee7e361d43beabb3d4b7",
+     "sha256": "a60ade71de8612c873f9112159ed5d93dcba58979007a0915bc10d551a9ed03c"
+    },
+    {
+     "file": "namaqualand_boulder_05/textures/namaqualand_boulder_05_diff_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/namaqualand_boulder_05/namaqualand_boulder_05_diff_1k.jpg",
+     "bytes": 867775,
+     "md5": "de60e1accb73ea17db74fc2fedda85b5",
+     "sha256": "58d1fba55e16a56fe2d6e016ac75bcddfbc3bb2273ca8c9127f1de497c54db2a"
+    }
+   ],
+   "converted": [
+    "namaqualand_boulder_05/namaqualand_boulder_05.obj",
+    "namaqualand_boulder_05/namaqualand_boulder_05_mesh.json"
+   ],
+   "derived": {
+    "file": "namaqualand_boulder_05/textures/namaqualand_boulder_05_diff_1k_lunar.jpg",
+    "from": "namaqualand_boulder_05/textures/namaqualand_boulder_05_diff_1k.jpg",
+    "operation": "greyscale + autocontrast(1%) + linear 40+0.75*v (derivative of a CC0 texture)",
+    "sha256": "206cbe60be345d5db771a4570c1e4998b226ac146542ce204cc5973ebe4706c8"
+   },
+   "decimated_from_triangles": 89618,
+   "textures_used": {
+    "baseColorMap": "namaqualand_boulder_05/textures/namaqualand_boulder_05_diff_1k_lunar.jpg",
+    "normalMap": "namaqualand_boulder_05/textures/namaqualand_boulder_05_nor_gl_1k.jpg",
+    "occlusionRoughnessMetalness(ARM)": "namaqualand_boulder_05/textures/namaqualand_boulder_05_arm_1k.jpg"
+   }
+  },
+  "moon_01": {
+   "type": "texture",
+   "authors": {
+    "Greg Zaal": "Photography",
+    "Rico Cilliers": "Photography",
+    "Jenelle van Heerden": "Photography",
+    "Dario Barresi": "Processing"
+   },
+   "real_world_size_m": [
+    3.1000001430511475,
+    3.1000001430511475
+   ],
+   "files": [
+    {
+     "file": "moon_01/moon_01_diff_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/moon_01/moon_01_diff_2k.jpg",
+     "bytes": 1486173,
+     "md5": "8ad3ae6121b32c8f52e3a9346141ab87",
+     "sha256": "9527d2c2abba5751c84df872514227e49f64e5041b7ee48178e5cb5da0a6b374"
+    },
+    {
+     "file": "moon_01/moon_01_nor_gl_2k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/moon_01/moon_01_nor_gl_2k.jpg",
+     "bytes": 5019429,
+     "md5": "585bddadcc7f633343f932a5cdcb14ce",
+     "sha256": "073f01d6540b346f338dd41eaf04f2d5594fb5e90ec0fec34d6c690e0b9b219f"
+    },
+    {
+     "file": "moon_01/moon_01_rough_1k.jpg",
+     "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/moon_01/moon_01_rough_1k.jpg",
+     "bytes": 111333,
+     "md5": "cd4bda7f80fcd981cf4d2df3cc8e1be3",
+     "sha256": "483d2254502ddfd8a2310ec623418477e8a55e4d150717aef049ab3588506ba6"
+    }
+   ]
+  }
+ },
+ "total_download_bytes": 25652662
+}

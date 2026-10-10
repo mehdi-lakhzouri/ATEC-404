@@ -73,3 +73,12 @@ Thumbs.db
 /artemis-webots/output/
 # Webots per-user GUI layout files
 *.wbproj
+/artemis-webots/worlds/.*.jpg
+# Generated R3 evaluation worlds and scene manifests (make_world.py --eval)
+/artemis-webots/worlds/eval_*.wbt
+/artemis-webots/worlds/eval_*.json
+# Poly Haven CC0 assets: binaries re-fetched by artemis-webots/tools/fetch_polyhaven.py; only the provenance manifest is committed
+/artemis-webots/assets/polyhaven/*
+!/artemis-webots/assets/polyhaven/ASSETS.json
+# generated ground-truth manifest of the test course (mesh vertices, ~7 MB)
+/artemis-webots/worlds/artemis_test_course*.json

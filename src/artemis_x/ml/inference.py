@@ -64,8 +64,13 @@ class RockDetector:
         if names != self.spec.class_names:
             raise RuntimeError(f"model class names {names} != frozen {self.spec.class_names}")
 
+    def predict_rgb(self, rgb: np.ndarray) -> DetectionResult:
+        """HxWx3 uint8 array in RGB order (PIL, Webots after BGRA->RGB). Converted to the BGR order Ultralytics expects."""
+        return self.predict(np.ascontiguousarray(rgb[..., ::-1]))
+
     def predict(self, image: str | Path | np.ndarray) -> DetectionResult:
-        """Image path or HxWx3 array (RGB as loaded by PIL; BGR arrays from OpenCV are also accepted by Ultralytics)."""
+        """Image path, or HxWx3 uint8 array in **BGR** order (OpenCV convention, as Ultralytics assumes for numpy input).
+        Use ``predict_rgb`` for RGB arrays."""
         src = str(image) if isinstance(image, (str, Path)) else image
         t0 = time.perf_counter()
         r = self.model.predict(src, device=self.device, verbose=False, **self.spec.predict_kwargs())[0]

@@ -65,11 +65,18 @@ def _wrap(a: float) -> float:
     return math.atan2(math.sin(a), math.cos(a))
 
 
-def run_controller(robot, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64) -> dict:
+def run_controller(robot, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64, client=None) -> dict:
+    """R1/R2 scripted demo. With ``client`` (R3), frames are also sent asynchronously for detection; the scripted motion is
+    identical with or without the inference server (it is NOT autonomous navigation)."""
     rover = KoalaRover(robot)
     ts = rover.timestep
     period = max(ts, int(math.ceil(sensor_ms / ts)) * ts)
     sensors = SensorSuite(robot, period)
+    link = None
+    if client is not None and sensors.camera is not None and sensors.depth is not None:
+        from .perception import InferenceLink
+        link = InferenceLink(sensors, client, out_dir / "inference", display=find_device(robot, "yolo_view"))
+    work_ms, slow_steps = [], []
     steps = drive.demo_sequence()
     player = drive.SequencePlayer(steps)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -84,6 +91,7 @@ def run_controller(robot, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64)
     try:
         # first step: let enabled devices produce their first sample
         while robot.step(ts) != -1:
+            t0w = time.perf_counter()
             t = robot.getTime()
             i = player.index_at(t)
             if i is None:
@@ -109,11 +117,24 @@ def run_controller(robot, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64)
                 meta["rover_pose"] = p
                 summary["frames"].append(meta)
                 frames_done.add(i)
+            if link is not None:
+                link.tick(t, p)
+            work_ms.append((time.perf_counter() - t0w) * 1000)
+            if work_ms[-1] > 50:
+                slow_steps.append({"sim_time_s": round(t, 3), "ms": round(work_ms[-1], 1), "step": step.name,
+                                   "exported_frame": bool(summary["frames"]) and summary["frames"][-1]["sim_time_s"] == round(t, 4)})
         if current is not None:
             summary["phases"][steps[current].name]["end_pose"] = rover.pose()
     finally:
         rover.stop()
         tele.close()
+    if link is not None:
+        summary["inference"] = link.finish(drain_s=0.5)
+    ws = sorted(work_ms)
+    summary["controller_work_ms_per_step"] = {"p50": round(ws[len(ws) // 2], 3) if ws else None,
+                                              "p95": round(ws[int(0.95 * (len(ws) - 1))], 3) if ws else None, "max": round(ws[-1], 3) if ws else None,
+                                              "note": "time spent in controller code per step, excluding robot.step()",
+                                              "steps_over_50ms": slow_steps}
     summary["wall_time_s"] = round(time.time() - wall0, 2)
     summary["sim_time_s"] = round(robot.getTime(), 3)
     summary["checks"] = evaluate(summary, sensors)
@@ -164,10 +185,145 @@ def evaluate(s: dict, sensors: SensorSuite) -> dict:
     return chk
 
 
+def _expected_sha() -> str | None:
+    from ..config import paths
+    try:
+        return json.loads(paths.frozen_config_path().read_text(encoding="utf-8"))["model"]["sha256"]
+    except (OSError, KeyError, ValueError):
+        return None
+
+
+def find_device(robot, name: str):
+    """Device by name, or None without the Webots 'device not found' warning (the live view exists only in some worlds)."""
+    for i in range(robot.getNumberOfDevices()):
+        d = robot.getDeviceByIndex(i)
+        if d.getName() == name:
+            return d
+    return None
+
+
 def main() -> None:   # pragma: no cover - requires Webots
+    """Modes (ARTEMIS_MODE): ``demo`` (default) R1/R2 scripted motion [+ async detection if the server is reachable];
+    ``eval`` R3 domain-gap captures at the manifest viewpoints (ARTEMIS_SCENE_MANIFEST). ARTEMIS_INFERENCE=0 disables the
+    client; ARTEMIS_INFER_PORT overrides the port (default 5761)."""
     from controller import Supervisor          # Webots Python API (PYTHONPATH set by Webots)
+    from . import protocol
+    from .client import DetectionClient
     robot = Supervisor()
     repo = Path(__file__).resolve().parents[3]
-    out = Path(os.environ.get("ARTEMIS_WEBOTS_OUT") or repo / "artemis-webots" / "output" / time.strftime("%Y%m%d-%H%M%S"))
-    run_controller(robot, out, quit_at_end=os.environ.get("ARTEMIS_WEBOTS_QUIT") == "1",
-                   sensor_ms=int(os.environ.get("ARTEMIS_SENSOR_MS", "64")))
+    mode = os.environ.get("ARTEMIS_MODE", "demo")
+    out = Path(os.environ.get("ARTEMIS_WEBOTS_OUT") or repo / "artemis-webots" / "output" / time.strftime(f"{mode}-%Y%m%d-%H%M%S"))
+    client = None
+    if os.environ.get("ARTEMIS_INFERENCE", "1") != "0":
+        client = DetectionClient(port=int(os.environ.get("ARTEMIS_INFER_PORT", protocol.DEFAULT_PORT)),
+                                 request_timeout_s=float(os.environ.get("ARTEMIS_INFER_TIMEOUT_S", "10")), expected_sha256=_expected_sha()).start()
+    try:
+        if mode == "eval":
+            from .perception import run_eval
+            manifest = json.loads(Path(os.environ["ARTEMIS_SCENE_MANIFEST"]).read_text(encoding="utf-8"))
+            rover = KoalaRover(robot)
+            sensors = SensorSuite(robot, rover.timestep * 2)
+            res = run_eval(robot, rover, sensors, client, manifest, out)
+            (out / f"eval_summary_s{manifest['seed']}_{manifest['variant']}.json").write_text(json.dumps(res, indent=1, default=str), encoding="utf-8")
+            print(f"[artemis_rover] eval {manifest['variant']} s{manifest['seed']}: {res['captures']}")
+            robot.simulationQuit(0)
+        else:
+            plan = None
+            try:                                       # a world can select a scripted tour through the robot's customData (JSON)
+                cd = robot.getCustomData()
+                plan = json.loads(cd) if cd and cd.strip().startswith("{") else None
+            except ValueError:
+                plan = None
+            if plan and plan.get("script") == "course_tour":
+                run_tour(robot, plan, out, quit_at_end=os.environ.get("ARTEMIS_WEBOTS_QUIT") == "1",
+                         sensor_ms=int(os.environ.get("ARTEMIS_SENSOR_MS", "64")), client=client)
+            else:
+                run_controller(robot, out, quit_at_end=os.environ.get("ARTEMIS_WEBOTS_QUIT") == "1",
+                               sensor_ms=int(os.environ.get("ARTEMIS_SENSOR_MS", "64")), client=client)
+    finally:
+        if client is not None:
+            client.close()
+
+
+def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64, client=None,
+             drive_tol_m: float = 0.002, turn_tol_rad: float = 0.004) -> dict:
+    """Closed-loop scripted tour (no perception in the loop): each move is executed against WHEEL-ENCODER odometry only.
+    Detections stream in parallel (logged, never used for control). Ground truth is logged for evaluation only."""
+    rover = KoalaRover(robot)
+    ts = rover.timestep
+    period = max(ts, int(math.ceil(sensor_ms / ts)) * ts)
+    sensors = SensorSuite(robot, period)
+    link = None
+    if client is not None and sensors.camera is not None and sensors.depth is not None:
+        from .perception import InferenceLink
+        link = InferenceLink(sensors, client, out_dir / "inference", display=find_device(robot, "yolo_view"))
+    moves = drive.tour_moves(plan["stops"])
+    odo = drive.Odometry()
+    out_dir.mkdir(parents=True, exist_ok=True)
+    tele = (out_dir / "telemetry.csv").open("w", newline="", encoding="utf-8")
+    w = csv.writer(tele)
+    w.writerow(["sim_time_s", "move", "cmd_left", "cmd_right", "odo_x", "odo_y", "odo_yaw", "gt_x", "gt_y", "gt_yaw"])
+    summary = {"controller": "artemis_rover", "script": plan.get("script", "course_tour"), "moves": [], "frames": [],
+               "sensor": sensors.describe(), "odometry_yaw_scale": drive.YAW_SCALE}
+    i, start, t_move, settle = 0, None, 0.0, 0
+    start_pose = None
+    work_ms = []
+    try:
+        while robot.step(ts) != -1 and i < len(moves):
+            t0w = time.perf_counter()
+            t = robot.getTime()
+            el, er = rover.encoder_rad()
+            odo.update(el, er)
+            gt = rover.pose() or {}
+            mv = moves[i]
+            if start is None:
+                start, t_move, start_pose = (odo.dist, odo.yaw, odo.x, odo.y), t, gt
+            if mv.kind == "drive_to":
+                remaining = mv.value - odo.x
+                done = abs(remaining) <= drive_tol_m
+            elif mv.kind == "drive":
+                travelled = math.copysign(odo.dist - start[0], mv.value)
+                remaining = mv.value - travelled
+                done = abs(remaining) <= drive_tol_m or (mv.value > 0 and remaining < 0) or (mv.value < 0 and remaining > 0)
+            elif mv.kind == "turn":
+                remaining = mv.value - (odo.yaw - start[1])
+                done = abs(remaining) <= turn_tol_rad
+            else:
+                remaining = mv.value - (t - t_move)
+                done = remaining <= 0
+            cmd = drive.STOP if done else drive.move_command(mv, remaining)
+            applied = rover.apply(cmd)
+            if done:
+                settle += 1
+                if settle >= 4:                                   # wheels ramped down: close the move
+                    rec = {"move": mv.label, "kind": mv.kind, "target": round(mv.value, 4), "duration_s": round(t - t_move, 3),
+                           "odometry": {"dist": round(odo.dist - start[0], 4), "dyaw": round(odo.yaw - start[1], 4)},
+                           "ground_truth_start": start_pose, "ground_truth_end": gt}
+                    if mv.capture and sensors.camera is not None:
+                        f = sensors.capture()
+                        rec["frame"] = sensors.export(f, out_dir / "frames", mv.label)["rgb_png"]
+                    summary["moves"].append(rec)
+                    i, start, settle = i + 1, None, 0
+            w.writerow([round(t, 4), mv.label, round(applied.left, 3), round(applied.right, 3), round(odo.x, 4), round(odo.y, 4),
+                        round(odo.yaw, 4), *[round(gt[k], 4) if k in gt else None for k in ("x", "y", "yaw")]])
+            if link is not None:
+                link.tick(t, gt)
+            work_ms.append((time.perf_counter() - t0w) * 1000)
+    finally:
+        rover.stop()
+        tele.close()
+    if link is not None:
+        summary["inference"] = link.finish(drain_s=0.5)
+    gt = rover.pose() or {}
+    summary["final"] = {"odometry": {"x": round(odo.x, 4), "y": round(odo.y, 4), "yaw": round(odo.yaw, 4)}, "ground_truth": gt,
+                        "completed_moves": len(summary["moves"]), "planned_moves": len(moves)}
+    ws = sorted(work_ms)
+    summary["controller_work_ms_per_step"] = {"p50": round(ws[len(ws) // 2], 3) if ws else None, "max": round(ws[-1], 3) if ws else None}
+    (out_dir / "summary.json").write_text(json.dumps(summary, indent=1, default=str), encoding="utf-8")
+    print(f"[artemis_rover] tour finished: {len(summary['moves'])}/{len(moves)} moves -> {out_dir}")
+    if quit_at_end and hasattr(robot, "simulationQuit"):
+        robot.simulationQuit(0 if len(summary["moves"]) == len(moves) else 1)
+    else:
+        while robot.step(ts) != -1:
+            pass
+    return summary
