@@ -73,7 +73,11 @@ class InferenceServer:
                 self.stats["errors"] += 1
                 conn.sendall(protocol.encode({"type": "error", "frame_id": header.get("frame_id"), "error": str(e)}))
                 continue
-            rgb = np.frombuffer(payload, np.uint8).reshape(int(header["height"]), int(header["width"]), 3)
+            h_, w_ = int(header["height"]), int(header["width"])
+            if header.get("encoding") == "bgra8":             # Webots' native buffer: B, G, R, A -> the same RGB array
+                rgb = np.ascontiguousarray(np.frombuffer(payload, np.uint8).reshape(h_, w_, 4)[..., 2::-1])
+            else:
+                rgb = np.frombuffer(payload, np.uint8).reshape(h_, w_, 3)
             t0 = time.perf_counter()
             res = self.det.predict_rgb(rgb)
             if self.delay_ms:

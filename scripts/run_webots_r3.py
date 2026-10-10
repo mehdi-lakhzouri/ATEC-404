@@ -70,20 +70,20 @@ def start_server(delay_ms: float = 0, port: int = protocol.DEFAULT_PORT, log: Pa
     p.kill(); raise RuntimeError("inference server did not start")
 
 
-def stop_server(p: subprocess.Popen) -> None:
+def stop_server(p: subprocess.Popen, port: int = protocol.DEFAULT_PORT) -> None:
     import socket
     try:
-        with socket.create_connection(("127.0.0.1", protocol.DEFAULT_PORT), timeout=1) as s:
+        with socket.create_connection(("127.0.0.1", port), timeout=1) as s:
             s.settimeout(5); protocol.read_message(s); s.sendall(protocol.encode({"type": "shutdown"}))
         p.wait(10)
     except (OSError, subprocess.TimeoutExpired):
         p.kill()
 
 
-def run_webots(world: Path, env: dict, timeout: int = 240) -> tuple[int, str]:
+def run_webots(world: Path, env: dict, timeout: int = 240, mode: str = "fast") -> tuple[int, str]:
     """Run one headless Webots instance. On timeout (e.g. a crashed controller leaves Webots running in batch mode) the
     whole Webots process tree is killed and the run is reported as failed instead of hanging the evaluation."""
-    cmd = [str(WEBOTS), "--batch", "--mode=fast", "--minimize", "--stdout", "--stderr", "--port=1242", str(world)]
+    cmd = [str(WEBOTS), "--batch", f"--mode={mode}", "--minimize", "--stdout", "--stderr", "--port=1242", str(world)]
     p = subprocess.Popen(cmd, env=system_env(env), stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
     try:
         out, _ = p.communicate(timeout=timeout)
@@ -154,16 +154,18 @@ def run_course(out: Path) -> Path:
     return out
 
 
-def run_tour(out: Path) -> dict:
-    """Default controller mode in the course world: the customData tour plan drives the rover along the lane."""
+def run_tour(out: Path, port: int = protocol.DEFAULT_PORT, extra_env: dict | None = None) -> dict:
+    """Default controller mode in the course world: the customData tour plan drives the rover along the lane.
+    ``port``: use another port when an interactive Webots session already holds the default one."""
     subprocess.run([sys.executable, str(WB / "tools" / "make_world.py")], check=True, capture_output=True)
     out.mkdir(parents=True, exist_ok=True)
-    srv = start_server(log=out / "server.log")
+    srv = start_server(port=port, log=out / "server.log")
     try:
         code, log = run_webots(WB / "worlds" / "artemis_test_course.wbt", {"ARTEMIS_WEBOTS_QUIT": "1", "ARTEMIS_WEBOTS_OUT": out / "tour",
-                                                                           "ARTEMIS_INFER_TIMEOUT_S": "3"}, timeout=420)
+                                                                           "ARTEMIS_INFER_TIMEOUT_S": "3", "ARTEMIS_INFER_PORT": port,
+                                                                           **(extra_env or {})}, timeout=420)
     finally:
-        stop_server(srv)
+        stop_server(srv, port)
     (out / "webots.log").write_text(log, encoding="utf-8")
     s = json.loads((out / "tour" / "summary.json").read_text(encoding="utf-8"))
     man = json.loads((WB / "worlds" / "artemis_test_course.json").read_text(encoding="utf-8"))

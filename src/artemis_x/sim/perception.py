@@ -18,9 +18,9 @@ from .client import DetectionClient
 from .projection import CameraModel, localize
 
 
-def draw_detections(display, rgb: bytes, w: int, h: int, dets: list, frame_id: int, latency_ms: float) -> None:
+def draw_detections(display, rgb: bytes, w: int, h: int, dets: list, frame_id: int, latency_ms: float, encoding: str = "rgb8") -> None:
     """Paint the analysed frame (not the newest one) with its YOLO boxes: magenta = depth-localised, orange = no valid depth."""
-    img = display.imageNew(rgb, display.RGB, w, h)
+    img = display.imageNew(rgb, display.BGRA if encoding == "bgra8" else display.RGB, w, h)
     display.imagePaste(img, 0, 0, False)
     display.imageDelete(img)
     for d in dets:
@@ -40,9 +40,10 @@ class InferenceLink:
     """Bounded async pipeline: capture every ``every_s`` -> submit -> poll -> associate with the frame's own depth + pose."""
 
     def __init__(self, sensors, client: DetectionClient, out_dir: Path, every_s: float = 0.256, max_age_s: float = 1.0,
-                 ring: int = 8, save_frames: int = 20, display=None):
+                 ring: int = 8, save_frames: int = 20, display=None, on_detections=None):
         self.sensors, self.client, self.out = sensors, client, out_dir
         self.display = display                     # optional Webots Display "yolo_view": live frame + YOLO boxes (GUI only)
+        self.on_detections = on_detections         # R4.4: callback(detections, depth, pose, stamp, frame_id, t_now) -> track ids
         self.every_s, self.max_age_s = every_s, max_age_s
         self.cam = CameraModel.from_sensor(sensors.describe()["depth"])
         self.ring: collections.OrderedDict = collections.OrderedDict()
@@ -50,19 +51,31 @@ class InferenceLink:
         self.next_t = 0.0
         self.stats = {"submitted": 0, "results": 0, "ok": 0, "failed": 0, "stale": 0, "evicted": 0, "detections": 0,
                       "localized": 0, "latency_ms": [], "saved_frames": 0}
+        self.last_ok_sim_s = None                       # R4.3 health inputs (simulation time): last successful answer,
+        self.last_stale = False                         # fresh or not, and whether the latest answer was stale
+        self.recent = collections.deque(maxlen=64)      # (received sim time, stale) of successful answers
         out_dir.mkdir(parents=True, exist_ok=True)
         self.log = (out_dir / "detections.jsonl").open("w", encoding="utf-8")
 
-    def tick(self, t: float, pose: dict | None) -> None:
-        if t >= self.next_t and self.sensors.camera is not None:
+    def tick(self, t: float, pose: dict | None, gt: dict | None = None, frame=None, stamp_s: float | None = None) -> None:
+        """``pose``: the ESTIMATED pose at the frame's sample time (odom, R4). ``gt``: supervisor pose, logged under
+        ``gt_pose_eval_only`` and never used. ``frame``: an already captured frame (the R4 mapper's) to submit instead of
+        capturing a second one; it is submitted whenever given, otherwise this link captures on its own timer."""
+        f = None
+        if frame is not None:
+            f = frame
+        elif t >= self.next_t and self.sensors.camera is not None:
             f = self.sensors.capture()
+            self.next_t = t + self.every_s
+        if f is not None:
             if f.rgb is not None:
-                self.ring[f.index] = (f.sim_time_s, f.depth, pose, f.rgb, f.width, f.height)
+                stamp = f.sim_time_s if stamp_s is None else stamp_s
+                enc = (f.meta or {}).get("encoding", "rgb8")
+                self.ring[f.index] = (stamp, f.depth, pose, gt, f.rgb, f.width, f.height, enc)
                 while len(self.ring) > self.ring_size:
                     self.ring.popitem(last=False)
-                self.client.submit(f.index, f.sim_time_s, f.width, f.height, f.rgb)
+                self.client.submit(f.index, f.sim_time_s, f.width, f.height, f.rgb, enc)
                 self.stats["submitted"] += 1
-            self.next_t = t + self.every_s
         for res in self.client.poll():
             self.handle(res, t)
 
@@ -74,6 +87,10 @@ class InferenceLink:
                "stale": age > self.max_age_s, "ok": res.get("ok", False), "latency_ms": round(res.get("latency_ms") or 0, 2),
                "inference_ms": res.get("inference_ms"), "device": res.get("device"), "error": res.get("error")}
         self.stats["stale"] += rec["stale"]
+        if t_now == t_now and rec["ok"]:                    # finish() drains with t_now = NaN; failures are not answers
+            self.recent.append((t_now, rec["stale"]))
+            self.last_ok_sim_s = t_now                      # the server answers (possibly late): it is available
+            self.last_stale = rec["stale"]
         if not rec["ok"]:
             self.stats["failed"] += 1
         else:
@@ -85,25 +102,40 @@ class InferenceLink:
                 rec["association"] = "frame evicted from ring buffer (reply too late)"
                 rec["detections"] = res["detections"]
             else:
-                _, depth, pose, rgb, w, h = entry
+                stamp, depth, pose, gt, rgb, w, h, *rest = entry
+                enc = rest[0] if rest else "rgb8"
                 rec["association"] = "same capture (RGB and depth from one sensor sample)"
-                rec["rover_pose_ground_truth"] = pose
+                rec["sample_time_s"] = round(stamp, 4)
+                rec["rover_pose_estimated"] = pose
+                if gt is not None:
+                    rec["gt_pose_eval_only"] = gt
                 locs = [localize(d, depth, self.cam) for d in res["detections"]]
                 for loc in locs:
                     loc.pop("foreground_pixels", None)
+                if self.on_detections is not None and not rec["stale"] and pose is not None:   # empty results count misses
+                    ids = self.on_detections(res["detections"], depth, pose, stamp, fid, t_now)
+                    for loc, tid in zip(locs, ids or []):
+                        loc["track_id"] = tid
                 rec["detections"] = locs
                 self.stats["detections"] += len(locs)
                 self.stats["localized"] += sum(1 for l in locs if l["valid"])
                 if self.display is not None:
-                    draw_detections(self.display, rgb, w, h, locs, fid, rec["latency_ms"])
+                    draw_detections(self.display, rgb, w, h, locs, fid, rec["latency_ms"], enc)
                 if self.stats["saved_frames"] < self.save_frames:
                     fr = self.out / "frames"
                     fr.mkdir(exist_ok=True)
-                    (fr / f"f{fid:05d}_rgb.raw").write_bytes(rgb)
-                    rec["saved_rgb"] = f"frames/f{fid:05d}_rgb.raw ({w}x{h} RGB)"
+                    kind = "bgra" if enc == "bgra8" else "rgb"
+                    (fr / f"f{fid:05d}_{kind}.raw").write_bytes(rgb)
+                    rec["saved_rgb"] = f"frames/f{fid:05d}_{kind}.raw ({w}x{h} {kind.upper()})"
                     self.stats["saved_frames"] += 1
         self.log.write(json.dumps(rec) + "\n")
         return rec
+
+    def health_status(self, t: float, window_s: float = 5.0) -> dict:
+        """Inputs for the R4.3 health monitor: connection, last fresh result, recent stale fraction."""
+        rec = [s for (tr, s) in self.recent if t - tr <= window_s]
+        return {"enabled": True, "connected": bool(self.client.status.get("connected")), "last_ok_sim_s": self.last_ok_sim_s,
+                "latest_stale": self.last_stale, "stale_fraction": (sum(rec) / len(rec)) if rec else 0.0, "results_in_window": len(rec)}
 
     def finish(self, drain_s: float = 0.0) -> dict:
         end = time.perf_counter() + drain_s

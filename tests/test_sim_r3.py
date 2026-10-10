@@ -73,6 +73,14 @@ class TestProtocol(unittest.TestCase):
                 protocol.read_message(b)
             a.close(); b.close()
 
+    def test_validate_bgra8_frame(self):
+        ok = {"type": "frame", "frame_id": 1, "sim_time_s": 0.0, "width": 2, "height": 2, "encoding": "bgra8"}
+        protocol.validate_frame(ok, bytes(16))
+        with self.assertRaises(protocol.ProtocolError):
+            protocol.validate_frame(ok, bytes(12))                                # rgb-sized payload under bgra8
+        with self.assertRaises(protocol.ProtocolError):
+            protocol.validate_frame({**ok, "encoding": "yuv"}, bytes(16))
+
     def test_validate_frame(self):
         ok = {"type": "frame", "frame_id": 1, "sim_time_s": 0.0, "width": 2, "height": 2, "encoding": "rgb8"}
         protocol.validate_frame(ok, bytes(12))
@@ -212,7 +220,7 @@ class TestAssociationAndProjection(unittest.TestCase):
         import tempfile
         with tempfile.TemporaryDirectory() as d:
             link = InferenceLink(FakeSensors(), FakeClient(), Path(d), max_age_s=1.0)
-            link.ring[1] = (0.5, [3.0] * (720 * 480), {"x": 0, "y": 0, "z": 0, "yaw": 0}, bytes(720 * 480 * 3), 720, 480)
+            link.ring[1] = (0.5, [3.0] * (720 * 480), {"x": 0, "y": 0, "yaw": 0}, None, bytes(720 * 480 * 3), 720, 480)
             fresh = link.handle({"frame_id": 1, "sim_time_s": 0.5, "ok": True, "detections": [{"xyxy": [10, 10, 60, 60], "conf": .7}], "latency_ms": 5}, 0.8)
             stale = link.handle({"frame_id": 1, "sim_time_s": 0.5, "ok": True, "detections": [], "latency_ms": 5}, 3.0)
             evicted = link.handle({"frame_id": 99, "sim_time_s": 2.9, "ok": True, "detections": [], "latency_ms": 5}, 3.0)
@@ -266,6 +274,25 @@ class TestRealServer(unittest.TestCase):
             exp = sorted((tuple(round(v, 2) for v in (d.x0, d.y0, d.x1, d.y1)), round(d.confidence, 5)) for d in ref.detections)
             self.assertEqual(len(got), len(exp), name)
             self.assertEqual(got, exp, name)
+        s.close()
+
+    def test_bgra8_frames_give_identical_detections(self):
+        """R4 performance review: the controller may send Webots' native BGRA buffer; the server converts it to the very
+        same RGB array, so the frozen model's output must be identical to the rgb8 path (validation images)."""
+        import numpy as np
+        from PIL import Image
+        from artemis_x.config import paths
+        if not paths.local_dataset_available():
+            self.skipTest("validation images not present")
+        s, _ = self._conn()
+        for i, name in enumerate(("render0115.png", "render5589.png")):
+            rgb = np.asarray(Image.open(paths.YOLO_DATASET / "images" / "val" / name).convert("RGB"))
+            bgra = np.concatenate([rgb[..., ::-1], np.full(rgb.shape[:2] + (1,), 255, np.uint8)], axis=2)
+            s.sendall(protocol.frame_message(2 * i, 0.0, rgb.shape[1], rgb.shape[0], rgb.tobytes()))
+            a, _ = protocol.read_message(s)
+            s.sendall(protocol.frame_message(2 * i + 1, 0.0, rgb.shape[1], rgb.shape[0], bgra.tobytes(), "bgra8"))
+            b, _ = protocol.read_message(s)
+            self.assertEqual(a["detections"], b["detections"], name)
         s.close()
 
     def test_malformed_frame_gets_error_and_server_survives(self):

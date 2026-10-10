@@ -40,11 +40,11 @@ class DetectionClient:
         self._thread.start()
         return self
 
-    def submit(self, frame_id: int, sim_time_s: float, width: int, height: int, rgb: bytes) -> None:
+    def submit(self, frame_id: int, sim_time_s: float, width: int, height: int, rgb: bytes, encoding: str = "rgb8") -> None:
         with self._cv:
             if self._pending is not None:
                 self.status["dropped"] += 1
-            self._pending = (frame_id, sim_time_s, width, height, rgb, time.perf_counter())
+            self._pending = (frame_id, sim_time_s, width, height, rgb, time.perf_counter(), encoding)
             self._cv.notify()
 
     def poll(self) -> list[dict]:
@@ -116,9 +116,9 @@ class DetectionClient:
                                       "latency_ms": (time.perf_counter() - job[5]) * 1000})
                 time.sleep(self.retry_s)
                 continue
-            fid, t_sim, w, h, rgb, t0 = job
+            fid, t_sim, w, h, rgb, t0, enc = job
             try:
-                self._sock.sendall(protocol.frame_message(fid, t_sim, w, h, rgb))
+                self._sock.sendall(protocol.frame_message(fid, t_sim, w, h, rgb, enc))
                 self.status["sent"] += 1
                 while True:
                     header, _ = protocol.read_message(self._sock)

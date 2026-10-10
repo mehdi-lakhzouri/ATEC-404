@@ -6,7 +6,8 @@ One message = fixed 14-byte preamble + JSON header + binary payload:
 
 Message types (header["type"]):
     hello       server -> client on connect: protocol version, model SHA-256, frozen inference settings
-    frame       client -> server: frame_id, sim_time_s, width, height, encoding "rgb8"; payload = H*W*3 RGB bytes
+    frame       client -> server: frame_id, sim_time_s, width, height, encoding "rgb8" (payload = H*W*3 RGB bytes) or
+                "bgra8" (H*W*4 bytes, Webots' native camera buffer; the server converts it to the same RGB array)
     detections  server -> client: frame_id echo, detections [{xyxy, conf}], inference_ms, device, model_sha256
     error       server -> client: frame_id (if known), error text
     bye         client -> server: close the connection cleanly
@@ -24,7 +25,7 @@ VERSION = 1
 DEFAULT_HOST, DEFAULT_PORT = "127.0.0.1", 5761
 PREAMBLE = struct.Struct("!4sHII")
 MAX_HEADER = 64 * 1024
-MAX_PAYLOAD = 4096 * 4096 * 3          # 48 MiB hard cap
+MAX_PAYLOAD = 4096 * 4096 * 4          # 64 MiB hard cap (bgra8)
 MAX_SIDE = 4096
 
 
@@ -80,12 +81,16 @@ def validate_frame(header: dict, payload: bytes) -> None:
         raise ProtocolError(f"frame header incomplete: {e}") from e
     if fid < 0 or not (0 < w <= MAX_SIDE and 0 < h <= MAX_SIDE):
         raise ProtocolError(f"invalid frame geometry or id ({fid}, {w}x{h})")
-    if header.get("encoding") != "rgb8":
+    ch = ENCODINGS.get(header.get("encoding"))
+    if ch is None:
         raise ProtocolError(f"unsupported encoding {header.get('encoding')!r}")
-    if len(payload) != w * h * 3:
-        raise ProtocolError(f"payload {len(payload)} bytes != {w}x{h}x3")
+    if len(payload) != w * h * ch:
+        raise ProtocolError(f"payload {len(payload)} bytes != {w}x{h}x{ch}")
 
 
-def frame_message(frame_id: int, sim_time_s: float, width: int, height: int, rgb: bytes) -> bytes:
+ENCODINGS = {"rgb8": 3, "bgra8": 4}
+
+
+def frame_message(frame_id: int, sim_time_s: float, width: int, height: int, image: bytes, encoding: str = "rgb8") -> bytes:
     return encode({"type": "frame", "frame_id": frame_id, "sim_time_s": sim_time_s, "width": width, "height": height,
-                   "encoding": "rgb8"}, rgb)
+                   "encoding": encoding}, image)
