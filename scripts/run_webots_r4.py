@@ -433,6 +433,10 @@ SCENARIOS.update({
     "dtn_overflow":   ("on", None, {"telemetry": "link", "dtn": True, "link_preset": "NORMAL", "dtn_max_entries": 40,
                                     "link_schedule": ((12.0, "BLACKOUT"), (40.0, "RESTORE"))}),
 })
+SCENARIOS.update({   # R5.5 end to end: Webots -> UDP -> emulator -> ground backend (FastAPI) -> MongoDB + WebSocket
+    "ground_e2e": ("on", None, {"telemetry": "link", "dtn": True, "ground": "backend", "link_preset": "NORMAL",
+                                "link_schedule": BLACKOUT_ONCE, "db_restart_at": 36.0}),
+})
 DTN_SCENARIOS = ["fusion", "nodtn_blackout", "dtn_blackout", "dtn_loss30", "dtn_loss50", "dtn_severe", "dtn_restart", "dtn_repeated",
                  "dtn_overflow"]
 
@@ -461,6 +465,7 @@ def start_link(out: Path, extra: dict, env: dict) -> dict:
         em.apply(None, **extra["link_set"])
     res = {"ground": []}
     receivers = []
+    backend = start_backend(out, extra, dtn) if extra.get("ground") == "backend" else None
 
     def serve(down: threading.Event):
         rx = GroundReceiver("127.0.0.1", GROUND_PORT, out / "ground.jsonl", timeout_s=0.2,
@@ -471,15 +476,20 @@ def start_link(out: Path, extra: dict, env: dict) -> dict:
         res["ground"].append(rx.close())
 
     first_down = threading.Event()
-    rx_threads = [threading.Thread(target=serve, args=(first_down,), daemon=True)]
+    rx_threads = [] if backend else [threading.Thread(target=serve, args=(first_down,), daemon=True)]
     t_em = threading.Thread(target=lambda: res.__setitem__("link", em.run(stop)), daemon=True)
-    rx_threads[0].start()
+    for th in rx_threads:
+        th.start()
     t_em.start()
     switches = []
 
     def switch(name):
-        rep = send_control(name)
-        switches.append({"wall_s": round(time.time(), 3), "preset": name, "ok": rep.get("preset") == name and "error" not in rep})
+        if backend:                                      # R5.5: through the ground backend's REST control endpoint
+            rep = backend["preset"](name)
+        else:
+            rep = send_control(name)
+        switches.append({"wall_s": round(time.time(), 3), "preset": name, "ok": rep.get("preset") == name and "error" not in rep,
+                         "via": "backend REST" if backend else "udp control"})
     timers = [threading.Timer(w, switch, (n,)) for w, n in extra.get("link_schedule", ())]
     if extra.get("ground_down_wall_s"):
         a, b = extra["ground_down_wall_s"]
@@ -490,6 +500,8 @@ def start_link(out: Path, extra: dict, env: dict) -> dict:
             rx_threads.append(th)
             th.start()
         timers += [threading.Timer(a, first_down.set), threading.Timer(b, restart)]
+    if backend and extra.get("db_restart_at"):
+        timers.append(threading.Timer(extra["db_restart_at"], backend["restart_db"]))
     for tm in timers:
         tm.start()
 
@@ -497,6 +509,8 @@ def start_link(out: Path, extra: dict, env: dict) -> dict:
         for tm in timers:
             tm.cancel()
         time.sleep(1.0 + (2.0 if extra["link_preset"] == "SEVERE" else 0.0))   # let in-flight datagrams land
+        if backend:
+            backend["stop"]()
         stop.set()
         t_em.join()
         for th in list(rx_threads):
@@ -508,6 +522,90 @@ def start_link(out: Path, extra: dict, env: dict) -> dict:
         (out / "ground_stats.json").write_text(json.dumps({"mode": "link", "dtn": dtn, "receivers": res["ground"],
                                                            "switches": switches}, indent=1), encoding="utf-8")
     return {"stop": _stop}
+
+
+BACKEND_URL = "http://127.0.0.1:8000"
+
+
+def start_backend(out: Path, extra: dict, dtn: bool) -> dict:
+    """R5.5: the real ground backend (uvicorn, its own uv project) owns the receiver on udp 5790 (ACKs to the emulator's
+    reverse port), persists to MongoDB (docker/compose.yml) and streams on WebSocket; a capture client records the stream.
+    ``restart_db`` restarts the MongoDB container mid-mission (resilience check)."""
+    import subprocess
+    import urllib.request
+    env = {k: v for k, v in r3.system_env({}).items()}
+    env.update({"ARTEMIS_GROUND_UDP_PORT": "5790", "ARTEMIS_GROUND_ACK_TO": "127.0.0.1:5794" if dtn else "",
+                "ARTEMIS_GROUND_EMULATOR_CONTROL": "127.0.0.1:5792", "ARTEMIS_GROUND_LINK_METRICS_PERIOD_S": "1.0"})
+    try:                                                  # a backend already answering would be a stale one
+        urllib.request.urlopen(BACKEND_URL + "/health", timeout=1)
+        raise RuntimeError("something already answers on 127.0.0.1:8000 - stop the old ground backend first")
+    except OSError:
+        pass
+    blog = open(out / "backend.log", "w", encoding="utf-8")
+    proc = subprocess.Popen(["uv", "run", "--project", str(ROOT / "ground_station"), "--no-sync", "uvicorn", "artemis_ground.main:app",
+                             "--app-dir", str(ROOT / "ground_station"), "--host", "127.0.0.1", "--port", "8000"],
+                            env=env, stdout=blog, stderr=subprocess.STDOUT, cwd=str(ROOT))
+
+    def get(path):
+        with urllib.request.urlopen(BACKEND_URL + path, timeout=3) as r:
+            return json.loads(r.read())
+
+    end = time.time() + 90
+    while time.time() < end:
+        try:
+            if get("/health")["data"]["mongodb"] == "up":
+                break
+        except OSError:
+            pass
+        time.sleep(0.5)
+    else:
+        proc.kill()
+        raise RuntimeError("ground backend did not become healthy")
+    cap = subprocess.Popen(["uv", "run", "--project", str(ROOT / "ground_station"), "--no-sync", "python", str(ROOT / "scripts" / "r5_ws_capture.py"),
+                            "--url", "ws://127.0.0.1:8000/ws/v1/missions/*", "--out", str(out / "ws_events.jsonl")],
+                           env=env, stdout=subprocess.DEVNULL, stderr=subprocess.STDOUT, cwd=str(ROOT))
+    time.sleep(2.0)
+    events = []
+
+    def preset(name):
+        req = urllib.request.Request(BACKEND_URL + "/api/v1/network/preset", data=json.dumps({"preset": name}).encode(),
+                                     headers={"Content-Type": "application/json"}, method="POST")
+        with urllib.request.urlopen(req, timeout=5) as r:
+            return json.loads(r.read())["data"]
+
+    def restart_db():                                    # a real outage, longer than the driver's server-selection timeout
+        t0 = time.time()
+        a = subprocess.run(["docker", "stop", "artemis-mongodb"], capture_output=True, text=True)
+        t_down = time.time()
+        time.sleep(10.0)
+        b = subprocess.run(["docker", "start", "artemis-mongodb"], capture_output=True, text=True)
+        events.append({"db_stop_wall_s": round(t0, 3), "db_down_wall_s": round(t_down, 3), "db_start_wall_s": round(time.time(), 3),
+                       "rc": [a.returncode, b.returncode]})
+
+    def _stop():
+        end = time.time() + 60                            # let the backend persist everything it received
+        last = None
+        while time.time() < end:
+            try:
+                h = get("/health")["data"]
+                cur = (h["receiver"]["valid"], h["ingestion"]["queue_size"], h["ingestion"]["persisted"] + h["ingestion"]["duplicates_ignored"])
+                if h["mongodb"] == "up" and cur[1] == 0 and cur == last:
+                    break
+                last = cur
+            except OSError:
+                pass
+            time.sleep(1.0)
+        try:
+            (out / "backend_health.json").write_text(json.dumps(get("/health"), indent=1), encoding="utf-8")
+        except OSError:
+            pass
+        time.sleep(1.0)
+        for pr in (cap, proc):                            # uv -> uvicorn -> python: kill the whole tree (Windows)
+            subprocess.run(["taskkill", "/T", "/F", "/PID", str(pr.pid)], capture_output=True)
+            pr.wait(timeout=20)
+        blog.close()
+        (out / "backend_events.json").write_text(json.dumps(events, indent=1), encoding="utf-8")
+    return {"preset": preset, "restart_db": restart_db, "stop": _stop}
 
 
 def start_ground(out: Path, mode: str, env: dict) -> dict:
@@ -691,7 +789,7 @@ def analyse_safety(root: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=("measure", "analyse", "map", "analyse-map", "safety-run", "safety", "analyse-safety", "fusion",
-                                    "analyse-fusion", "monitor", "validate", "telemetry", "link", "dtn"))
+                                    "analyse-fusion", "monitor", "validate", "telemetry", "link", "dtn", "ground"))
     ap.add_argument("--only", nargs="*", help="safety-run / safety: subset of scenarios")
     ap.add_argument("path", nargs="?")
     ap.add_argument("--no-inference", action="store_true")
@@ -724,6 +822,10 @@ def main() -> int:
             run_scenario(root, name)
         from r5_telemetry_analysis import analyse_telemetry
         res = analyse_telemetry(root)
+    elif a.cmd == "ground":                                # R5.5: full chain into the ground backend (MongoDB must be up)
+        root = WB / "output" / f"r5-ground-{time.strftime('%Y%m%d-%H%M%S')}"
+        run_scenario(root, "ground_e2e")
+        res = {"dir": root.relative_to(ROOT).as_posix(), "analyse_with": "uv run --project ground_station python scripts/r5_ground_e2e_analysis.py <dir>"}
     elif a.cmd == "dtn":                                   # R5.4: store-and-forward + ACKs over the emulated lunar link
         root = WB / "output" / f"r5-dtn-{time.strftime('%Y%m%d-%H%M%S')}"
         for name in (a.only or DTN_SCENARIOS):

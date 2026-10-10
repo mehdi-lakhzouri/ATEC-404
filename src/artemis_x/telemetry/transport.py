@@ -137,7 +137,7 @@ class LiveTelemetry:
 
 class GroundReceiver:
     def __init__(self, host: str = DEFAULT_HOST, port: int = DEFAULT_PORT, out: Path | None = None, timeout_s: float = 0.5,
-                 ack_to: tuple | None = None, ack_every_s: float = 0.1, reconcile: bool = False):
+                 ack_to: tuple | None = None, ack_every_s: float = 0.1, reconcile: bool = False, on_packet=None):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind((host, port))
         self.sock.settimeout(min(timeout_s, ack_every_s) if ack_to else timeout_s)
@@ -148,6 +148,8 @@ class GroundReceiver:
         self.ack_t_obs = 0.0
         from .ground_map import GroundMap
         self.map = GroundMap() if reconcile else None
+        self.on_packet = on_packet               # R5.5: callback(pk, seq_flag, rx_wall) for every VALID packet, after
+                                                 # ACK bookkeeping and map reconciliation; must not block (it runs here)
         self.out = open(out, "a", encoding="utf-8") if out else None
         self.sessions: dict = {}                 # session -> {"last": seq, "seen": set, ...}
         self.stats = {"datagrams": 0, "bytes": 0, "valid": 0, "invalid": 0, "invalid_reasons": {}, "gaps": 0, "missing": 0,
@@ -212,6 +214,11 @@ class GroundReceiver:
         flag = self._sequence(pk.session, pk.seq)
         self._write({"rx_wall_s": round(rx_wall, 6), "session": pk.session, "seq": pk.seq, "type": pk.type,
                      "t_obs_s": pk.t_obs_s, "seq_flag": flag, "body": pk.body})
+        if self.on_packet is not None:
+            try:
+                self.on_packet(pk, flag, rx_wall)
+            except Exception:                    # a consumer bug must never stop reception or ACKs
+                self.stats["callback_errors"] = self.stats.get("callback_errors", 0) + 1
         return pk
 
     def _sequence(self, session: int, seq: int) -> str:
