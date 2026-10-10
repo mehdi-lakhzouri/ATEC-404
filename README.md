@@ -11,7 +11,8 @@ pipeline.
 | | Status |
 |---|---|
 | **Completed** | Dataset research and cleaning · annotation policy · leakage-free YOLO dataset · YOLO11n training (200 epochs) · validation-only model selection · once-only locked test evaluation · reproducible notebooks |
-| **Planned** (not implemented) | Webots simulation · spatial localisation of detections · navigation / obstacle avoidance · Mission Control dashboard |
+| **In progress** | **Webots simulator v0.1** (`artemis-webots/`): Koala rover with a Python controller, scripted motion, forward RGB camera and aligned depth sensor. Automated headless tests and the owner's interactive GUI check pass. YOLO is **not** integrated with Webots yet. See [docs/WEBOTS_R1_R2_REPORT.md](docs/WEBOTS_R1_R2_REPORT.md) |
+| **Planned** (not implemented) | YOLO on simulated camera frames · spatial localisation of detections · navigation / obstacle avoidance · Mission Control dashboard |
 
 ## Problem
 
@@ -142,7 +143,8 @@ scripts/              verify_artifacts, demo_inference, download_dataset, inspec
 tests/                29 tests: artifact integrity, model loading and parity, metrics, dataset contracts, notebooks,
                       download verification, training-reproduction safeguards
 backend/              historical research pipeline (Tasks A-F) and its locked uv environment; 52 regression tests
-future/               Webots integration plan (not implemented)
+artemis-webots/       Webots R2025a project (WIP v0.1): artemis_moon.wbt world, artemis_rover Python controller
+future/               Webots integration plan
 ```
 
 Local-only folders (git-ignored): `dataset/` (source and processed data), `experiments/` (full run outputs, checkpoints,
