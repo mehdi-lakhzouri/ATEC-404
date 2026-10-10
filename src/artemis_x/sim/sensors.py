@@ -88,17 +88,27 @@ class SensorSuite:
                           "min_range_m": self.depth.getMinRange(), "max_range_m": self.depth.getMaxRange()}
         return d
 
-    def capture(self) -> Frame:
+    def capture(self, depth_buffer: bool = False, with_rgb: bool = True, bgra: bool = False) -> Frame:
+        """``depth_buffer=True`` (R4): depth as ``array('f')`` copied from the C buffer instead of a 345,600-element list
+        (same values, same indexing; much cheaper). ``with_rgb=False`` skips the RGB read/conversion (depth-only mapping)."""
         t = self.robot.getTime()
         rgb = depth = None
         w = h = 0
         if self.camera is not None:
-            raw = self.camera.getImage()
             w, h = self.camera.getWidth(), self.camera.getHeight()
-            rgb = bgra_to_rgb(bytes(raw), w, h) if raw else None
+            if with_rgb:
+                raw = self.camera.getImage()
+                if raw and bgra:                                # Webots' buffer as is (the server converts it)
+                    rgb = bytes(raw)
+                else:
+                    rgb = bgra_to_rgb(bytes(raw), w, h) if raw else None
         if self.depth is not None:
-            depth = list(self.depth.getRangeImage())
-        f = Frame(self.count, t, w, h, rgb, depth)
+            if depth_buffer:
+                from .mapping.depth_scan import read_depth
+                depth = read_depth(self.depth)
+            else:
+                depth = list(self.depth.getRangeImage())
+        f = Frame(self.count, t, w, h, rgb, depth, {"encoding": "bgra8" if (bgra and rgb is not None) else "rgb8"})
         self.count += 1
         return f
 

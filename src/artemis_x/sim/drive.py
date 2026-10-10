@@ -115,7 +115,12 @@ class Odometry:
     def __init__(self):
         self.x = self.y = self.yaw = 0.0
         self.dist = 0.0
+        self.turned = 0.0                  # cumulative |heading change| (rad), for the uncertainty model
         self._last = None
+        # R4.3 fault-injection knobs; the defaults reproduce the calibrated odometry exactly (only FaultInjector sets them)
+        self.scale = 1.0                   # distance-scale error factor
+        self.yaw_scale = YAW_SCALE         # turn calibration
+        self.yaw_drift_per_m = 0.0         # heading bias (rad per metre driven)
 
     def update(self, enc_left: float, enc_right: float) -> None:
         if self._last is None:
@@ -124,11 +129,13 @@ class Odometry:
         dl = (enc_left - self._last[0]) * WHEEL_RADIUS_M
         dr = (enc_right - self._last[1]) * WHEEL_RADIUS_M
         self._last = (enc_left, enc_right)
-        d, dth = (dl + dr) / 2, YAW_SCALE * (dr - dl) / TRACK_M
+        d = self.scale * (dl + dr) / 2
+        dth = self.yaw_scale * (dr - dl) / TRACK_M + self.yaw_drift_per_m * abs(d)
         self.x += d * math.cos(self.yaw + dth / 2)
         self.y += d * math.sin(self.yaw + dth / 2)
         self.yaw += dth
         self.dist += abs(d)
+        self.turned += abs(dth)
 
 
 @dataclass(frozen=True)

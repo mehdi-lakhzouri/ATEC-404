@@ -65,6 +65,44 @@ def _wrap(a: float) -> float:
     return math.atan2(math.sin(a), math.cos(a))
 
 
+def _pose_and_mapper(sensors, out_dir: Path, enabled_default: bool, want_rgb: bool = True):
+    """Estimated pose (always) and the R4 mapper (ARTEMIS_MAPPING=1/0; default on for the course tour, off for the R1/R2
+    demo so its behaviour and outputs stay as validated)."""
+    from .mapping.faults import FaultInjector
+    from .mapping.pose import PoseEstimator
+    est = PoseEstimator()
+    faults = FaultInjector.from_env()                  # None unless ARTEMIS_FAULTS is set (evaluation runs only)
+    if faults is not None:
+        faults.configure_odometry(est.odo)
+        print(f"[artemis_rover] FAULT INJECTION ACTIVE: {faults.spec}")
+    flag = os.environ.get("ARTEMIS_MAPPING")
+    on = enabled_default if flag is None else flag == "1"
+    if not on or sensors.camera is None or sensors.depth is None:
+        return est, None
+    from .mapping.mapper import Mapper
+    return est, Mapper(sensors, out_dir / "mapping", estimator=est, want_rgb=want_rgb, faults=faults)
+
+
+def _perception_tick(t: float, mapper, link, pose_now, gt: dict | None) -> None:
+    """One step of perception: a mapping cycle when due (it captures the frame), then the inference link, which submits
+    that same frame with the pose at its sample time, or only polls for results. Ground truth is passed for logging only."""
+    frame = pose_at = None
+    if mapper is not None:
+        mapper.set_inference_status(link.health_status(t) if link is not None else {"enabled": False})
+        if mapper.due(t):
+            frame, pose_at = mapper.cycle(t, gt)       # capture + scan
+        elif mapper.pending is not None:
+            mapper.integrate_pending()                 # grid update of the previous scan, one step later
+        else:
+            mapper.idle_step(t)                        # no mapping work this step: scheduled garbage collection
+    if link is not None:
+        if mapper is not None:
+            link.tick(t, pose_at.to_dict() if pose_at is not None else None, gt, frame=frame,
+                      stamp_s=pose_at.stamp_s if pose_at is not None else None)
+        else:
+            link.tick(t, pose_now.to_dict(), gt)
+
+
 def run_controller(robot, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64, client=None) -> dict:
     """R1/R2 scripted demo. With ``client`` (R3), frames are also sent asynchronously for detection; the scripted motion is
     identical with or without the inference server (it is NOT autonomous navigation)."""
@@ -76,6 +114,10 @@ def run_controller(robot, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64,
     if client is not None and sensors.camera is not None and sensors.depth is not None:
         from .perception import InferenceLink
         link = InferenceLink(sensors, client, out_dir / "inference", display=find_device(robot, "yolo_view"))
+    est, mapper = _pose_and_mapper(sensors, out_dir, enabled_default=False, want_rgb=link is not None)
+    if mapper is not None and link is not None:
+        link.next_t = math.inf
+        link.on_detections = mapper.fuse
     work_ms, slow_steps = [], []
     steps = drive.demo_sequence()
     player = drive.SequencePlayer(steps)
@@ -117,8 +159,9 @@ def run_controller(robot, out_dir: Path, quit_at_end: bool, sensor_ms: int = 64,
                 meta["rover_pose"] = p
                 summary["frames"].append(meta)
                 frames_done.add(i)
-            if link is not None:
-                link.tick(t, p)
+            el, er = enc
+            pose_now = mapper.update_pose(el, er, t) if mapper is not None else est.update(el, er, t)
+            _perception_tick(t, mapper, link, pose_now, p)
             work_ms.append((time.perf_counter() - t0w) * 1000)
             if work_ms[-1] > 50:
                 slow_steps.append({"sim_time_s": round(t, 3), "ms": round(work_ms[-1], 1), "step": step.name,
@@ -258,7 +301,11 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
         from .perception import InferenceLink
         link = InferenceLink(sensors, client, out_dir / "inference", display=find_device(robot, "yolo_view"))
     moves = drive.tour_moves(plan["stops"])
-    odo = drive.Odometry()
+    est, mapper = _pose_and_mapper(sensors, out_dir, enabled_default=True, want_rgb=link is not None)
+    if mapper is not None and link is not None:
+        link.next_t = math.inf                         # the mapper owns the capture cadence; the link submits its frames
+        link.on_detections = mapper.fuse               # R4.4: fresh YOLO results -> fusion + tracker
+    odo = est.odo                                      # the tour drives on the same encoder integrator the estimator wraps
     out_dir.mkdir(parents=True, exist_ok=True)
     tele = (out_dir / "telemetry.csv").open("w", newline="", encoding="utf-8")
     w = csv.writer(tele)
@@ -266,6 +313,8 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
     summary = {"controller": "artemis_rover", "script": plan.get("script", "course_tour"), "moves": [], "frames": [],
                "sensor": sensors.describe(), "odometry_yaw_scale": drive.YAW_SCALE}
     i, start, t_move, settle = 0, None, 0.0, 0
+    from . import profiling
+    prof = profiling.start()                           # no-op unless ARTEMIS_PROFILE=1
     start_pose = None
     work_ms = []
     try:
@@ -273,7 +322,7 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
             t0w = time.perf_counter()
             t = robot.getTime()
             el, er = rover.encoder_rad()
-            odo.update(el, er)
+            pose_now = mapper.update_pose(el, er, t) if mapper is not None else est.update(el, er, t)
             gt = rover.pose() or {}
             mv = moves[i]
             if start is None:
@@ -306,12 +355,16 @@ def run_tour(robot, plan: dict, out_dir: Path, quit_at_end: bool, sensor_ms: int
                     i, start, settle = i + 1, None, 0
             w.writerow([round(t, 4), mv.label, round(applied.left, 3), round(applied.right, 3), round(odo.x, 4), round(odo.y, 4),
                         round(odo.yaw, 4), *[round(gt[k], 4) if k in gt else None for k in ("x", "y", "yaw")]])
-            if link is not None:
-                link.tick(t, gt)
+            _perception_tick(t, mapper, link, pose_now, gt)
             work_ms.append((time.perf_counter() - t0w) * 1000)
     finally:
         rover.stop()
         tele.close()
+    if mapper is not None:
+        summary["mapping"] = mapper.finish()
+    prof_summary = profiling.dump(prof, out_dir)
+    if prof_summary is not None:
+        summary["profile"] = prof_summary
     if link is not None:
         summary["inference"] = link.finish(drain_s=0.5)
     gt = rover.pose() or {}
