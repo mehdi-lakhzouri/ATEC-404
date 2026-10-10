@@ -115,9 +115,11 @@ uv run --project ground_station uvicorn artemis_ground.main:app --app-dir ground
 python scripts/lunar_link.py serve --reverse --log artemis-webots/output/link/link.jsonl
 # 4. YOLO inference server
 uv run --project backend --no-sync python scripts/inference_server.py --port 5761
-# 5. Webots with DTN telemetry through the emulator
+# 5. Webots with DTN telemetry through the emulator. artemis_r4_monitor.wbt is the test course WITH the onboard
+#    Mission-Control panels (RGB CAMERA / AI DETECTION / DEPTH SENSOR / LOCAL MAP 2D map); artemis_test_course.wbt has
+#    no map panel. A closed panel is reopened from Webots: Overlays > Display Devices.
 $env:ARTEMIS_TELEMETRY = "1"; $env:ARTEMIS_TELEMETRY_PORT = "5791"; $env:ARTEMIS_TELEMETRY_DTN = "1"
-& "C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" --mode=realtime artemis-webots\worlds\artemis_test_course.wbt
+& "C:\Program Files\Webots\msys64\mingw64\bin\webots.exe" --mode=realtime artemis-webots\worlds\artemis_r4_monitor.wbt
 ```
 
 Then open `http://127.0.0.1:8000/docs`, call `GET /api/v1/missions`, or switch the link live: `POST /api/v1/network/preset {"preset": "BLACKOUT"}`.

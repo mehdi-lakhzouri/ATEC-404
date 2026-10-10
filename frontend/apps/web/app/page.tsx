@@ -25,6 +25,7 @@ import {
   Maximize2,
   Menu,
   Navigation,
+  Plus,
   RadioTower,
   RefreshCw,
   Route,
@@ -551,7 +552,11 @@ function SurfaceMap({
   highlighted: string | null;
   animate: boolean;
 }) {
-  const [mode, setMode] = useState<"follow" | "fit">("fit");
+  const [legendOpen, setLegendOpen] = useState(true);
+  useEffect(() => {
+    // on laptop-size screens the legend would hide part of the map: start collapsed there
+    if (window.innerWidth < 1600) setLegendOpen(false);
+  }, []);
   const [selected, setSelected] = useState<string | null>(null);
   const state = stream.state;
   const obstacles = useMemo(() => Object.values(state?.obstacles ?? {}), [state?.obstacles]);
@@ -566,18 +571,6 @@ function SurfaceMap({
       highlighted={highlighted}
     >
       <div className={cn("surface-scene live-surface", animate && fresh === "LIVE" && "is-animated")}>
-        <div className="log-filters map-mode" role="group" aria-label="Map view">
-          {(["fit", "follow"] as const).map((m) => (
-            <button
-              key={m}
-              className={mode === m ? "is-active" : undefined}
-              aria-pressed={mode === m}
-              onClick={() => setMode(m)}
-            >
-              {m === "fit" ? "Fit mission" : "Follow rover"}
-            </button>
-          ))}
-        </div>
         {unreachable ? (
           <EmptyState icon={WifiOff} title="Ground station unreachable">
             No map is shown without the ground station: nothing is drawn from local data.
@@ -600,7 +593,8 @@ function SurfaceMap({
           <LunarMap
             trajectory={trajectory}
             obstacles={obstacles}
-            mode={mode}
+            initialMode="fit"
+            interactive
             stale={stale}
             selectedId={selected}
             onSelect={setSelected}
@@ -653,39 +647,56 @@ function SurfaceMap({
           <Maximize2 />
         </button>
       </div>
-      <div className="map-legend">
-        <div>
-          <span className="legend-rover" />
-          Rover (last pose)
-        </div>
-        <div>
-          <span className="legend-trail" />
-          Received path
-        </div>
-        <div>
-          <span className="legend-dot rock" />
-          Rock
-        </div>
-        <div>
-          <span className="legend-dot obstacle" />
-          Obstacle
-        </div>
-        <div>
-          <span className="legend-dot hazard" />
-          Negative hazard
-        </div>
-        <div>
-          <span className="legend-ring" />
-          Uncertainty
-        </div>
-        <div>
-          <span className="legend-area" />
-          Traversed (free)
-        </div>
-        <div>
-          <span className="legend-unknown" />
-          Unknown
-        </div>
+      <div className={cn("map-legend", !legendOpen && "is-collapsed")}>
+        <button
+          className="legend-toggle"
+          onClick={() => setLegendOpen((v) => !v)}
+          aria-expanded={legendOpen}
+          title={legendOpen ? "Hide legend" : "Show legend"}
+        >
+          Legend
+          {legendOpen ? <X /> : <Plus />}
+        </button>
+        {legendOpen && (
+          <>
+            <div>
+              <span className="legend-rover" />
+              Rover (last pose)
+            </div>
+            <div>
+              <span className="legend-trail" />
+              Received path
+            </div>
+            <div>
+              <span className="legend-badge rock" />
+              Detected rock
+            </div>
+            <div>
+              <span className="legend-badge hazard" />
+              Hazard (negative)
+            </div>
+            <div>
+              <span className="legend-badge obstacle" />
+              Obstacle (depth)
+            </div>
+            <div>
+              <span className="legend-ring" />
+              Uncertainty
+            </div>
+            <div>
+              <span className="legend-explored" />
+              Explored (camera)
+            </div>
+            <div>
+              <span className="legend-area" />
+              Traversed (free)
+            </div>
+            <div>
+              <span className="legend-unknown" />
+              Unknown
+            </div>
+          </>
+        )}
       </div>
     </Panel>
   );
@@ -1473,7 +1484,6 @@ function MiniMap({
           <LunarMap
             trajectory={state.trajectory}
             obstacles={obstacles}
-            mode="fit"
             stale={stale}
             compact
             label="Whole received trajectory and obstacles"
@@ -1660,7 +1670,7 @@ function DashboardDialog({
                   <LunarMap
                     trajectory={state.trajectory}
                     obstacles={obstacles}
-                    mode="fit"
+                    interactive
                     stale={stale}
                     label={title}
                   />
@@ -1740,7 +1750,41 @@ export default function Home() {
   const hasMission = missionId !== null;
   const freshTitle = `${freshnessLabel[fresh]} · last ground reception ${formatAge(ageS)} ago (UTC) · ${connectionText(stream.connection, stream.retryAtMs, now)}`;
 
+  // Scroll spy: the sidebar's active item follows the panel in view (a click sets it immediately).
+  const spyPausedUntil = useRef(0);
+  useEffect(() => {
+    const byTarget = new Map<string, ViewName>(
+      navigation.filter((n) => n.target).map((n) => [n.target!, n.label]),
+    );
+    const visible = new Map<string, number>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0);
+        if (Date.now() < spyPausedUntil.current) return;
+        if (window.scrollY < 40) {
+          setActive((a) => (a === "Settings" ? a : "Overview"));
+          return;
+        }
+        let best: string | null = null;
+        let ratio = 0.35;
+        for (const [id, r] of visible)
+          if (r > ratio && byTarget.has(id)) {
+            best = id;
+            ratio = r;
+          }
+        if (best) setActive(byTarget.get(best)!);
+      },
+      { threshold: [0, 0.35, 0.6, 0.9], rootMargin: "-90px 0px 0px 0px" },
+    );
+    for (const id of byTarget.keys()) {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   const selectView = (view: ViewName, target?: string) => {
+    spyPausedUntil.current = Date.now() + 1200;
     setActive(view);
     setSidebarOpen(false);
     if (view === "Settings") {

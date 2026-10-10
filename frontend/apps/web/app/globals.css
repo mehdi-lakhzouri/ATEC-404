@@ -2615,3 +2615,310 @@ a {
   font-family: var(--font-geist-mono), monospace;
   font-size: 11px;
 }
+
+/* ---- R6.1: demo-style live map, sticky shell ------------------------------------------------------------------------- */
+.mission-header {
+  position: sticky;
+  top: 0;
+}
+.mission-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-navigation {
+  flex: 0 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+@media (min-width: 1024px) and (max-height: 900px) {
+  .sidebar-landscape,
+  .sidebar-motto {
+    display: none;
+  }
+}
+@media (min-width: 1024px) and (max-height: 640px) {
+  .navigation-item {
+    height: 42px;
+  }
+}
+
+.map-unknown-bg {
+  fill: #050f1c;
+}
+.map-grid {
+  stroke: #0e2235;
+}
+.map-grid-major {
+  stroke: #17324d;
+}
+.map-explored {
+  fill: #2c557d;
+  opacity: 0.62;
+}
+.map-free {
+  stroke: #cfe6ff;
+  stroke-opacity: 0.2;
+}
+.map-trail-glow {
+  fill: none;
+  stroke: #36c8ff;
+  stroke-opacity: 0.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.map-trail {
+  stroke: #6fe0ff;
+}
+.map-fov {
+  fill: #7fd0ff;
+  fill-opacity: 0.12;
+  stroke: #9fe0ff;
+  stroke-opacity: 0.35;
+  stroke-width: 0.02;
+}
+.map-rover-ring {
+  fill: none;
+  stroke: #4fb0ff;
+  stroke-opacity: 0.8;
+}
+.map-rover-body {
+  fill: #e9f2ff;
+  stroke: #2d9bf8;
+}
+.map-rover-wheel {
+  fill: #1a2433;
+}
+.map-rover-nose {
+  fill: #2d9bf8;
+}
+.live-surface.is-animated .map-rover-ring {
+  animation: rover-ring 2.4s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes rover-ring {
+  from {
+    transform: scale(0.75);
+    opacity: 1;
+  }
+  to {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.reduce-motion .live-surface .map-rover-ring {
+  animation: none;
+}
+.map-start path {
+  stroke: #e8f1ff;
+  fill: #e8f1ff;
+}
+.map-start text {
+  fill: #c9dcf3;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.map-label {
+  fill: #d9e7fb;
+  paint-order: stroke;
+  stroke: #050f1c;
+  stroke-width: 0.08;
+}
+.map-label.is-strong {
+  fill: #fff;
+  font-weight: 600;
+}
+.lunar-map.is-interactive {
+  cursor: grab;
+  touch-action: none;
+}
+.lunar-map.is-interactive:active {
+  cursor: grabbing;
+}
+.map-axes {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  width: 54px;
+  height: 54px;
+  pointer-events: none;
+}
+.map-axes svg {
+  width: 100%;
+  height: 100%;
+}
+.axes-ring {
+  fill: #06121fcc;
+  stroke: #3d6488;
+  stroke-width: 1;
+}
+.axes-x,
+.axes-y {
+  fill: none;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.axes-x {
+  stroke: #ff8a8a;
+}
+.axes-y {
+  stroke: #8affb0;
+}
+.axes-label {
+  fill: #c9dcf3;
+  font-size: 7px;
+}
+.lunar-map .map-scale {
+  left: 12px;
+  bottom: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  padding: 4px 8px 5px;
+  border-radius: 5px;
+  background: #06121fb3;
+}
+.lunar-map .map-scale > span {
+  height: 7px;
+  border: 2px solid #d9e7fb;
+  border-top: 0;
+}
+.lunar-map .map-scale em {
+  font-style: normal;
+  font-size: 11px;
+  color: #e6eefb;
+}
+.map-zoom {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #23476a;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #06121fe6;
+  z-index: 3;
+}
+.map-zoom button {
+  width: 30px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-bottom: 1px solid #16324d;
+  background: transparent;
+  color: #b5ceef;
+}
+.map-zoom button:last-child {
+  border-bottom: 0;
+}
+.map-zoom button:hover {
+  color: #fff;
+  background: #133052;
+}
+.map-zoom button.is-active {
+  color: #6fe0ff;
+  background: #0f2a4a;
+}
+.map-zoom button:disabled {
+  opacity: 0.4;
+}
+.map-zoom svg {
+  width: 15px;
+  height: 15px;
+}
+.surface-panel .map-expand {
+  right: 50px;
+}
+.stale-banner {
+  left: 74px;
+  top: 12px;
+}
+
+/* demo-style legend, collapsible */
+.surface-panel .map-legend {
+  width: 156px;
+  gap: 5px;
+  padding: 8px 10px 9px;
+  border-radius: 0 10px 0 9px;
+  background: linear-gradient(135deg, #0a1a2ce8, #050f1ce8);
+  z-index: 4;
+}
+.surface-panel .map-legend.is-collapsed {
+  width: auto;
+  padding-bottom: 8px;
+}
+.legend-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border: 0;
+  padding: 0 0 3px;
+  background: transparent;
+  color: #e6eefb;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.legend-toggle svg {
+  width: 13px;
+  height: 13px;
+  color: #8fb3d9;
+}
+.legend-badge {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  background: radial-gradient(circle, #06121f 55%, transparent 56%);
+  box-shadow: 0 0 6px currentColor;
+}
+.legend-badge::after {
+  content: "";
+  position: absolute;
+  inset: 3px 3px 4px;
+  background: currentColor;
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+}
+.legend-badge.rock {
+  color: #5cf07a;
+}
+.legend-badge.hazard {
+  color: #ff4d6a;
+}
+.legend-badge.obstacle {
+  color: #ffc35c;
+}
+.legend-badge.obstacle::after {
+  inset: 3px;
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+.legend-explored {
+  width: 21px;
+  height: 16px;
+  flex: 0 0 auto;
+  border: 1px solid #55c8ff;
+  border-radius: 2px;
+  background: #2c557d;
+  box-shadow: 0 0 5px #55c8ff80;
+}
+.legend-area {
+  background: #cfe6ff33;
+}
+.legend-trail {
+  border-top-color: #6fe0ff;
+  filter: drop-shadow(0 0 2px #36c8ff);
+}
+@media (max-width: 1570px) {
+  .analytics-panel .live-metrics {
+    display: none;
+  }
+}

@@ -35,7 +35,8 @@ API = "http://127.0.0.1:8000"
 DASH = os.environ.get("ARTEMIS_DASHBOARD_URL", "http://localhost:3000/")
 EDGE = Path(r"C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe")
 WEBOTS = Path(os.environ.get("WEBOTS_HOME", r"C:\Program Files\Webots")) / "msys64" / "mingw64" / "bin" / "webots.exe"
-WORLD = ROOT / "artemis-webots" / "worlds" / "artemis_test_course.wbt"
+# the test course WITH the R4.5 Mission-Control panels (RGB / AI DETECTION / DEPTH / LOCAL MAP): same course, + displays
+WORLD = ROOT / "artemis-webots" / "worlds" / "artemis_r4_monitor.wbt"
 CDP_PORT = 9333
 INFER_PORT = 5771
 
@@ -126,7 +127,9 @@ class Stack:
         log = open(self.out / "webots.log", "w", encoding="utf-8")
         env = clean_env({"ARTEMIS_TELEMETRY": "1", "ARTEMIS_TELEMETRY_PORT": "5791", "ARTEMIS_TELEMETRY_DTN": "1",
                          "ARTEMIS_TELEMETRY_ACK_PORT": "5793", "ARTEMIS_INFER_PORT": str(INFER_PORT),
-                         "ARTEMIS_WEBOTS_OUT": str(self.out / "tour")})
+                         "ARTEMIS_WEBOTS_OUT": str(self.out / "tour"),
+                         # the onboard 2D map panel keeps working with telemetry on: panels saved mid-mission as evidence
+                         "ARTEMIS_MONITOR_SAVE": str(self.out / "monitor_panels"), "ARTEMIS_MONITOR_SAVE_AT": "20,45"})
         self.webots = subprocess.Popen([str(WEBOTS), "--batch", "--minimize", "--mode=realtime", "--stdout", "--stderr",
                                         "--port=1244", str(WORLD)], env=env, stdout=log, stderr=subprocess.STDOUT)
 
@@ -312,6 +315,18 @@ async def main(out: Path) -> dict:
         record("obstacle_detected_flows_to_dashboard",
                len(d["obstacleIds"]) == len(set(d["obstacleIds"])) and set(d["obstacleIds"]) <= set(ids_rest) | set(d["obstacleIds"]),
                dashboard_ids=sorted(d["obstacleIds"]), rest_ids=ids_rest, log=d["log"][:4])
+
+        # 3b. live map interaction: zoom in narrows the view, follow centres on the rover
+        vb = "document.querySelector('#surface .lunar-map svg').getAttribute('viewBox')"
+        w0 = float((await b.js(vb)).split()[2])
+        await click(b, '#surface .map-zoom button[aria-label="Zoom in"]')
+        await asyncio.sleep(0.5)
+        w1 = float((await b.js(vb)).split()[2])
+        await click(b, '#surface .map-zoom button[title="Follow the rover"]')
+        await asyncio.sleep(1.0)
+        res["screens"].append(await b.shot("03b_map_follow.png"))
+        await click(b, '#surface .map-zoom button[title="Fit the whole mission"]')
+        record("map_zoom_follow", w1 < w0, view_width_m=[round(w0, 2), round(w1, 2)])
 
         # 4. BLACKOUT from the dashboard's own control; confirmed by GET status; freshness ages; no invented poses
         await click(b, '.preset-buttons button[title*="BLACKOUT"]')

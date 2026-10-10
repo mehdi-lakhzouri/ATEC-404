@@ -23,7 +23,27 @@ The old camera, YOLO overlay and depth images were sampled from the design refer
 carries no video downlink, and showing those images as "LIVE" would have been fabricated data.
 
 ### Map semantics (odom frame, x right, y up)
-- **Unknown** (hatched background): the occupancy grid is not downlinked, so no area is drawn as free by default.
+
+The map follows the design reference's style:
+
+- glowing explored area;
+- dashed glowing path;
+- rock and hazard badges;
+- rover halo with its camera cone;
+- START flag, scale bar and legend.
+
+The terrain texture is decorative noise inside the explored area, not imagery. Every shape comes from received telemetry. The map supports:
+
+- wheel or `+`/`−` to zoom;
+- drag to pan;
+- **Fit**, for the whole mission;
+- **Follow**, centred on the rover.
+
+The axes widget shows odom `+x`/`+y`: rover odometry has no absolute north.
+
+- **Unknown** (dark, hatched background): the occupancy grid is not downlinked, so no area is drawn as free by default.
+- **Explored (camera)**: the camera footprint (FOV 1.0 rad × 6 m mapping range) swept from received poses. It shows
+  where the sensors looked, not proven free space, because obstacles can shadow it.
 - **Traversed (free)**: the rover's footprint along received poses. Only space the rover itself occupied counts as free.
 - **Received path**: received poses only, ordered by observation time. A gap of more than 3 s in `t_obs_s` (packets
   that never arrived) breaks the line, so no position is invented between two receptions.
@@ -31,7 +51,9 @@ carries no video downlink, and showing those images as "LIVE" would have been fa
   - Fill opacity follows confidence.
   - A dashed ring shows `radius + uncertainty`.
   - The stroke shows the tracking status: confirmed is solid, observed is dashed, lost is faint.
-  - Persistent track ids are labelled.
+  - Badges keep a constant on-screen size: a green triangle for a rock, a red one for a negative hazard and an amber
+    diamond for a depth-only obstacle. A lost track is grey.
+  - Ids are labelled when there are 14 obstacles or fewer, on hover, and on selection.
 - **Obstacle removal**: an obstacle disappears only on `obstacle.removed`, on `map.reset`, or on a `mission.snapshot`
   resync, which is the ground station's persisted reconciled picture. On resync, detections newer than the snapshot
   (not yet written by the asynchronous writer) are kept.
@@ -100,7 +122,8 @@ carries no video downlink, and showing those images as "LIVE" would have been fa
 
 ```powershell
 # 1-5: the R5.5 stack (docs/TELEMETRY_R5_5_GROUND_BACKEND.md section 5): MongoDB, ground backend on :8000,
-#      lunar link emulator (--reverse), YOLO inference server, Webots with ARTEMIS_TELEMETRY=1 / _DTN=1
+#      lunar link emulator (--reverse), YOLO inference server, Webots with ARTEMIS_TELEMETRY=1 / _DTN=1 on
+#      artemis-webots\worlds\artemis_r4_monitor.wbt (the course WITH the onboard 2D LOCAL MAP panel)
 # 6. Dashboard (Node >= 24, pnpm 11)
 cd frontend
 pnpm install
@@ -122,31 +145,45 @@ pnpm --filter web build
 uv run --project ground_station --no-sync python scripts/r6_dashboard_e2e.py --out artemis-webots/output/r6_dashboard
 ```
 
-## Validation (2026-10-10, real stack)
+## Validation (2026-10-10/11, real stack)
 
 **Unit and build checks.**
 - `pnpm --filter web test`: 16/16 pass.
 - `lint`, `check-types` and `build` for `web` pass.
 - `@repo/ui#lint` (the untouched shared starter package, ESLint 10.9.1) crashes inside ESLint with `scopeManager.addGlobals is not a function`. This predates R6 and is independent of the dashboard.
 
-**Full stack.** `scripts/r6_dashboard_e2e.py` runs MongoDB 8 (docker), the FastAPI ground backend, the lunar link emulator (`--reverse`), the YOLO inference server and Webots (realtime, DTN telemetry). The dashboard is driven by headless Edge through the dashboard's own buttons.
-- **Result: 11/11 checks pass.**
+**Full stack.** `scripts/r6_dashboard_e2e.py` runs MongoDB 8 (docker), the FastAPI ground backend, the lunar link emulator (`--reverse`), the YOLO inference server and Webots (realtime, DTN telemetry, `artemis_r4_monitor.wbt`). The dashboard is driven by headless Edge through the dashboard's own buttons.
+- **Result: 12/12 checks pass.**
 - **0 browser console errors.**
 - Screenshots: [`docs/screenshots/r6/`](screenshots/r6/).
 
 | Check | Result |
 |---|---|
 | Backend down | Explicit `ground station unreachable` error with Retry. Header shows DISCONNECTED, no data drawn ([00](screenshots/r6/00_backend_down.jpg)) |
-| History from MongoDB | 4 stored missions listed before the rover starts ([01](screenshots/r6/01_history_from_mongodb.jpg)) |
-| Live mission | New session followed automatically and LIVE 8.3 s after Webots start: pose, heading, σxy, 2 packets/s ([02](screenshots/r6/02_live_mission.jpg)) |
+| History from MongoDB | 6 stored missions listed before the rover starts ([01](screenshots/r6/01_history_from_mongodb.jpg)) |
+| Live mission | New session followed automatically and LIVE 8.6 s after Webots start: pose, heading, σxy, 2 packets/s ([02](screenshots/r6/02_live_mission.jpg)) |
 | Obstacle detection → dashboard | Dashboard ids equal `GET /obstacles` ids (8/8): YOLO+depth tracks and depth-only obstacles ([03](screenshots/r6/03_obstacle_detected.jpg)) |
-| BLACKOUT (UI button) | Emulator confirms BLACKOUT. Header and panels go STALE, the map is kept and greyed with "no telemetry for 9.1 s", and the pose count stays frozen at 15 → 15 ([04](screenshots/r6/04_blackout_stale.jpg)) |
-| RESTORE (UI button) | Back to LIVE. Poses 15 → 32, equal to REST (32). Blackout 9.8 s (emulator) and first packet 8.3 s after restore. The path is not bridged across the blackout ([05](screenshots/r6/05_restored_live.jpg)) |
-| Backend killed | DISCONNECTED banner, last picture kept, "Reconnecting…" ([06](screenshots/r6/06_backend_down_disconnected.jpg)) |
-| Backend restarted | WebSocket reconnects (1 reconnect). Snapshot and backfill resync to 46 poses = REST 46. Obstacle ids unique ([07](screenshots/r6/07_reconnected.jpg)) |
-| Mission switch | Older mission: 115 poses = REST, 18 obstacles = REST, unchanged over 4 s while the live mission flows (no mixing) ([08](screenshots/r6/08_mission_switch.jpg)) |
-| Dashboard restart | New browser session, `?mission=`: mission reloaded from the API (64 → 71 poses, 7 obstacles) ([09](screenshots/r6/09_dashboard_restart.jpg)) |
+| Map zoom / follow | Zoom-in narrows the view from 17.07 m to 12.19 m; Follow centres on the rover ([03b](screenshots/r6/03b_map_follow.jpg)) |
+| BLACKOUT (UI button) | Emulator confirms BLACKOUT. Header and panels go STALE, the map is kept and greyed with "no telemetry for 10.0 s", and the pose count stays frozen at 18 → 18 ([04](screenshots/r6/04_blackout_stale.jpg)) |
+| RESTORE (UI button) | Back to LIVE. Poses 18 → 35, equal to REST (35). Blackout 10.3 s (emulator) and first packet 8.8 s after restore. The path is not bridged across the blackout ([05](screenshots/r6/05_restored_live.jpg)) |
+| Backend killed | DISCONNECTED banner, last picture kept, "Reconnecting in 1 s" ([06](screenshots/r6/06_backend_down_disconnected.jpg)) |
+| Backend restarted | WebSocket reconnects (1 reconnect). Snapshot and backfill resync to 50 poses = REST 50. Obstacle ids unique ([07](screenshots/r6/07_reconnected.jpg)) |
+| Mission switch | Older mission: 82 poses = REST, 11 obstacles = REST, unchanged over 4 s while the live mission flows (no mixing) ([08](screenshots/r6/08_mission_switch.jpg)) |
+| Dashboard restart | New browser session, `?mission=`: mission reloaded from the API (68 → 75 poses) ([09](screenshots/r6/09_dashboard_restart.jpg)) |
 | Unknown mission | `mission_not_found (404)` shown, no stream opened, nothing drawn ([10](screenshots/r6/10_unknown_mission_404.jpg)) |
+
+**Onboard Webots panels during the same run.** The R4.5 monitor saved its four panels at t = 45 s with telemetry, DTN and the dashboard all active:
+- [RGB](screenshots/r6/webots_monitor_rgb.jpg)
+- [AI DETECTION](screenshots/r6/webots_monitor_ai.jpg)
+- [DEPTH](screenshots/r6/webots_monitor_depth.jpg)
+- [LOCAL MAP (2D)](screenshots/r6/webots_monitor_map.jpg)
+
+The 2D map panel exists only in `artemis_r4_monitor.wbt`. That world is the test course plus the four displays. `artemis_test_course.wbt` shows the camera, range-finder and `yolo_view` overlays, but no map.
+
+**Shell.**
+- The header is sticky, so the sidebar stays aligned when the page scrolls.
+- Below 900 px of height the decorative landscape and motto are hidden, so navigation items are never covered.
+- The active navigation item follows the panel in view (scroll spy).
 
 **Regressions.**
 - Repository suite: 200 tests, 199 pass and 1 Webots test is skipped. One error remains: the pre-existing `test_notebook_smoke` import error (`nbformat` not installed).
@@ -155,7 +192,7 @@ uv run --project ground_station --no-sync python scripts/r6_dashboard_e2e.py --o
 
 ### Known limitations
 - **No video downlink.** Telemetry protocol v1 carries no camera or depth images, so the dashboard has no live camera panel.
-- **Free space.** The occupancy grid is not downlinked: only the traversed corridor is shown as free.
+- **Free space.** The occupancy grid is not downlinked: only the traversed corridor is shown as free. *Explored (camera)* is sensor coverage, not free space.
 - **Delay figures** are the emulator's cumulative p50 and its configured latency, not an end-to-end per-packet measurement.
 - **Recovery time** is measured on the browser clock from the confirmed RESTORE to the next rover packet.
 - **Blackout duration.** When the page opens in the middle of a blackout, the ongoing duration counts from page load. The completed duration needs the pre-blackout emulator total.
