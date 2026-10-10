@@ -12,7 +12,8 @@ pipeline.
 |---|---|
 | **Completed** | Dataset research and cleaning · annotation policy · leakage-free YOLO dataset · YOLO11n training (200 epochs) · validation-only model selection · once-only locked test evaluation · reproducible notebooks |
 | **In progress** | **Webots simulator v0.1** (`artemis-webots/`): Koala rover with a Python controller, scripted motion, forward RGB camera and aligned depth sensor. Automated headless tests and the owner's interactive GUI check pass. **R3 (implemented, under review):** the frozen YOLO11n runs in a separate local inference server on Webots camera frames, with depth-based localisation of the visible surface. Limited exploratory domain-gap evaluation on 40 paired captures: recall 0.72 / 0.60, precision 1.00 / 0.71 (sphere baseline / Poly Haven rocks). A 9-zone test course with 39 CC0 rock scans, craters and two sun angles, plus a scripted 9-stop tour on wheel odometry. Simulator-only, not a real-world result. See [docs/WEBOTS_R1_R2_REPORT.md](docs/WEBOTS_R1_R2_REPORT.md), [docs/WEBOTS_R3_YOLO_REPORT.md](docs/WEBOTS_R3_YOLO_REPORT.md) and [docs/ROVER_BEHAVIOUR.md](docs/ROVER_BEHAVIOUR.md) |
-| **Planned** (not implemented) | Navigation / obstacle avoidance · Mission Control dashboard |
+| **Planned** (not implemented) | Navigation / obstacle avoidance |
+| **R6** | Mission Control dashboard wired to the live ground station: map, telemetry, lunar network control, mission history. See [docs/DASHBOARD_R6_MISSION_CONTROL.md](docs/DASHBOARD_R6_MISSION_CONTROL.md) |
 
 ## Problem
 
@@ -147,9 +148,11 @@ artemis-webots/       Webots R2025a project (WIP v0.1): artemis_moon.wbt world, 
 future/               Webots integration plan
 ```
 
-Local-only folders (git-ignored): `dataset/` (source and processed data), `experiments/` (full run outputs, checkpoints,
-predictions, reproductions) and `frontend/` (an unmodified Turborepo starter reserved for the future Mission Control, kept out of
-the scientific delivery).
+`frontend/` is the Mission Control dashboard (Turborepo, Next.js app `apps/web`). Since R6 it shows only live
+ground-station data (REST + WebSocket); see [docs/DASHBOARD_R6_MISSION_CONTROL.md](docs/DASHBOARD_R6_MISSION_CONTROL.md).
+
+Local-only folders (git-ignored): `dataset/` (source and processed data) and `experiments/` (full run outputs, checkpoints,
+predictions, reproductions).
 
 ## Data and model availability
 
@@ -177,7 +180,7 @@ See [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 2. Webots camera integration with a domain-gap check.
 3. Projection of detections to rover-frame positions.
 4. Hazard map and navigation.
-5. Mission Control dashboard.
+5. Mission Control dashboard (R6: live ground-station integration).
 
 See [docs/ROADMAP.md](docs/ROADMAP.md) and [future/WEBOTS_INTEGRATION_PLAN.md](future/WEBOTS_INTEGRATION_PLAN.md).
 

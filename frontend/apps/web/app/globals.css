@@ -1,0 +1,2617 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: Arial, Helvetica, sans-serif;
+  --font-mono: var(--font-geist-mono);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--foreground);
+  --color-primary: #55b7ff;
+  --color-primary-foreground: #03101c;
+  --color-secondary: #10243c;
+  --color-secondary-foreground: var(--foreground);
+  --color-muted: #0a1726;
+  --color-muted-foreground: #aac3e3;
+  --color-accent: #163152;
+  --color-accent-foreground: var(--foreground);
+  --color-destructive: #ff5276;
+  --color-border: var(--border);
+  --color-input: var(--border);
+  --color-ring: #55b7ff;
+  --radius-sm: 5px;
+  --radius-md: 8px;
+  --radius-lg: 11px;
+  --radius-xl: 12px;
+}
+
+:root {
+  --background: #020a14;
+  --foreground: #edf3ff;
+  --card: #06101c;
+  --border: #203e5b;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  color-scheme: dark;
+  background: var(--background);
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--foreground);
+  background: #020a14;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+button,
+input {
+  font: inherit;
+}
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #64bdff;
+  outline-offset: 3px;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+::selection {
+  color: white;
+  background: #235887;
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #04101c;
+}
+::-webkit-scrollbar-thumb {
+  background: #234560;
+  border-radius: 5px;
+}
+.mission-app {
+  min-height: 100dvh;
+  background: radial-gradient(ellipse at 45% 45%, #071422 0, #020a14 75%);
+}
+.reference-scene {
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: #b5ceef;
+  flex: 0 0 auto;
+}
+.icon-button svg {
+  width: 17px;
+  height: 17px;
+}
+.icon-button:hover {
+  color: #74ceff;
+}
+
+/* The logo spans the header; navigation is a narrower, separate rail. */
+.mission-header {
+  height: 86px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-bottom: 1px solid #244768;
+  background: linear-gradient(105deg, #010711 0%, #040d1b 68%, #061427 100%);
+  overflow: hidden;
+  z-index: 30;
+}
+.brand-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 280px;
+  height: 86px;
+  padding: 10px 15px;
+  border-right: 1px solid #264666;
+  flex-shrink: 0;
+  background: linear-gradient(100deg, #020815, #01070d);
+}
+.artemis-symbol {
+  width: 67px;
+  height: 62px;
+  flex: 0 0 67px;
+}
+.brand-type {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  white-space: nowrap;
+}
+.brand-type strong {
+  font-size: 22px;
+  letter-spacing: 3.1px;
+  line-height: 28px;
+  font-weight: 700;
+}
+.brand-type > span {
+  font-size: 11px;
+  letter-spacing: 3px;
+  line-height: 16px;
+}
+.header-heading {
+  position: relative;
+  z-index: 2;
+  margin-left: 22px;
+  min-width: 0;
+  flex: 1;
+  align-self: stretch;
+  padding-top: 10px;
+}
+.header-title-row {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  white-space: nowrap;
+}
+.header-heading h1 {
+  margin: 0;
+  font-size: 33.5px;
+  line-height: 41px;
+  font-weight: 700;
+  letter-spacing: -0.65px;
+  color: #f7f9fe;
+}
+.simulation-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 34px;
+  padding: 0 13px;
+  border: 1px solid #17494e;
+  border-radius: 18px;
+  background: #032229;
+  color: #3cfce2;
+  font-size: 13px;
+  font-weight: 400;
+}
+.status-dot {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: #10e6ad;
+  box-shadow: 0 0 8px #10e6ad14;
+}
+.simulation-status.is-paused {
+  color: #ffce8e;
+  background: #29200e;
+  border-color: #66502b;
+}
+.simulation-status.is-paused .status-dot {
+  background: #ffc47a;
+}
+.mission-disciplines {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin: 6px 0 0;
+  color: #a4bce0;
+  font-size: 12px;
+  line-height: 15px;
+  letter-spacing: 2.7px;
+  white-space: nowrap;
+}
+.mission-disciplines i {
+  font-style: normal;
+  font-size: 12px;
+  color: #5f91c9;
+}
+.mission-context {
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+  margin: 7px 207px 0 12px;
+  position: relative;
+  z-index: 2;
+  height: 56px;
+  flex-shrink: 0;
+}
+.mission-context > div {
+  height: 56px;
+  border-left: 1px solid #234263;
+  padding: 3px 16px 0;
+}
+.mission-context span {
+  display: block;
+  font-size: 12px;
+  line-height: 17px;
+  color: #a8bddc;
+  white-space: nowrap;
+}
+.mission-context p {
+  margin: 1px 0 0;
+  font-size: 14px;
+  line-height: 18px;
+  white-space: nowrap;
+  color: #f1f6fe;
+}
+.context-utc {
+  width: 119px;
+}
+.context-day {
+  width: 94px;
+}
+.context-location {
+  width: 185px;
+}
+.header-moon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 214px;
+  height: 85px;
+}
+.mobile-menu {
+  display: none;
+}
+
+.mission-sidebar {
+  position: fixed;
+  top: 99px;
+  bottom: 0;
+  left: 0;
+  width: 206px;
+  border: 1px solid #16364c;
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 0 12px 0 0;
+  overflow: hidden;
+  z-index: 20;
+  background: linear-gradient(115deg, #091627 0, #020c18 60%, #010711 100%);
+}
+.sidebar-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 4px 0 12px;
+  position: relative;
+  z-index: 2;
+}
+.navigation-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 53px;
+  padding: 0 15px;
+  gap: 25px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  text-align: left;
+  font-size: 14px;
+  color: #bfcee4;
+  background: transparent;
+  flex-shrink: 0;
+  transition:
+    background 0.18s,
+    color 0.18s;
+}
+.navigation-icon {
+  height: 27px;
+  width: 27px;
+  flex: 0 0 27px;
+  color: #b6cfef;
+}
+.navigation-item.is-active {
+  color: white;
+  background: linear-gradient(105deg, #0c254b, #1e386b);
+  border-left-color: #36c8ff;
+  box-shadow: inset 0 1px 0 #234167;
+}
+.navigation-item.is-active .navigation-icon {
+  color: #76aeff;
+  filter: drop-shadow(0 0 6px #3974fb50);
+}
+.navigation-item:hover {
+  background: #173255;
+  color: #fff;
+}
+.sidebar-landscape {
+  position: absolute;
+  left: 0;
+  bottom: 75px;
+  height: 217px;
+  width: 205px;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    #000 12%,
+    #000 92%,
+    transparent
+  );
+  opacity: 0.94;
+}
+.sidebar-motto {
+  position: absolute;
+  left: 24px;
+  bottom: 21px;
+  z-index: 2;
+  color: #a6c7ec;
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 2.7px;
+  line-height: 22px;
+}
+.sidebar-close,
+.navigation-backdrop {
+  display: none;
+}
+
+.mission-main {
+  margin-left: 205px;
+  padding: 14px 12px 10px 13px;
+}
+.dashboard-layout {
+  position: relative;
+  height: max(790px, calc(100dvh - 110px));
+}
+.mission-panel[data-slot="card"] {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  gap: 0;
+  min-width: 0;
+  border-radius: 11px;
+  border: 1px solid #21405d;
+  background: linear-gradient(125deg, #071323, #030c17 68%, #061322);
+  box-shadow: inset 0 1px 0 #b7d9ff04;
+  overflow: hidden;
+  color: #edf3ff;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.mission-panel.panel-highlighted {
+  border-color: #65b6fa;
+  box-shadow: 0 0 18px #2681c326;
+}
+.panel-heading {
+  flex: 0 0 auto;
+  height: 37px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  gap: 8px;
+  min-width: 0;
+}
+.panel-title-block {
+  min-width: 0;
+}
+.panel-heading h2 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+}
+.panel-heading h2 > span {
+  font-weight: 400;
+  letter-spacing: -0.2px;
+}
+.panel-heading p {
+  margin: 2px 0 0;
+  color: #b9cbea;
+  font-size: 13px;
+  line-height: 17px;
+}
+.surface-panel {
+  left: 0;
+  top: 0;
+  width: 46.186%;
+  height: 51.263%;
+}
+.camera-panel {
+  left: 46.948%;
+  top: 0;
+  width: 30.513%;
+  height: 27.678%;
+}
+.detection-panel {
+  left: 46.948%;
+  top: 29.002%;
+  width: 30.513%;
+  height: 22.864%;
+}
+.analytics-panel {
+  left: 78.294%;
+  top: 0;
+  width: 21.706%;
+  height: 56.438%;
+}
+.depth-panel {
+  left: 0;
+  top: 52.226%;
+  width: 25.797%;
+  height: 23.466%;
+}
+.telemetry-panel {
+  left: 26.352%;
+  top: 52.467%;
+  width: 30.791%;
+  height: 23.225%;
+}
+.communication-panel {
+  left: 57.836%;
+  top: 52.708%;
+  width: 42.164%;
+  height: 23.466%;
+}
+.logs-panel {
+  left: 0;
+  top: 77.016%;
+  width: 48.891%;
+  height: 22.864%;
+}
+.mini-panel {
+  left: 49.653%;
+  top: 77.136%;
+  width: 20.458%;
+  height: 22.744%;
+}
+.rover-panel {
+  left: 70.874%;
+  top: 77.256%;
+  width: 29.126%;
+  height: 22.623%;
+}
+
+.surface-panel .panel-heading {
+  height: 54px;
+  padding-top: 1px;
+}
+.surface-scene {
+  margin: 0 5px 8px;
+  flex: 1;
+  position: relative;
+  border: 1px solid #2d465d;
+  border-radius: 5px;
+  min-height: 0;
+}
+.map-legend {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  width: 141px;
+  padding: 15px 10px 12px;
+  border: 1px solid #1c3b55;
+  border-top: 0;
+  border-right: 0;
+  border-radius: 10px 10px 0 7px;
+  background: linear-gradient(135deg, #081727, #040f1b);
+  box-shadow: -2px 2px 7px #0004;
+}
+.map-legend > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 11px;
+  line-height: 16px;
+  color: #c7dafa;
+  white-space: nowrap;
+}
+.map-legend svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  color: #e2edff;
+}
+.map-legend .rock-color {
+  color: #8ff363;
+  stroke: #183820;
+}
+.map-legend .hazard-color {
+  color: #ff5a70;
+  stroke: #451722;
+}
+.legend-rover {
+  width: 16px;
+  height: 16px;
+  border: 4px solid #2d9bf8;
+  border-radius: 50%;
+  background: #051521;
+  flex: 0 0 auto;
+}
+.legend-trail {
+  width: 21px;
+  height: 0;
+  border-top: 2px dashed #46d9ff;
+  flex: 0 0 auto;
+}
+.legend-area {
+  width: 21px;
+  height: 16px;
+  border: 1px solid #6290ba;
+  border-radius: 2px;
+  background: #b0d0e33f;
+  flex: 0 0 auto;
+}
+.map-hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: 0;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border-radius: 50%;
+}
+.map-hotspot:hover,
+.map-hotspot[aria-pressed="true"] {
+  box-shadow:
+    0 0 0 2px #85d8ff,
+    0 0 20px #58c4ff70;
+}
+.rover-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border: 1px solid #5bafff;
+  border-radius: 50%;
+  animation: locator-pulse 3s ease-out infinite;
+}
+@keyframes locator-pulse {
+  from {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+  to {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+.map-expand {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  opacity: 0;
+  background: #05121ede;
+  padding: 5px;
+  border-radius: 4px;
+  transition: opacity 0.15s;
+}
+.surface-scene:hover .map-expand,
+.map-expand:focus-visible {
+  opacity: 1;
+}
+.map-detail {
+  position: absolute;
+  left: 15px;
+  bottom: 16px;
+  right: 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid #3f7098;
+  background: #05111ff5;
+  border-radius: 7px;
+  z-index: 5;
+  color: #b5d6f7;
+  font-size: 12px;
+}
+.map-detail > svg {
+  width: 18px;
+  height: 18px;
+  color: #4de4e4;
+  flex-shrink: 0;
+}
+.map-detail > div {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 4px;
+}
+.map-detail strong {
+  color: #fff;
+}
+.map-detail span {
+  font-size: 10px;
+}
+.camera-scene,
+.detection-scene {
+  position: relative;
+  flex: 1;
+  margin: 0 9px 8px;
+  border: 1px solid #1d3b54;
+  border-radius: 8px;
+  min-height: 0;
+}
+.live-badge {
+  position: absolute;
+  left: 6px;
+  top: 7px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 23px;
+  padding: 0 10px;
+  border: 1px solid #85302f;
+  border-radius: 15px;
+  background: linear-gradient(#6f2823, #431715);
+  color: white;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+.live-badge > span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ff6b4c;
+}
+.live-badge.is-paused {
+  background: #302510;
+  border-color: #795f31;
+}
+.live-badge.is-paused > span {
+  background: #ffcc72;
+}
+.inference-pill {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #c4def7;
+  border: 1px solid #183148;
+  background: #0d1c2d;
+  border-radius: 15px;
+  padding: 5px 12px;
+  white-space: nowrap;
+}
+.detection-panel .panel-heading {
+  padding: 0 12px;
+}
+.detection-panel .panel-heading h2 {
+  font-size: 15.5px;
+  letter-spacing: -0.5px;
+}
+
+.analytics-panel .panel-heading {
+  height: 41px;
+}
+.live-metrics {
+  font-size: 11px;
+  color: #b5cdec;
+  white-space: nowrap;
+}
+.analytics-cards {
+  display: grid;
+  grid-template-rows: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  padding: 0 8px 7px;
+  flex: 1;
+  min-height: 0;
+}
+.metric-card {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr) 58px;
+  gap: 17px;
+  align-items: center;
+  border: 1px solid #152f47;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #071524, #030b15);
+  padding: 9px 10px;
+  min-width: 0;
+}
+.metric-icon {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: linear-gradient(125deg, #182b49, #122038);
+  color: var(--metric-color);
+}
+.metric-icon svg {
+  height: 36px;
+  width: 36px;
+}
+.metric-1 .metric-icon {
+  background: #2b192b;
+}
+.metric-1 .metric-icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: #ff5078;
+}
+.metric-3 .metric-icon {
+  background: linear-gradient(125deg, #073e3a, #062c2c);
+}
+.metric-copy {
+  min-width: 0;
+}
+.metric-copy > p {
+  margin: 0 0 4px;
+  font-size: 12px;
+  line-height: 18px;
+  white-space: nowrap;
+  color: #bbceed;
+}
+.metric-copy > div {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+.metric-copy strong {
+  font-size: 36px;
+  line-height: 40px;
+  letter-spacing: -0.8px;
+  font-weight: 700;
+}
+.metric-delta {
+  display: inline-flex;
+  align-items: center;
+  color: #04edaf;
+  font-size: 12px;
+  gap: 2px;
+  white-space: nowrap;
+}
+.metric-delta svg {
+  height: 12px;
+  width: 12px;
+}
+.metric-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 4px;
+  width: 53px;
+  height: 60px;
+  padding-top: 9px;
+}
+.metric-bars > span {
+  flex: 1;
+  max-height: 48px;
+  background: linear-gradient(0deg, #173d7033, #78d3ff);
+  min-width: 4px;
+}
+.metric-1 .metric-bars > span {
+  background: linear-gradient(0deg, #40192333, #ff5b73);
+}
+.metric-ring {
+  width: 60px;
+  height: 60px;
+  transform: rotate(-90deg);
+  overflow: visible;
+}
+.metric-ring circle {
+  fill: none;
+  stroke: #152b3b;
+  stroke-width: 6px;
+}
+.metric-ring .ring-value {
+  stroke: var(--metric-color);
+  stroke-width: 5.5px;
+}
+
+.depth-panel .panel-heading {
+  height: 34px;
+}
+.depth-caption {
+  position: absolute;
+  left: 12px;
+  top: 34px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 16px;
+  color: #b4c8eb;
+}
+.depth-scene {
+  position: absolute;
+  left: 10px;
+  right: 89px;
+  top: 58px;
+  bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #14243c;
+}
+.depth-scale {
+  position: absolute;
+  top: 38px;
+  bottom: 15px;
+  right: 61px;
+  width: 14px;
+  background: linear-gradient(
+    #d41eff,
+    #7105d6 15%,
+    #1747f0 30%,
+    #00ccf2 43%,
+    #4cf769 57%,
+    #f9f635 69%,
+    #ff9b24 82%,
+    #ff191c
+  );
+  border-radius: 1px;
+}
+.depth-far,
+.depth-near {
+  position: absolute;
+  right: 3px;
+  width: 49px;
+  font-size: 11px;
+  line-height: 16px;
+  color: #d1e5ff;
+}
+.depth-far {
+  top: 37px;
+}
+.depth-near {
+  bottom: 13px;
+}
+.telemetry-panel .panel-heading {
+  height: 37px;
+  padding-right: 9px;
+}
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  font-size: 11px;
+  line-height: 16px;
+  color: #0ee6bc;
+  border-radius: 14px;
+  padding: 3px 10px;
+  background: #032528;
+}
+.status-pill .status-dot {
+  width: 9px;
+  height: 9px;
+}
+.telemetry-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: 1.2fr 0.9fr;
+  gap: 8px;
+  margin: 0 9px 7px;
+  flex: 1;
+  min-height: 0;
+}
+.telemetry-tile {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  border: 1px solid #244465;
+  border-radius: 8px;
+  background: linear-gradient(125deg, #06111f, #040d18);
+  padding: 7px 14px;
+  min-width: 0;
+}
+.telemetry-tile > svg {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+}
+.telemetry-tile > div {
+  min-width: 0;
+}
+.telemetry-tile p {
+  margin: 0 0 3px;
+  color: #b0c5e8;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.telemetry-tile strong {
+  display: block;
+  font-size: 22px;
+  line-height: 24px;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: -0.3px;
+}
+.telemetry-unit {
+  display: block;
+  margin-top: 2px;
+  color: #b3c7e6;
+  font-size: 13px;
+  line-height: 15px;
+  white-space: nowrap;
+}
+.telemetry-tile.is-compact {
+  gap: 13px;
+  padding: 6px 12px;
+}
+.telemetry-tile.is-compact > svg {
+  width: 24px;
+  height: 24px;
+}
+.telemetry-tile.is-compact p {
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+.telemetry-tile.is-compact strong {
+  font-size: 18px;
+  line-height: 20px;
+}
+.telemetry-tile.is-compact strong > span {
+  font-size: 14px;
+  font-weight: 400;
+}
+.telemetry-tile.mission-time {
+  padding-left: 11px;
+  gap: 11px;
+}
+.telemetry-tile.mission-time strong {
+  font-size: 18px;
+}
+.telemetry-tile.mission-time > svg {
+  stroke: #779dff;
+}
+
+.mission-panel.communication-panel {
+  background: transparent;
+  border: 0;
+  overflow: visible;
+  box-shadow: none;
+}
+.communication-outline {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+.communication-outline path {
+  fill: #06101ced;
+  stroke: #294769;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+.communication-panel .panel-heading {
+  position: relative;
+  height: 40px;
+  width: 46.6%;
+  padding: 0 9px 0 12px;
+  z-index: 1;
+}
+.communication-panel .status-pill {
+  padding: 3px 8px;
+  font-size: 10px;
+  gap: 6px;
+}
+.communication-panel.panel-highlighted .communication-outline path {
+  stroke: #65b6fa;
+}
+.communication-stats {
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 0.8fr;
+  gap: 10px;
+  width: 47.1%;
+  height: 53px;
+}
+.communication-stats > div {
+  border: 1px solid #213e60;
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4px 13px;
+  background: #071223;
+}
+.communication-stats span {
+  font-size: 12px;
+  color: #b1c8ec;
+  line-height: 17px;
+  white-space: nowrap;
+}
+.communication-stats strong {
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.communication-stats .stable {
+  color: #00f0c7;
+}
+.chart-legend {
+  position: absolute;
+  right: 10%;
+  top: 60px;
+  display: flex;
+  gap: 17px;
+  color: #c7dafa;
+  font-size: 10px;
+}
+.chart-legend > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.chart-legend i {
+  width: 15px;
+  height: 4px;
+  border-radius: 3px;
+  background: #58bfff;
+}
+.chart-legend > span:last-child i {
+  background: #e58aea;
+}
+.communication-chart {
+  position: absolute;
+  top: 96px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+}
+
+.logs-panel .panel-heading {
+  height: 35px;
+}
+.log-filters {
+  display: flex;
+  border: 1px solid #16344d;
+  border-radius: 13px;
+  align-items: center;
+  padding: 0;
+  height: 25px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.log-filters button {
+  padding: 4px 9px;
+  color: #b2c8e9;
+  border: 0;
+  border-radius: 13px;
+  background: transparent;
+  font-size: 10px;
+  line-height: 16px;
+}
+.log-filters button.is-active {
+  color: #edf4ff;
+  background: linear-gradient(#1c3c76, #112953);
+  box-shadow: inset 0 0 0 1px #31528c;
+}
+.log-filters button:hover {
+  color: #fff;
+  background: #183359;
+}
+.log-rows {
+  padding: 0 12px 7px;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+.log-row {
+  display: grid;
+  grid-template-columns: 87px 37px minmax(0, 1fr);
+  align-items: center;
+  height: 21px;
+  border-bottom: 1px solid #102a3b;
+  font-size: 12px;
+  line-height: 18px;
+}
+.log-row time {
+  color: #a1bfe4;
+  padding-left: 5px;
+}
+.log-row > svg {
+  width: 14px;
+  height: 14px;
+}
+.log-row p {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #f0f4fb;
+}
+.log-row p > span {
+  margin-left: 9px;
+  color: #a9c3e5;
+}
+.mini-panel .panel-heading {
+  height: 34px;
+  padding: 0 11px;
+}
+.mini-panel .panel-heading h2 {
+  font-size: 14px;
+}
+.mini-scene {
+  margin: 0 7px 7px;
+  flex: 1;
+  min-height: 0;
+  border: 1px solid #294459;
+  border-radius: 6px;
+}
+.rover-panel .panel-heading {
+  height: 47px;
+  align-items: flex-start;
+  padding: 8px 15px 0;
+}
+.rover-panel .panel-heading h2 {
+  font-size: 14px;
+  line-height: 19px;
+}
+.rover-panel .panel-heading p {
+  font-size: 12px;
+  margin-top: 1px;
+}
+.rover-scene {
+  position: absolute;
+  left: 1px;
+  bottom: 21px;
+  height: 61%;
+  width: 64%;
+}
+.rover-antennas {
+  position: absolute;
+  height: 80px;
+  width: 28px;
+  left: 48.4%;
+  top: 24px;
+}
+.rover-features {
+  position: absolute;
+  right: 9px;
+  top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 32%;
+}
+.rover-features > div {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 8px;
+  line-height: 14px;
+  white-space: nowrap;
+  color: #d0e2fa;
+}
+.rover-features svg {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 auto;
+  color: #dceafa;
+}
+.rover-motto {
+  position: absolute;
+  margin: 0;
+  left: 0;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+  font-size: 9px;
+  line-height: 13px;
+  letter-spacing: 2.5px;
+  color: #d1e1f3;
+}
+
+.dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  background: #000c;
+  backdrop-filter: blur(6px);
+}
+.dashboard-dialog {
+  border: 1px solid #365977;
+  border-radius: 12px;
+  background: #061321;
+  width: min(1000px, 100%);
+  overflow: hidden;
+  box-shadow: 0 20px 100px #0009;
+}
+.dialog-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid #234360;
+}
+.dialog-heading h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+.dialog-heading .icon-button {
+  width: 28px;
+  height: 28px;
+}
+.expanded-scene {
+  aspect-ratio: 1.81;
+  width: 100%;
+}
+.settings-dialog {
+  max-width: 520px;
+}
+.settings-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+.settings-content label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+.settings-content label > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.settings-content strong {
+  font-size: 14px;
+}
+.settings-content span {
+  font-size: 12px;
+  line-height: 18px;
+  color: #abc0d8;
+}
+.settings-content input {
+  width: 18px;
+  height: 18px;
+  accent-color: #27dcb4;
+  flex-shrink: 0;
+}
+.settings-content > button {
+  align-self: flex-end;
+}
+
+@media (min-width: 1280px) and (max-width: 1570px) {
+  .brand-lockup {
+    width: 245px;
+    gap: 9px;
+    padding-left: 12px;
+  }
+  .brand-type strong {
+    font-size: 21px;
+    letter-spacing: 2.5px;
+  }
+  .brand-type > span {
+    font-size: 10px;
+    letter-spacing: 2.4px;
+  }
+  .header-heading {
+    margin-left: 18px;
+  }
+  .header-heading h1 {
+    font-size: 29px;
+  }
+  .header-title-row {
+    gap: 12px;
+  }
+  .simulation-status {
+    font-size: 11px;
+    height: 30px;
+    padding: 0 10px;
+    gap: 7px;
+  }
+  .mission-disciplines {
+    font-size: 10px;
+    letter-spacing: 2px;
+    gap: 12px;
+  }
+  .mission-context {
+    margin-right: 150px;
+    margin-left: 5px;
+  }
+  .mission-context > div {
+    padding-left: 11px;
+    padding-right: 11px;
+  }
+  .context-utc {
+    width: 109px;
+  }
+  .context-day {
+    width: 76px;
+  }
+  .context-location {
+    width: 165px;
+  }
+  .mission-context p {
+    font-size: 12px;
+  }
+  .header-moon {
+    width: 159px;
+  }
+  .panel-heading h2 {
+    font-size: 14px;
+  }
+  .panel-heading p {
+    font-size: 12px;
+  }
+  .detection-panel .panel-heading {
+    padding: 0 8px;
+    gap: 4px;
+  }
+  .detection-panel .panel-heading h2 {
+    font-size: 12px;
+    letter-spacing: -0.3px;
+  }
+  .inference-pill {
+    font-size: 9px;
+    padding: 4px 7px;
+  }
+  .metric-card {
+    grid-template-columns: 53px minmax(0, 1fr) 45px;
+    gap: 10px;
+    padding: 7px 9px;
+  }
+  .metric-icon {
+    width: 53px;
+    height: 53px;
+  }
+  .metric-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+  .metric-copy > p {
+    font-size: 10px;
+  }
+  .metric-copy strong {
+    font-size: 29px;
+  }
+  .metric-copy > div {
+    gap: 6px;
+  }
+  .metric-delta {
+    font-size: 10px;
+  }
+  .metric-ring {
+    width: 45px;
+    height: 45px;
+  }
+  .metric-bars {
+    width: 43px;
+    gap: 2px;
+  }
+  .telemetry-tile {
+    padding: 7px 10px;
+    gap: 10px;
+  }
+  .telemetry-tile > svg {
+    width: 27px;
+    height: 27px;
+  }
+  .telemetry-tile p {
+    font-size: 10px;
+  }
+  .telemetry-tile strong {
+    font-size: 20px;
+  }
+  .telemetry-tile.is-compact {
+    padding: 6px 8px;
+    gap: 8px;
+  }
+  .telemetry-tile.is-compact p {
+    font-size: 9px;
+  }
+  .telemetry-tile.is-compact strong,
+  .telemetry-tile.mission-time strong {
+    font-size: 16px;
+  }
+  .telemetry-tile.is-compact strong > span {
+    font-size: 11px;
+  }
+  .telemetry-tile.is-compact > svg {
+    width: 20px;
+    height: 20px;
+  }
+  .communication-stats {
+    gap: 7px;
+  }
+  .communication-stats > div {
+    padding: 4px 8px;
+  }
+  .communication-stats span {
+    font-size: 10px;
+  }
+  .communication-stats strong {
+    font-size: 14px;
+  }
+  .communication-panel .status-pill {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  .communication-panel .panel-heading {
+    gap: 4px;
+  }
+  .log-filters button {
+    font-size: 8px;
+    padding: 3px 7px;
+  }
+  .log-row {
+    font-size: 11px;
+    grid-template-columns: 76px 28px minmax(0, 1fr);
+  }
+  .rover-features {
+    right: 6px;
+    gap: 11px;
+  }
+  .rover-features > div {
+    gap: 5px;
+    font-size: 6.5px;
+  }
+  .rover-motto {
+    font-size: 8px;
+    letter-spacing: 1.7px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .header-heading h1 {
+    font-size: 26px;
+    line-height: 36px;
+  }
+  .header-heading {
+    margin-left: 18px;
+    padding-top: 15px;
+  }
+  .brand-lockup {
+    width: 240px;
+    padding-left: 12px;
+    gap: 9px;
+  }
+  .brand-type strong {
+    font-size: 20px;
+    letter-spacing: 2.5px;
+  }
+  .brand-type > span {
+    font-size: 9px;
+    letter-spacing: 2.4px;
+  }
+  .artemis-symbol {
+    width: 61px;
+    flex-basis: 61px;
+  }
+  .mission-disciplines {
+    gap: 10px;
+    font-size: 9px;
+    letter-spacing: 1.6px;
+    margin-top: 3px;
+  }
+  .mission-context,
+  .header-moon {
+    display: none;
+  }
+  .header-title-row {
+    gap: 12px;
+  }
+  .simulation-status {
+    height: 30px;
+    font-size: 11px;
+  }
+  .dashboard-layout {
+    display: grid;
+    height: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: "surface surface" "camera detection" "depth telemetry" "analytics communication" "logs logs" "mini rover";
+    gap: 12px;
+  }
+  .mission-panel[data-slot="card"] {
+    position: relative;
+    width: auto;
+    height: auto;
+    inset: auto;
+  }
+  .surface-panel {
+    grid-area: surface;
+    min-height: 450px;
+  }
+  .camera-panel {
+    grid-area: camera;
+    min-height: 235px;
+  }
+  .detection-panel {
+    grid-area: detection;
+    min-height: 235px;
+  }
+  .depth-panel {
+    grid-area: depth;
+    min-height: 220px;
+  }
+  .telemetry-panel {
+    grid-area: telemetry;
+    min-height: 220px;
+  }
+  .analytics-panel {
+    grid-area: analytics;
+    min-height: 430px;
+  }
+  .communication-panel {
+    grid-area: communication;
+    min-height: 270px;
+  }
+  .logs-panel {
+    grid-area: logs;
+    min-height: 190px;
+  }
+  .mini-panel {
+    grid-area: mini;
+    min-height: 245px;
+  }
+  .rover-panel {
+    grid-area: rover;
+    min-height: 245px;
+  }
+  .detection-panel .panel-heading h2 {
+    font-size: 12px;
+  }
+  .inference-pill {
+    padding: 4px 7px;
+    font-size: 9px;
+  }
+  .metric-card {
+    grid-template-columns: 62px minmax(0, 1fr) 55px;
+    gap: 14px;
+  }
+  .metric-icon {
+    width: 62px;
+    height: 62px;
+  }
+  .metric-copy strong {
+    font-size: 32px;
+  }
+  .telemetry-tile {
+    padding: 7px 8px;
+    gap: 7px;
+  }
+  .telemetry-tile > svg {
+    width: 25px;
+    height: 25px;
+  }
+  .telemetry-tile p {
+    font-size: 10px;
+  }
+  .telemetry-tile strong {
+    font-size: 20px;
+  }
+  .telemetry-tile.is-compact {
+    padding: 6px 7px;
+    gap: 7px;
+  }
+  .telemetry-tile.is-compact > svg {
+    width: 20px;
+    height: 20px;
+  }
+  .telemetry-tile.is-compact p {
+    font-size: 9px;
+  }
+  .telemetry-tile.is-compact strong,
+  .telemetry-tile.mission-time strong {
+    font-size: 15px;
+  }
+  .telemetry-tile.is-compact strong > span {
+    font-size: 10px;
+  }
+  .mission-panel.communication-panel {
+    border: 1px solid #21405d;
+    background: linear-gradient(125deg, #071323, #030c17);
+    overflow: hidden;
+  }
+  .communication-outline {
+    display: none;
+  }
+  .communication-panel .panel-heading {
+    width: 100%;
+  }
+  .communication-stats {
+    width: auto;
+    right: 10px;
+    top: 45px;
+  }
+  .communication-chart {
+    top: 128px;
+    bottom: 12px;
+  }
+  .chart-legend {
+    top: 110px;
+    right: 18px;
+    font-size: 9px;
+  }
+  .rover-scene {
+    height: 58%;
+    bottom: 25px;
+  }
+  .rover-antennas {
+    top: 54px;
+  }
+  .rover-features {
+    width: 32%;
+    gap: 17px;
+    top: 40px;
+  }
+  .rover-features > div {
+    font-size: 7px;
+    gap: 5px;
+  }
+  .rover-motto {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .mission-header {
+    height: 78px;
+  }
+  .brand-lockup {
+    height: 78px;
+    width: 223px;
+  }
+  .artemis-symbol {
+    height: 55px;
+    width: 56px;
+    flex-basis: 56px;
+  }
+  .brand-type strong {
+    font-size: 19px;
+  }
+  .mobile-menu {
+    display: inline-flex;
+    margin-left: 14px;
+    width: 28px;
+    height: 35px;
+  }
+  .mobile-menu svg {
+    width: 22px;
+    height: 22px;
+  }
+  .header-heading {
+    margin-left: 12px;
+    padding-top: 13px;
+  }
+  .header-heading h1 {
+    font-size: 22px;
+    line-height: 30px;
+  }
+  .mission-disciplines {
+    font-size: 8px;
+    letter-spacing: 1px;
+    gap: 6px;
+  }
+  .mission-sidebar {
+    top: 0;
+    width: 230px;
+    border-radius: 0;
+    border-right: 1px solid #2d5474;
+    transform: translateX(-100%);
+    transition: transform 0.25s;
+    z-index: 60;
+  }
+  .mission-sidebar.is-open {
+    transform: translateX(0);
+  }
+  .sidebar-navigation {
+    padding-top: 55px;
+    gap: 6px;
+  }
+  .sidebar-close {
+    display: flex;
+    position: absolute;
+    right: 15px;
+    top: 17px;
+    z-index: 3;
+  }
+  .navigation-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: #000a;
+    border: 0;
+    z-index: 50;
+    backdrop-filter: blur(3px);
+  }
+  .sidebar-landscape {
+    width: 230px;
+  }
+  .mission-main {
+    margin-left: 0;
+    padding: 12px;
+  }
+}
+
+@media (max-width: 767px) {
+  .mission-header {
+    height: 94px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .brand-lockup {
+    height: 54px;
+    width: 205px;
+    border-right: 0;
+    padding: 4px 10px;
+    gap: 9px;
+  }
+  .artemis-symbol {
+    height: 47px;
+    width: 47px;
+    flex-basis: 47px;
+  }
+  .brand-type strong {
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: 2px;
+  }
+  .brand-type > span {
+    font-size: 8px;
+    line-height: 12px;
+    letter-spacing: 2px;
+  }
+  .brand-type {
+    gap: 1px;
+  }
+  .mobile-menu {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    margin: 0;
+  }
+  .header-heading {
+    padding: 0;
+    margin: 0 12px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 57px;
+  }
+  .header-heading h1 {
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: -0.4px;
+  }
+  .header-title-row {
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .simulation-status {
+    position: absolute;
+    right: 34px;
+    top: -42px;
+    padding: 0 8px;
+    height: 25px;
+    font-size: 9px;
+    gap: 5px;
+  }
+  .simulation-status .status-dot {
+    width: 7px;
+    height: 7px;
+  }
+  .mission-disciplines {
+    display: none;
+  }
+  .mission-main {
+    padding: 10px;
+  }
+  .dashboard-layout {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "surface" "camera" "detection" "analytics" "depth" "telemetry" "communication" "logs" "mini" "rover";
+    gap: 10px;
+  }
+  .surface-panel {
+    min-height: 360px;
+  }
+  .surface-panel .panel-heading {
+    height: 57px;
+  }
+  .surface-panel .panel-heading h2 {
+    font-size: 15px;
+  }
+  .surface-panel .panel-heading p {
+    font-size: 10px;
+  }
+  .map-legend {
+    width: 121px;
+    padding: 12px 7px;
+    gap: 7px;
+  }
+  .map-legend > div {
+    font-size: 9px;
+    gap: 7px;
+    line-height: 14px;
+  }
+  .map-legend svg {
+    width: 12px;
+    height: 12px;
+  }
+  .legend-rover {
+    height: 13px;
+    width: 13px;
+    border-width: 3px;
+  }
+  .camera-panel {
+    min-height: 240px;
+  }
+  .detection-panel {
+    min-height: 215px;
+  }
+  .detection-panel .panel-heading h2 {
+    font-size: 14px;
+  }
+  .analytics-panel {
+    min-height: 440px;
+  }
+  .metric-card {
+    grid-template-columns: 65px minmax(0, 1fr) 58px;
+    gap: 20px;
+  }
+  .metric-copy > p {
+    font-size: 12px;
+  }
+  .depth-panel {
+    min-height: 210px;
+  }
+  .telemetry-panel {
+    min-height: 210px;
+  }
+  .telemetry-tile > svg {
+    width: 28px;
+    height: 28px;
+  }
+  .communication-panel {
+    min-height: 230px;
+  }
+  .communication-chart {
+    top: 125px;
+  }
+  .logs-panel {
+    min-height: 238px;
+  }
+  .logs-panel .panel-heading {
+    align-items: flex-start;
+    height: 67px;
+    padding-top: 9px;
+  }
+  .log-filters {
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    right: 10px;
+    justify-content: space-between;
+  }
+  .log-filters button {
+    padding: 3px 8px;
+    font-size: 9px;
+  }
+  .log-row {
+    font-size: 11px;
+    grid-template-columns: 73px 25px minmax(0, 1fr);
+  }
+  .log-row p > span {
+    margin-left: 5px;
+  }
+  .mini-panel {
+    min-height: 225px;
+  }
+  .rover-panel {
+    min-height: 230px;
+  }
+  .rover-features > div {
+    font-size: 8px;
+  }
+  .rover-antennas {
+    top: 44px;
+  }
+  .rover-motto {
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+  .dialog-backdrop {
+    padding: 12px;
+  }
+  .dialog-heading {
+    padding: 14px;
+  }
+  .dialog-heading h2 {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand-lockup {
+    width: 174px;
+    gap: 6px;
+  }
+  .brand-type strong {
+    font-size: 15px;
+    letter-spacing: 1.5px;
+  }
+  .brand-type > span {
+    font-size: 7px;
+    letter-spacing: 1.5px;
+  }
+  .simulation-status {
+    font-size: 8px;
+  }
+  .surface-panel .panel-heading p {
+    max-width: 180px;
+    line-height: 13px;
+  }
+  .map-legend {
+    width: 111px;
+  }
+  .detection-panel .panel-heading h2 {
+    font-size: 11px;
+  }
+  .telemetry-tile {
+    gap: 5px;
+    padding: 5px 6px;
+  }
+  .telemetry-tile > svg {
+    width: 22px;
+    height: 22px;
+  }
+  .telemetry-tile.is-compact {
+    gap: 5px;
+  }
+  .telemetry-tile.is-compact > svg {
+    width: 17px;
+    height: 17px;
+  }
+  .telemetry-tile.is-compact strong,
+  .telemetry-tile.mission-time strong {
+    font-size: 13px;
+  }
+  .metric-card {
+    gap: 12px;
+  }
+}
+
+.reduce-motion *,
+.reduce-motion *::after {
+  animation: none !important;
+  transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::after,
+  *::before {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---- R6: live ground-station data ------------------------------------------------------------------------------------ */
+.freshness-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 26px;
+  padding: 0 11px;
+  border: 1px solid #17494e;
+  border-radius: 15px;
+  background: #032229;
+  color: #3cfce2;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+.freshness-pill.simulation-status {
+  height: 34px;
+  padding: 0 13px;
+  font-size: 13px;
+}
+.freshness-pill .status-dot {
+  width: 9px;
+  height: 9px;
+}
+.freshness-pill.is-live .status-dot {
+  animation: live-blink 1.6s ease-in-out infinite;
+}
+.freshness-pill.is-stale {
+  color: #ffce8e;
+  background: #29200e;
+  border-color: #66502b;
+}
+.freshness-pill.is-stale .status-dot {
+  background: #ffc47a;
+}
+.freshness-pill.is-disconnected {
+  color: #ff9aa8;
+  background: #2b0f18;
+  border-color: #6d2a3a;
+}
+.freshness-pill.is-disconnected .status-dot {
+  background: #ff5267;
+}
+.freshness-pill.is-no_data {
+  color: #b5cdec;
+  background: #0d1c2d;
+  border-color: #23405e;
+}
+.freshness-pill.is-no_data .status-dot {
+  background: #6c88a8;
+}
+@keyframes live-blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+.reduce-motion .freshness-pill .status-dot {
+  animation: none;
+}
+.status-pill.is-warn {
+  color: #ffce8e;
+}
+.status-pill.is-warn .status-dot {
+  background: #ffc47a;
+}
+.status-pill.is-bad {
+  color: #ff9aa8;
+}
+.status-pill.is-bad .status-dot {
+  background: #ff5267;
+}
+.mission-context small {
+  font-size: 11px;
+  color: #a8bddc;
+}
+.context-day {
+  width: 142px;
+}
+.context-day p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.context-location {
+  width: 205px;
+}
+
+.empty-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 18px;
+  text-align: center;
+  color: #9fb8d8;
+  font-size: 11px;
+  line-height: 15px;
+}
+.empty-state > svg {
+  width: 22px;
+  height: 22px;
+  color: #4b7aa6;
+}
+.empty-state strong {
+  color: #d9e6f7;
+  font-size: 13px;
+  font-weight: 600;
+}
+.empty-state span {
+  max-width: 340px;
+}
+
+/* map */
+.live-surface {
+  overflow: hidden;
+  background: #030b15;
+}
+.lunar-map {
+  position: absolute;
+  inset: 0;
+}
+.lunar-map svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.lunar-map.is-stale svg {
+  filter: grayscale(0.75) brightness(0.8);
+}
+.map-grid {
+  stroke: #12293f;
+}
+.map-free,
+.map-trail {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.map-free {
+  stroke: #b0d0e3;
+  stroke-opacity: 0.16;
+}
+.map-free-dot {
+  fill: #b0d0e3;
+  fill-opacity: 0.16;
+}
+.map-trail {
+  stroke: #46d9ff;
+}
+.map-obstacle[role="button"] {
+  cursor: pointer;
+}
+.map-obstacle.is-selected circle {
+  filter: drop-shadow(0 0 3px #85d8ff);
+}
+.map-label {
+  fill: #d9e7fb;
+  font-family: var(--font-geist-mono), monospace;
+}
+.map-rover-body {
+  fill: #051521;
+  stroke: #2d9bf8;
+}
+.map-rover-heading {
+  stroke: #9fe0ff;
+  stroke-linecap: round;
+}
+.map-rover-sigma {
+  fill: #2d9bf814;
+  stroke: #2d9bf870;
+}
+.live-surface.is-animated .map-rover-body {
+  animation: rover-glow 2s ease-in-out infinite;
+}
+@keyframes rover-glow {
+  50% {
+    stroke: #8fd0ff;
+  }
+}
+.reduce-motion .live-surface .map-rover-body {
+  animation: none;
+}
+.map-scale {
+  position: absolute;
+  left: 10px;
+  bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  color: #a9c3e5;
+  pointer-events: none;
+}
+.map-scale > span {
+  display: block;
+  height: 5px;
+  border: 1px solid #a9c3e5;
+  border-top: 0;
+}
+.map-mode {
+  position: absolute;
+  left: 8px;
+  top: 8px;
+  z-index: 3;
+  background: #05111fe6;
+}
+.stale-banner {
+  position: absolute;
+  left: 8px;
+  top: 40px;
+  right: 152px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid #66502b;
+  border-radius: 6px;
+  background: #29200ee6;
+  color: #ffce8e;
+  font-size: 11px;
+  line-height: 15px;
+}
+.stale-banner svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+}
+.stale-banner.is-disconnected {
+  border-color: #6d2a3a;
+  background: #2b0f18e6;
+  color: #ff9aa8;
+}
+.map-legend {
+  gap: 6px;
+  padding-top: 11px;
+  padding-bottom: 10px;
+}
+.legend-dot {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+  border: 1.5px solid currentColor;
+}
+.legend-dot.rock {
+  color: #8ff363;
+  background: #8ff36399;
+}
+.legend-dot.obstacle {
+  color: #ffc35c;
+  background: #ffc35c99;
+}
+.legend-dot.hazard {
+  color: #ff5a70;
+  background: #ff5a7099;
+}
+.legend-ring {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px dashed #c7dafa;
+  flex: 0 0 auto;
+}
+.legend-unknown {
+  width: 21px;
+  height: 16px;
+  flex: 0 0 auto;
+  border: 1px solid #2b4560;
+  border-radius: 2px;
+  background: repeating-linear-gradient(45deg, #16283b 0 2px, #030b15 2px 6px);
+}
+.live-mini,
+.live-expanded {
+  position: relative;
+  overflow: hidden;
+  background: #030b15;
+}
+.live-expanded {
+  min-height: 300px;
+}
+
+/* mission overview */
+.status-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 9px 8px;
+  border: 1px solid #1d3b54;
+  border-radius: 8px;
+  padding: 6px 10px;
+  overflow-y: auto;
+  background: #040e1a;
+}
+.status-grid {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+.status-grid > div {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid #102a3b;
+  font-size: 12px;
+  line-height: 17px;
+}
+.status-grid dt {
+  color: #a1bfe4;
+}
+.status-grid dd {
+  margin: 0;
+  color: #f0f4fb;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.health-value {
+  color: #8bec5e;
+}
+.health-value:not(.is-ok):not(.is-nominal) {
+  color: #ffc35c;
+}
+.health-value.is-error,
+.health-value.is-critical,
+.health-value.is-fault {
+  color: #ff5267;
+}
+.api-error {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 6px 0 0;
+  padding: 5px 8px;
+  border: 1px solid #6d2a3a;
+  border-radius: 6px;
+  background: #2b0f18;
+  color: #ffb3bf;
+  font-size: 11px;
+  line-height: 15px;
+}
+.api-error svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+.api-error button {
+  margin-left: auto;
+  border: 1px solid #8a3a4c;
+  border-radius: 10px;
+  background: transparent;
+  color: #ffd2da;
+  font-size: 10px;
+  padding: 1px 8px;
+}
+
+/* obstacle picture */
+.obstacle-table {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 9px 8px;
+  border: 1px solid #1d3b54;
+  border-radius: 8px;
+  overflow-y: auto;
+  background: #040e1a;
+}
+.obstacle-row {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 0.8fr 0.7fr 0.8fr 1.1fr 1fr;
+  gap: 4px;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-bottom: 1px solid #102a3b;
+  font-size: 11px;
+  color: #e6eefb;
+  font-variant-numeric: tabular-nums;
+}
+.obstacle-row > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.obstacle-row.is-head {
+  position: sticky;
+  top: 0;
+  background: #0a1a2c;
+  color: #a1bfe4;
+  font-size: 10px;
+  z-index: 1;
+}
+.obstacle-row.type-rock > span:nth-child(2) {
+  color: #8ff363;
+}
+.obstacle-row.type-obstacle > span:nth-child(2) {
+  color: #ffc35c;
+}
+.obstacle-row.type-negative_hazard > span:nth-child(2) {
+  color: #ff5a70;
+}
+.track-confirmed {
+  color: #3aedc3;
+}
+.track-observed {
+  color: #b5cdec;
+}
+.track-lost {
+  color: #7d8ea5;
+}
+
+/* analytics */
+.metric-caption {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #04edaf;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* mission history */
+.history-rows {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 0 8px 8px;
+  border: 1px solid #1d3b54;
+  border-radius: 8px;
+  overflow-y: auto;
+  background: #040e1a;
+}
+.history-row {
+  display: grid;
+  grid-template-columns: 10px auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 24px;
+  padding: 0 9px;
+  border: 0;
+  border-bottom: 1px solid #102a3b;
+  background: transparent;
+  color: #e6eefb;
+  font-size: 11px;
+  text-align: left;
+}
+.history-row:hover {
+  background: #0d1f35;
+}
+.history-row.is-selected {
+  background: linear-gradient(90deg, #12305e, #0a1d38);
+  box-shadow: inset 2px 0 0 #65b6fa;
+}
+.history-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4f6a88;
+}
+.history-dot.is-active {
+  background: #10e6ad;
+}
+.history-id {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.history-meta,
+.history-age {
+  color: #a1bfe4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-more {
+  width: 100%;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: #74ceff;
+  font-size: 11px;
+}
+.follow-latest {
+  cursor: pointer;
+}
+.follow-latest.is-active {
+  color: #3cfce2;
+  border-color: #17494e;
+  background: #032229;
+}
+
+/* telemetry */
+.telemetry-tiles.is-stale {
+  opacity: 0.55;
+  filter: grayscale(0.6);
+}
+
+/* lunar network control */
+.preset-buttons {
+  height: 23px;
+}
+.preset-buttons button {
+  padding: 3px 7px;
+  font-size: 9.5px;
+  letter-spacing: 0.2px;
+}
+.preset-buttons button:disabled {
+  opacity: 0.6;
+}
+.preset-buttons button.is-danger.is-active {
+  background: linear-gradient(#6f2823, #431715);
+  box-shadow: inset 0 0 0 1px #85302f;
+}
+.communication-stats.network-stats {
+  top: 46px;
+  width: calc(100% - 20px);
+  height: 42px;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+}
+.network-stats > div {
+  padding: 2px 8px;
+  min-width: 0;
+}
+.network-stats span {
+  font-size: 10px;
+  line-height: 14px;
+}
+.network-stats strong {
+  font-size: 13px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+.network-stats small {
+  font-size: 10px;
+  font-weight: 400;
+  color: #a9c3e5;
+}
+.network-stats .is-bad {
+  color: #ff5267;
+}
+.network-controls {
+  position: absolute;
+  top: 92px;
+  left: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.network-controls .preset-buttons {
+  flex: 0 0 auto;
+}
+.network-feedback {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-size: 10px;
+  line-height: 14px;
+  color: #8fd8c4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.network-feedback.is-error {
+  color: #ff9aa8;
+}
+.communication-panel .chart-legend {
+  top: 122px;
+  right: 62px;
+  z-index: 1;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: #030c17d9;
+}
+.communication-chart.network-chart {
+  top: 120px;
+}
+
+.settings-endpoints {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.settings-endpoints span {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 11px;
+}

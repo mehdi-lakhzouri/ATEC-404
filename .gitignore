@@ -10,8 +10,7 @@
 # Machine-specific data YAML written by scripts/download_dataset.py
 /data/local/
 
-# Unmodified Turborepo starter (future Mission Control) - kept locally, not part of the scientific delivery
-/frontend/
+
 
 # Archives and stray model downloads
 *.zip
@@ -86,3 +85,5 @@ Thumbs.db
 # R5.5: the Compose template is versioned, the real docker/.env is not
 !docker/.env.example
 !ground_station/.env.example
+# R6: dashboard endpoint template (real apps/web/.env.local stays ignored)
+!frontend/apps/web/.env.example
