@@ -1,0 +1,4 @@
+# Validation-only overlay; never changes backend/pyproject.toml or backend/uv.lock.
+# build_notebooks is imported by the notebook smoke test, so nbformat is required
+# even when notebook generation/execution is not requested.
+nbformat==5.10.4

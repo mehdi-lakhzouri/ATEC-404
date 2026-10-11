@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import { ConsoleShell } from "@/components/mission/shell";
+import { MissionProvider } from "@/lib/ground/mission-context";
 import "./globals.css";
+import "./workspace.css";
+import "./header.css";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -22,9 +26,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="dark" data-scroll-behavior="smooth">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        {/* one mission session (selection + WebSocket) for every page of the console */}
+        <MissionProvider>
+          <ConsoleShell>{children}</ConsoleShell>
+        </MissionProvider>
       </body>
     </html>
   );

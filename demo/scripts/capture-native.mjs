@@ -1,0 +1,13 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import {DEMO,exec,ffmpeg,saveJSON,probe} from './lib.mjs';
+const take=fs.readdirSync(path.join(DEMO,'evidence/runs')).sort().at(-1);
+const evidence=path.join(DEMO,'evidence/runs',take);
+const title=(await exec('powershell.exe',['-NoProfile','-Command',"Get-Process -Name webots-bin -ErrorAction Stop | Where-Object MainWindowTitle | Select-Object -First 1 -ExpandProperty MainWindowTitle"])).trim();
+const desktop=process.argv.includes('--desktop');
+if(desktop) await exec('powershell.exe',['-NoProfile','-File',path.join(DEMO,'scripts/focus-webots.ps1')]);
+const file=path.join(DEMO,'recordings',take,desktop?'webots-native-desktop.mkv':'webots-native-recovered.mkv');
+const startedUTC=new Date().toISOString();
+await exec(ffmpeg,['-hide_banner','-loglevel','error','-f','gdigrab','-framerate','30','-draw_mouse','0',...(desktop?['-video_size','1920x1080']:[]),'-i',desktop?'desktop':'title='+title,'-t','30','-an','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-preset','ultrafast','-crf','20','-pix_fmt','yuv420p',file]);
+saveJSON(path.join(evidence,desktop?'native-desktop.json':'native-recovery.json'),{file:path.relative(DEMO,file),startedUTC,finishedUTC:new Date().toISOString(),title,probe:await probe(file),note:'Supplemental actual Webots capture; not synthetic sensor imagery.'});
+console.log('Native capture complete:',file);

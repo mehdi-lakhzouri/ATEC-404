@@ -3,28 +3,55 @@
 from __future__ import annotations
 
 import os
+import shutil
+import tempfile
 import unittest
+from contextlib import contextmanager
+from pathlib import Path
 from unittest import mock
 
 from training import train
+
+REPO_ROOT = train.ROOT
+
+
+@contextmanager
+def published_metadata_fixture():
+    """These are config/unit tests, not image-dependent training integration.
+
+    Use the SAME published real metadata and all original assertions, in an
+    isolated tree. No fake labels/images, training or modifications to research
+    evidence. Real checkpoint/image integrations remain explicitly optional.
+    """
+    with tempfile.TemporaryDirectory() as temporary:
+        root = Path(temporary)
+        dataset = root / "dataset/processed/yolo-rock-v1.1"
+        (dataset / "manifests").mkdir(parents=True)
+        shutil.copyfile(REPO_ROOT / "artifacts/data/dataset_status_v1.1.json", dataset / "manifests/dataset_status.json")
+        shutil.copyfile(REPO_ROOT / "data/manifests/split_manifest.csv", dataset / "manifests/split_manifest.csv")
+        for config in ("A", "B"):
+            shutil.copyfile(REPO_ROOT / f"data/manifests/data_{config}.yaml", dataset / f"data_{config}.yaml")
+        with mock.patch.object(train, "ROOT", root):
+            yield
 
 
 class TestTrainingGuard(unittest.TestCase):
     def test_refuses_without_env_and_flag(self):
         with mock.patch.dict(os.environ, {}, clear=False):
             os.environ.pop("ARTEMIS_TRAINING_AUTHORIZED", None)
-            with mock.patch.object(train, "train", side_effect=AssertionError("must not train")):
+            with mock.patch.object(train, "train", side_effect=AssertionError("must not train")), mock.patch.object(train, "resolve", side_effect=AssertionError("must refuse before dataset access")):
                 self.assertEqual(train.main(["--arm", "A_steps", "--seed", "0"]), 3)
                 self.assertEqual(train.main(["--arm", "A_steps", "--seed", "0", "--authorized"]), 3)
 
     def test_env_alone_is_not_enough(self):
         with mock.patch.dict(os.environ, {"ARTEMIS_TRAINING_AUTHORIZED": "1"}):
-            with mock.patch.object(train, "train", side_effect=AssertionError("must not train")):
+            with mock.patch.object(train, "train", side_effect=AssertionError("must not train")), mock.patch.object(train, "resolve", side_effect=AssertionError("must refuse before dataset access")):
                 self.assertEqual(train.main(["--arm", "B_steps", "--seed", "1"]), 3)
 
     def test_dry_run_resolves_fair_arms(self):
-        a = train.resolve("A_steps", 0)["ultralytics_args"]
-        b = train.resolve("B_steps", 0)["ultralytics_args"]
+        with published_metadata_fixture():
+            a = train.resolve("A_steps", 0)["ultralytics_args"]
+            b = train.resolve("B_steps", 0)["ultralytics_args"]
         same = {k for k in a if k not in ("data", "epochs", "name")}
         self.assertTrue(all(a[k] == b[k] for k in same))               # identical hyperparameters
         iters = lambda n, e: -(-n // 16) * e                           # noqa: E731  ceil(n/batch) * epochs
@@ -33,7 +60,8 @@ class TestTrainingGuard(unittest.TestCase):
         self.assertEqual((a["seed"], a["deterministic"], a["patience"], a["batch"]), (0, True, 0, 16))
 
     def test_dry_run_records_provenance_and_unfrozen_status(self):
-        m = train.resolve("A_steps", 2)
+        with published_metadata_fixture():
+            m = train.resolve("A_steps", 2)
         self.assertEqual(len(m["manifest_sha256"]), 64)
         self.assertFalse(m["dataset_status"]["frozen"])
         self.assertFalse(m["dataset_status"]["approved_for_training"])
@@ -80,14 +108,16 @@ class TestClassNaming(unittest.TestCase):
                 train.check_class_names(bad)
 
     def test_config_disables_single_cls(self):
-        for arm in ("A_steps", "B_steps", "A_epochs"):
-            self.assertIs(train.resolve(arm, 0)["ultralytics_args"]["single_cls"], False, arm)
+        with published_metadata_fixture():
+            for arm in ("A_steps", "B_steps", "A_epochs"):
+                self.assertIs(train.resolve(arm, 0)["ultralytics_args"]["single_cls"], False, arm)
 
     def test_data_yamls_declare_rock(self):
         import yaml
-        for cfg in ("A", "B"):
-            d = yaml.safe_load((train.ROOT / f"dataset/processed/yolo-rock-v1.1/data_{cfg}.yaml").read_text(encoding="utf-8"))
-            self.assertEqual((d["names"], d["nc"]), ({0: "rock"}, 1), cfg)
+        with published_metadata_fixture():
+            for cfg in ("A", "B"):
+                d = yaml.safe_load((train.ROOT / f"dataset/processed/yolo-rock-v1.1/data_{cfg}.yaml").read_text(encoding="utf-8"))
+                self.assertEqual((d["names"], d["nc"]), ({0: "rock"}, 1), cfg)
 
     def test_smoke_test_checkpoint_is_rejected(self):
         ck = train.ROOT / "experiments/task-e/smoke-test-001/weights/best.pt"

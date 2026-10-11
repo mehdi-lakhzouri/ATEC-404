@@ -342,15 +342,18 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--registry", type=Path, default=REGISTRY,
                     help="run registry to append to (reproductions use their own, so the historical registry stays unchanged)")
     a = ap.parse_args(argv)
+    # Refusal must not depend on a developer's local dataset being installed.
+    # Dry runs still resolve real inputs; actual training remains double-gated.
+    if not a.dry_run:
+        try:
+            authorize(a.authorized)
+        except NotAuthorized as e:
+            print(f"REFUSED: {e}", file=sys.stderr)
+            return 3
     meta = resolve(a.arm, a.seed, _parse_overrides(a.set), a.run_dir.resolve() if a.run_dir else None)
     if a.dry_run:
         print(json.dumps(meta, indent=2, default=str))
         return 0
-    try:
-        authorize(a.authorized)
-    except NotAuthorized as e:
-        print(f"REFUSED: {e}", file=sys.stderr)
-        return 3
     meta = train(meta, fresh=a.fresh, data_view=a.data_view, registry=a.registry.resolve())
     return 0 if meta.get("status") == "COMPLETED" else 4
 

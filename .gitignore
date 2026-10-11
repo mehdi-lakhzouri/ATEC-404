@@ -46,6 +46,7 @@ wandb/
 node_modules/
 .next/
 .turbo/
+/.jury/
 
 # Logs, local configuration, secrets
 *.log

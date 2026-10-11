@@ -167,7 +167,36 @@ def lunarize(src: Path) -> dict:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--force", action="store_true")
+    ap.add_argument("--locked", action="store_true", help="use committed URLs/SHA256; preserve ASSETS.json instead of querying latest API metadata")
     a = ap.parse_args()
+    if a.locked:
+        record = json.loads((DEST / "ASSETS.json").read_text(encoding="utf-8"))
+        for name, asset in record["assets"].items():
+            for entry in asset["files"]:
+                path = DEST / entry["file"]
+                if not path.resolve().is_relative_to(DEST.resolve()):
+                    raise SystemExit("asset path outside destination")
+                data = path.read_bytes() if path.exists() and not a.force else _get(entry["url"])
+                if hashlib.sha256(data).hexdigest() != entry["sha256"]:
+                    if path.exists() and not a.force:
+                        data = _get(entry["url"])
+                    if hashlib.sha256(data).hexdigest() != entry["sha256"]:
+                        raise SystemExit(f"SHA256 mismatch for {entry['file']}; committed provenance was NOT changed")
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(data)
+            if asset["type"] == "model":
+                d = DEST / name
+                mesh = decimate(gltf_to_webots(d / f"{name}_1k.gltf"), MAX_TRIANGLES)
+                write_obj(mesh, d / f"{name}.obj", f"{name} (Poly Haven, CC0) converted from glTF 1K by fetch_polyhaven.py; Webots axes, metres, with UVs and normals")
+                extent = (mesh["P"].max(0) - mesh["P"].min(0)).round(4).tolist()
+                (d / f"{name}_mesh.json").write_text(json.dumps({"vertices": mesh["P"].round(5).tolist(), "triangles": mesh["F"].tolist(), "extent_m": extent}), encoding="utf-8")
+                if asset.get("derived"):
+                    derived = lunarize(d / "textures" / f"{name}_diff_1k.jpg")
+                    if derived["sha256"] != asset["derived"]["sha256"]:
+                        raise SystemExit(f"derived texture mismatch for {name}; use the locked ML environment")
+            print(f"verified {name}")
+        print("Locked assets verified and converted; committed ASSETS.json unchanged")
+        return 0
     record = {"source": "Poly Haven (https://polyhaven.com)", "license": "CC0 1.0 Universal (https://polyhaven.com/license)",
               "fetched": time.strftime("%Y-%m-%d"), "assets": {}}
     for asset in ROCKS:

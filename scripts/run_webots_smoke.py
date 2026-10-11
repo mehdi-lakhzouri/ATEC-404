@@ -43,8 +43,16 @@ def run_webots(out: Path, rendering: bool, timeout: int) -> tuple[int, str]:
     cmd = [str(WEBOTS), "--batch", "--mode=fast", "--minimize", "--stdout", "--stderr", "--port=1240", str(WORLD)]
     if not rendering:
         cmd.insert(3, "--no-rendering")
-    p = subprocess.run(cmd, env=env, capture_output=True, text=True, timeout=timeout)
-    return p.returncode, (p.stdout + p.stderr)
+    p = subprocess.Popen(cmd, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+    try:
+        output, _ = p.communicate(timeout=timeout)
+        return p.returncode, output
+    except subprocess.TimeoutExpired:
+        # Webots' launcher owns native/controller children: killing only the
+        # launcher can leave the UDP ACK listener alive after a failed test.
+        subprocess.run(["taskkill", "/T", "/F", "/PID", str(p.pid)], capture_output=True)
+        output, _ = p.communicate()
+        return -9, (output or "") + f"\nTIMEOUT after {timeout}s; owned Webots tree stopped"
 
 
 def _rz(a):

@@ -93,6 +93,7 @@ a {
   border-radius: 5px;
 }
 .mission-app {
+  --sidebar-w: 205px;
   min-height: 100dvh;
   background: radial-gradient(ellipse at 45% 45%, #071422 0, #020a14 75%);
 }
@@ -286,7 +287,7 @@ a {
   top: 99px;
   bottom: 0;
   left: 0;
-  width: 206px;
+  width: calc(var(--sidebar-w) + 1px);
   border: 1px solid #16364c;
   border-left: 0;
   border-bottom: 0;
@@ -341,39 +342,36 @@ a {
   background: #173255;
   color: #fff;
 }
+/* The terrain strip of the reference (205x330, motto removed) is bottom-anchored and fills the room left under the nav. */
 .sidebar-landscape {
-  position: absolute;
-  left: 0;
-  bottom: 75px;
-  height: 217px;
-  width: 205px;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    #000 12%,
-    #000 92%,
-    transparent
-  );
-  opacity: 0.94;
+  flex: 1 1 0;
+  min-height: 0;
+  max-height: 330px;
+  margin-top: auto;
+  background: url("/sidebar-terrain.png") left bottom / 205px 330px no-repeat;
+  mask-image: linear-gradient(to bottom, transparent, #000 40px);
+  pointer-events: none;
 }
 .sidebar-motto {
   position: absolute;
   left: 24px;
   bottom: 21px;
   z-index: 2;
-  color: #a6c7ec;
+  color: #96acc9;
   margin: 0;
   font-size: 12px;
   letter-spacing: 2.7px;
   line-height: 22px;
+  white-space: nowrap;
 }
 .sidebar-close,
+.sidebar-toggle,
 .navigation-backdrop {
   display: none;
 }
 
 .mission-main {
-  margin-left: 205px;
+  margin-left: var(--sidebar-w);
   padding: 14px 12px 10px 13px;
 }
 .dashboard-layout {
@@ -1746,7 +1744,8 @@ a {
     backdrop-filter: blur(3px);
   }
   .sidebar-landscape {
-    width: 230px;
+    max-height: 370px;
+    background-size: 230px 370px;
   }
   .mission-main {
     margin-left: 0;
@@ -2631,8 +2630,12 @@ a {
   overflow-y: auto;
   scrollbar-width: none;
 }
-@media (min-width: 1024px) and (max-height: 900px) {
-  .sidebar-landscape,
+@media (min-width: 1024px) and (max-height: 671px) {
+  .sidebar-motto {
+    display: none;
+  }
+}
+@media (max-width: 1023px) and (max-height: 589px) {
   .sidebar-motto {
     display: none;
   }
@@ -2640,6 +2643,93 @@ a {
 @media (min-width: 1024px) and (max-height: 640px) {
   .navigation-item {
     height: 42px;
+  }
+}
+
+/* ---- collapsible sidebar: desktop icon rail, labels move to hover tooltips ----------------------------------------- */
+.navigation-label {
+  white-space: nowrap;
+}
+@media (min-width: 1024px) {
+  .mission-app.sidebar-collapsed {
+    --sidebar-w: 72px;
+  }
+  .sidebar-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 165px;
+    bottom: 14px;
+    z-index: 3;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 1px solid #2a4968;
+    border-radius: 7px;
+    background: #050f1cd0;
+    color: #b6cfef;
+    backdrop-filter: blur(4px);
+    transition:
+      opacity 0.15s,
+      color 0.15s,
+      background 0.15s,
+      border-color 0.15s;
+  }
+  .sidebar-toggle svg {
+    width: 17px;
+    height: 17px;
+  }
+  .sidebar-toggle:hover {
+    color: #fff;
+    background: #173255;
+    border-color: #3f6e9d;
+  }
+  .mission-sidebar.is-collapsed .sidebar-toggle {
+    left: 21px;
+  }
+  .mission-sidebar.is-collapsed .sidebar-navigation {
+    padding-left: 8px;
+    padding-right: 7px;
+  }
+  .mission-sidebar.is-collapsed .navigation-item {
+    padding: 0 14px;
+  }
+  .mission-sidebar.is-collapsed .navigation-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .mission-sidebar.is-collapsed .sidebar-motto {
+    opacity: 0;
+    pointer-events: none;
+  }
+  /* animate only after the first user toggle, so a restored collapsed state does not slide in on page load */
+  .sidebar-animated .mission-sidebar,
+  .sidebar-animated .mission-main,
+  .sidebar-animated .sidebar-navigation {
+    transition-property: width, margin-left, padding;
+    transition-duration: 0.22s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sidebar-animated .sidebar-toggle {
+    transition:
+      left 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.15s,
+      color 0.15s,
+      background 0.15s,
+      border-color 0.15s;
+  }
+  .sidebar-animated .navigation-item {
+    transition:
+      background 0.18s,
+      color 0.18s,
+      padding 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .sidebar-animated .sidebar-motto {
+    transition: opacity 0.15s;
   }
 }
 

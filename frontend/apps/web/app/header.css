@@ -1,0 +1,275 @@
+/* One responsive shell header for clean and unified workspaces. All dimensions are CSS pixels/rem,
+   so browser zoom selects the appropriate layout without scaling or clipping the content. */
+.mission-app { --mission-header-height: 88px; }
+
+.mission-header.console-header {
+  display: grid;
+  grid-template-columns: 205px minmax(0, 1fr) auto auto;
+  grid-template-areas: "brand heading controls context";
+  align-items: center;
+  gap: 18px;
+  height: auto;
+  min-height: 88px;
+  padding: 0 22px 0 0;
+  overflow: visible;
+  isolation: isolate;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  background: linear-gradient(110deg, #050c17, #071321 65%, #091828);
+  border-bottom: 1px solid #20394f;
+  box-shadow: 0 6px 24px #01060d40;
+}
+
+.console-header .brand-lockup {
+  grid-area: brand;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: auto;
+  height: auto;
+  min-width: 0;
+  padding: 12px 16px;
+  border-right: 1px solid #20394f;
+  background: #030a1355;
+  z-index: 1;
+}
+.console-header .artemis-symbol { width: 44px; height: 44px; flex: 0 0 44px; }
+.console-header .brand-type { gap: 5px; }
+.console-header .brand-type strong { font-size: 17px; line-height: 1.2; letter-spacing: 2px; }
+.console-header .brand-type > span { font-size: 8px; line-height: 1.2; letter-spacing: 2.2px; color: #9bb5ce; }
+.console-header .header-heading {
+  grid-area: heading;
+  position: relative;
+  inset: auto;
+  align-self: center;
+  min-width: 0;
+  margin: 0;
+  padding: 14px 0;
+}
+.console-header .header-title-row { display: block; white-space: normal; }
+.console-header .header-heading h1 {
+  margin: 0;
+  font-size: clamp(1.125rem, 1.65vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.console-header .mission-disciplines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 9px;
+  margin: 8px 0 0;
+  color: #7e9ab5;
+  font-size: 9px;
+  line-height: 1.5;
+  letter-spacing: 1.5px;
+  white-space: normal;
+}
+.console-header .mission-disciplines span { white-space: nowrap; }
+.console-header .mission-disciplines i { color: #426381; font-size: inherit; }
+
+.console-header .header-controls {
+  grid-area: controls;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+  z-index: 2;
+}
+.console-header .freshness-pill.simulation-status {
+  position: static;
+  min-height: 32px;
+  height: auto;
+  padding: 6px 11px;
+  gap: 7px;
+  font-size: .6875rem;
+  line-height: 1.5;
+  letter-spacing: .01em;
+  border-radius: 999px;
+}
+.console-header .simulation-status .status-dot { width: 7px; height: 7px; }
+.console-header .workspace-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 32px;
+  height: auto;
+  padding: 6px 11px;
+  font-size: .6875rem;
+  line-height: 1.5;
+  border: 1px solid #294158;
+  background: #0b1a2a88;
+  color: #a9c0d6;
+  transition: border-color .15s, background .15s, color .15s;
+}
+.console-header .workspace-chip svg { width: 14px; height: 14px; flex: 0 0 14px; }
+.console-header .workspace-chip:hover { background: #10263b; border-color: #4cb4ff80; color: #eef4fb; }
+.console-header .header-context-region { grid-area: context; min-width: 0; z-index: 2; }
+
+.console-header .mission-context {
+  display: flex;
+  align-items: center;
+  align-self: auto;
+  height: auto;
+  margin: 0;
+  gap: 0;
+}
+.console-header .mission-context > div {
+  width: auto;
+  min-width: 0;
+  height: auto;
+  padding: 0 16px;
+  border-left: 1px solid #254158;
+}
+.console-header .mission-context > div:last-child { padding-right: 0; }
+.console-header .context-day { max-width: 190px; }
+.console-header .mission-context > div > span {
+  color: #819eb9;
+  font-size: 9px;
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+}
+.console-header .mission-context p {
+  margin: 5px 0 0;
+  font-size: 12px;
+  line-height: 1.55;
+  white-space: nowrap;
+  overflow: visible;
+}
+.console-header .mission-context .context-value,
+.console-header .mission-context time {
+  display: block;
+  color: #e5eef8;
+  font: 500 12px/1.55 var(--font-geist-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.console-header .mission-context small {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #819eb9;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.console-header .mission-context small svg { width: 11px; height: 11px; flex-shrink: 0; }
+.console-header .context-mission-link:hover .context-value { color: #75c4ff; }
+.console-header .header-context-trigger { display: none; }
+.console-header .mobile-menu { display: none; }
+.console-header .header-artwork { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.console-header .header-moon {
+  display: block;
+  height: 100%;
+  width: 180px;
+  opacity: .3;
+  mask-image: linear-gradient(90deg, transparent, #000);
+}
+
+/* Portaled shadcn context panel keeps every hidden clock and mission action accessible. */
+.header-context-popover[data-slot=popover-content] {
+  width: min(340px, calc(100vw - 24px));
+  max-height: min(var(--available-height, 100dvh), calc(100dvh - 24px));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px;
+  gap: 16px;
+  border: 1px solid #29445f;
+  border-radius: 14px;
+  background: #0a1726;
+  color: #eef4fb;
+  box-shadow: 0 16px 60px #0008;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+.header-context-popover [data-slot=popover-title] { font-size: 15px; font-weight: 600; }
+.header-context-popover [data-slot=popover-description] { margin-top: 5px; color: #93a9c4; font-size: 12px; line-height: 1.65; }
+.header-context-popover > .freshness-pill { align-self: flex-start; }
+.header-context-popover .mission-context { display: flex; flex-direction: column; align-items: stretch; align-self: stretch; height: auto; margin: 0; gap: 14px; }
+.header-context-popover .mission-context > div { width: auto; height: auto; padding: 0 0 14px; border: 0; border-bottom: 1px solid #20394f; }
+.header-context-popover .mission-context > div > span { color: #93a9c4; font-size: 11px; line-height: 1.5; }
+.header-context-popover .mission-context p { margin-top: 5px; font-size: 13px; line-height: 1.6; white-space: normal; overflow: visible; }
+.header-context-popover .mission-context .context-value { display: block; color: #eef4fb; font-family: var(--font-geist-mono), monospace; font-size: 13px; overflow-wrap: anywhere; white-space: normal; }
+.header-context-popover .mission-context time { display: block; font-family: var(--font-geist-mono), monospace; font-variant-numeric: tabular-nums; }
+.header-context-popover .mission-context small { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #93a9c4; }
+.header-context-popover .mission-context small svg { width: 12px; height: 12px; }
+.header-archive-link { display: flex; align-items: center; gap: 8px; color: #75c4ff; font-size: 12px; border-radius: 4px; }
+.header-archive-link svg { width: 15px; height: 15px; }
+.header-archive-link svg:last-child { margin-left: auto; }
+.header-archive-link:hover { color: #eef4fb; }
+
+@media (min-width: 1024px) {
+  .mission-sidebar { top: calc(var(--mission-header-height, 88px) + 12px); }
+}
+.mission-panel[id] { scroll-margin-block-start: calc(var(--mission-header-height, 88px) + 12px); }
+@media (max-width: 1439px) {
+  .console-header .header-context-region > .mission-context { display: none; }
+  .console-header .header-context-trigger {
+    display: inline-flex;
+    min-height: 34px;
+    height: auto;
+    gap: 8px;
+    padding: 7px 10px;
+    font-size: .6875rem;
+    color: #b2c8df;
+    background: #0b1a2a88;
+    border-color: #294158;
+    border-radius: 9px;
+  }
+  .console-header .header-context-trigger[aria-expanded=true] { background: #122b43; border-color: #4cb4ff80; }
+  .console-header .header-context-chevron { width: 12px; height: 12px; color: #819eb9; }
+  .console-header .mission-disciplines { gap: 4px 7px; font-size: 8px; letter-spacing: 1.2px; }
+}
+@media (max-width: 1199px) {
+  .mission-header.console-header { grid-template-columns: 64px minmax(0, 1fr) auto auto; gap: 16px; padding-right: 16px; }
+  .console-header .brand-lockup { justify-content: center; padding: 10px; }
+  .console-header .artemis-symbol { width: 38px; height: 38px; flex-basis: 38px; }
+  .console-header .brand-type { display: none; }
+}
+@media (max-width: 1023px) {
+  .mission-header.console-header {
+    grid-template-columns: 44px 40px minmax(0, 1fr) auto;
+    grid-template-areas: "menu brand heading context" "controls controls controls controls";
+    gap: 8px 12px;
+    min-height: 104px;
+    padding: 12px 16px;
+  }
+  .console-header .mobile-menu {
+    grid-area: menu;
+    display: inline-flex;
+    position: static;
+    width: 44px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    color: #b6cfef;
+    border: 1px solid #294158;
+    border-radius: 10px;
+    background: #0b1a2a88;
+  }
+  .console-header .mobile-menu svg { width: 19px; height: 19px; }
+  .console-header .brand-lockup { border: 0; padding: 0; background: none; }
+  .console-header .header-heading { padding: 0; }
+  .console-header .header-heading h1 { font-size: clamp(1.125rem, 2.5vw, 1.5rem); }
+  .console-header .mission-disciplines { margin-top: 5px; }
+  .console-header .header-controls { padding-top: 4px; }
+  .console-header .header-moon { width: 130px; opacity: .2; }
+}
+@media (max-width: 767px) {
+  .console-header .mission-disciplines { display: none; }
+}
+@media (max-width: 639px) {
+  .mission-header.console-header { grid-template-columns: 44px 36px minmax(0, 1fr) 40px; gap: 10px 8px; padding: 12px; }
+  .console-header .artemis-symbol { width: 34px; height: 36px; flex-basis: 34px; }
+  .console-header .header-heading h1 { font-size: 1.125rem; line-height: 1.4; text-wrap: initial; letter-spacing: -.025em; }
+  .console-header .header-title-brand { display: block; margin-bottom: 1px; font-size: .6875rem; color: #93a9c4; letter-spacing: .12em; text-transform: uppercase; font-weight: 500; }
+  .console-header .header-context-trigger { width: 40px; min-height: 44px; padding: 0; justify-content: center; }
+  .console-header .header-context-trigger > svg:first-child { width: 18px; height: 18px; }
+  .console-header .header-context-caption,
+  .console-header .header-context-chevron { display: none; }
+  .console-header .header-controls { padding: 0; }
+}

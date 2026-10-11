@@ -1,5 +1,11 @@
 # Architecture
 
+Current R6/R6.1 runtime: Webots RGB + depth / odometry → frozen local inference → `src/artemis_x/sim/mapping`
+→ binary UDP / lunar emulator / selective ACK → `ground_station` FastAPI + MongoDB → REST/WebSocket →
+`frontend/apps/web` Mission Control. See [jury quickstart](JURY_QUICKSTART.md) for launch/ports and
+[ground contract](TELEMETRY_R5_5_GROUND_BACKEND.md). The diagrams below describe the **historical research pipeline**;
+their original “planned” integration labels are not the current implementation status.
+
 ## Component boundaries
 
 | Component | Location | Responsibility | Published |

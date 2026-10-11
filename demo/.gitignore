@@ -1,0 +1,11 @@
+node_modules/
+recordings/
+public/captures/
+public/onboard/
+output/
+temp/
+logs/
+evidence/runs/
+evidence/latest.json
+public/timeline.json
+*.tsbuildinfo
