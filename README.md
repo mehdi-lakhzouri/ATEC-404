@@ -512,10 +512,46 @@ Full tables, error analysis and caveats are in [docs/RESULTS.md](docs/RESULTS.md
 | Integrity check | `scripts/verify_artifacts.py` (frozen model, Task F checksums, protected baseline, every published artifact) |
 | Runtime enforcement | `RockDetector` and the inference server refuse any other hash; the rover client checks it at handshake |
 
-Notebooks 01–08 render the scientific narrative from published artifacts and never train. Notebook 09 is an opt-in,
-guarded reproduction of the 200-epoch run. See [notebooks/](notebooks/) and
-[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md). The prepared training dataset is **not published**, pending licence
-confirmation ([distribution plan](docs/DATASET_DISTRIBUTION_PLAN.md)). The runtime demonstration does not need it.
+**Research notebooks.** Notebooks 01–08 read pre-computed artifacts. They render on GitHub without execution and
+**never** train, rebuild datasets or touch the test split. Notebook 09 is the only one that *can* train, and only after
+explicit opt-in.
+
+| # | Notebook | Content |
+|---|---|---|
+| 01 | [Dataset exploration](notebooks/01_dataset_exploration.ipynb) | Sources, resolution, distributions, quality register |
+| 02 | [Annotation analysis](notebooks/02_annotation_analysis.ipynb) | S1 vs S2, VALID / REVIEW / REJECTED, human vs automated review |
+| 03 | [Data preprocessing](notebooks/03_data_preprocessing.ipynb) | S2-H cleaning pipeline, v1 → v1.1, source preservation |
+| 04 | [YOLO dataset preparation](notebooks/04_yolo_dataset_preparation.ipynb) | Label format, grouped split, Configuration A vs B, leakage checks |
+| 05 | [Model training analysis](notebooks/05_model_training_analysis.ipynb) | YOLO11n settings, losses, convergence, GPU telemetry |
+| 06 | [Model selection](notebooks/06_model_selection.ipynb) | 22-checkpoint comparison, ignore-aware policy, threshold choice |
+| 07 | [Final evaluation](notebooks/07_final_evaluation.ipynb) | Once-only test results, size analysis, error analysis |
+| 08 | [Inference demo](notebooks/08_inference_demo.ipynb) | Load and verify the frozen model, run it, latency on CPU and GPU |
+| 09 | [Reproduce training](notebooks/09_reproduce_training.ipynb) | Opt-in re-run of the 200-epoch experiment: preflight, dry run, guarded launch, comparison |
+
+**Research workflows.** None of these is required for the runtime demonstration.
+
+| Workflow | For | Needs | How |
+|---|---|---|---|
+| **Scientific review** | Judges, reviewers | This repository only; no dataset, no GPU | Read notebooks 01–08 on GitHub, or `uv run --project backend --with jupyterlab jupyter lab` |
+| **Inference on your own images** | Anyone with lunar-like frames | This repository; CPU or NVIDIA GPU | `uv run --project backend --no-sync python scripts/demo_inference.py frame.png --save detections.json` (refuses images from the held-out test split) |
+| **Training reproduction** | ML practitioners | The prepared dataset release, an NVIDIA GPU with ≥ 8 GB, about 70 minutes | Notebook 09: Run All performs only preflight checks and a dry run. Training starts only after setting `RUN_TRAINING = True` and typing the authorization phrase. Outputs go to `experiments/reproductions/`, and the frozen model is never touched. |
+
+The frozen detector can also be used directly from Python. `RockDetector` verifies the SHA-256 and applies every frozen
+setting:
+
+```python
+import sys; sys.path.insert(0, "src")
+from artemis_x.ml.inference import RockDetector
+
+det = RockDetector()                 # verifies the frozen SHA-256; CUDA if available, else CPU
+result = det.predict("frame.png")    # frozen imgsz / conf / NMS / max_det + 50 px² post-filter
+print(len(result.detections), "rocks in", round(result.inference_ms, 1), "ms on", result.device)
+```
+
+See [docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md) for the CPU-only path and the notebook environment. The prepared
+training dataset is **not published**, pending licence confirmation
+([distribution plan](docs/DATASET_DISTRIBUTION_PLAN.md)). `scripts/download_dataset.py` fails clearly until an approved
+source exists.
 
 ```mermaid
 flowchart LR
